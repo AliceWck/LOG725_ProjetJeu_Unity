@@ -74,26 +74,26 @@ AssetStoreTools/
 # Plastic SCM
 .plastic/
 
-# ============================================
-# IGNORER GROS PACKS ASSET STORE
-# ============================================
+# # ============================================
+# # IGNORER GROS PACKS ASSET STORE
+# # ============================================
 
-# DarkFantasyKit - Pack complet
-Assets/OutilsDivers/RunemarkStudio/
-!Assets/OutilsDivers/RunemarkStudio.meta
+# # DarkFantasyKit - Pack complet
+# Assets/OutilsDivers/RunemarkStudio/
+# !Assets/OutilsDivers/RunemarkStudio.meta
 
-# Furniture - Pack complet
-Assets/OutilsDivers/Furniture/
-!Assets/OutilsDivers/Furniture.meta
+# # Furniture - Pack complet
+# Assets/OutilsDivers/Furniture/
+# !Assets/OutilsDivers/Furniture.meta
 
-# StarterAssets - Pack complet
-Assets/OutilsDivers/StarterAssets/
-!Assets/OutilsDivers/StarterAssets.meta
+# # StarterAssets - Pack complet
+# Assets/OutilsDivers/StarterAssets/
+# !Assets/OutilsDivers/StarterAssets.meta
 
-# Settings HDRP (générés automatiquement)
-Assets/OutilsDivers/Settings/
-!Assets/OutilsDivers/Settings.meta
+# # Settings HDRP (générés automatiquement)
+# Assets/OutilsDivers/Settings/
+# !Assets/OutilsDivers/Settings.meta
 
-# Terrain auto-upgrade (généré)
-Assets/OutilsDivers/_TerrainAutoUpgrade/
-!Assets/OutilsDivers/_TerrainAutoUpgrade.meta
+# # Terrain auto-upgrade (généré)
+# Assets/OutilsDivers/_TerrainAutoUpgrade/
+# !Assets/OutilsDivers/_TerrainAutoUpgrade.meta
