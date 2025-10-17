@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6232017394282288299}
+  - component: {fileID: -5914545361975518683}
   m_Layer: 0
   m_Name: Boxes
   m_TagString: Untagged
@@ -39,6 +40,28 @@ Transform:
   - {fileID: 5511723394100734671}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -103.23, z: 0}
+--- !u!64 &-5914545361975518683
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2615042469992186387}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &2978499112069686005
 GameObject:
   m_ObjectHideFlags: 0
