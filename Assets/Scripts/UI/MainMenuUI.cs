@@ -6,7 +6,7 @@ public class MainMenuUI : MonoBehaviour
     public void PlayGame()
     {
         Debug.Log("Jouer au jeu");
-        SceneManager.LoadScene("OutdoorsScene");
+        SceneManager.LoadScene("GameSelectionMenu");
     }
 
     public void OpenSettings()
