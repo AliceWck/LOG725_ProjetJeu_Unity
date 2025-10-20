@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Mirror;
 
 public class GameSelectionMenuManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class GameSelectionMenuManager : MonoBehaviour
     
     [Header("Scene Configuration")]
     [SerializeField] private string mainMenuSceneName = "MainMenu";
-    [SerializeField] private string gameSceneName = "GameScene";
+    [SerializeField] private string lobbySceneName = "Lobby";
     
     private GameRoomValidator roomValidator;
     private SceneLoader sceneLoader;
@@ -22,37 +23,70 @@ public class GameSelectionMenuManager : MonoBehaviour
 
     public void OnBackButton()
     {
+        if (NetworkClient.isConnected || NetworkServer.active)
+        {
+            if (NetworkServer.active && NetworkClient.isConnected)
+            {
+                NetworkManager.singleton.StopHost();
+            }
+            else if (NetworkClient.isConnected)
+            {
+                NetworkManager.singleton.StopClient();
+            }
+            else if (NetworkServer.active)
+            {
+                NetworkManager.singleton.StopServer();
+            }
+        }
+        
         sceneLoader.LoadScene(mainMenuSceneName);
     }
 
     public void OnCreateButton()
     {
         Debug.Log("[GameSelectionMenu] Création de la partie...");
-        // TODO: Ajouter la logique réseau
-        // sceneLoader.LoadScene(gameSceneName);
+        
+        if (NetworkManager.singleton == null)
+        {
+            Debug.LogError("[GameSelectionMenu] NetworkManager introuvable !");
+            return;
+        }
+
+        NetworkManager.singleton.maxConnections = 5;
+        NetworkManager.singleton.StartHost();
+        
+        Debug.Log("[GameSelectionMenu] Serveur démarré (Host) - En attente de joueurs");
     }
 
     public void OnJoinButton()
     {
-        string roomCode = joinInputField.text;
+        string ipAddress = joinInputField.text.Trim();
         
-        if (roomValidator.IsValid(roomCode))
+        if (!roomValidator.IsValid(ipAddress))
         {
-            Debug.Log($"[GameSelectionMenu] Rejoindre la partie : {roomCode}");
-            // TODO: Ajouter la logique réseau pour rejoindre la partie
-            // sceneLoader.LoadScene(gameSceneName);
+            Debug.LogWarning("[GameSelectionMenu] L'adresse IP est invalide !");
+            return;
         }
-        else
+
+        Debug.Log($"[GameSelectionMenu] Connexion à : {ipAddress}");
+        
+        if (NetworkManager.singleton == null)
         {
-            Debug.LogWarning("[GameSelectionMenu] Le code de partie est invalide !");
+            Debug.LogError("[GameSelectionMenu] NetworkManager introuvable !");
+            return;
         }
+
+        NetworkManager.singleton.networkAddress = ipAddress;
+        NetworkManager.singleton.StartClient();
+        
+        Debug.Log("[GameSelectionMenu] Connexion en tant que client...");
     }
 }
 
 public class GameRoomValidator
 {
-    private const int MIN_ROOM_CODE_LENGTH = 4;
-    private const int MAX_ROOM_CODE_LENGTH = 8;
+    private const int MIN_ROOM_CODE_LENGTH = 7;
+    private const int MAX_ROOM_CODE_LENGTH = 15;
 
     public bool IsValid(string roomCode)
     {
@@ -64,7 +98,7 @@ public class GameRoomValidator
 
         if (roomCode.Length < MIN_ROOM_CODE_LENGTH || roomCode.Length > MAX_ROOM_CODE_LENGTH)
         {
-            Debug.LogWarning($"[GameRoomValidator] Le code doit contenir entre {MIN_ROOM_CODE_LENGTH} et {MAX_ROOM_CODE_LENGTH} caractères.");
+            Debug.LogWarning($"[GameRoomValidator] Le code doit contenir entre {MIN_ROOM_CODE_LENGTH} et {MAX_ROOM_CODE_LENGTH} caractères (ex: 192.168.1.100).");
             return false;
         }
 
