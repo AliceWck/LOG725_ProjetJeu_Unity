@@ -21,7 +21,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private TMP_Text readyButtonText;
 
     private List<GameObject> playerListItems = new List<GameObject>();
-    private bool isReady = false;
+    // private bool isReady = false; // Supprimé, on se base sur le réseau
     private LobbyPlayer localPlayer;
 
     private void Start()
@@ -79,6 +79,12 @@ public class LobbyUI : MonoBehaviour
 
             playerListItems.Add(item);
         }
+
+        // Met à jour le texte du bouton prêt selon l'état réseau réel du joueur local
+        if (localPlayer != null && readyButtonText != null)
+        {
+            readyButtonText.text = localPlayer.IsReady ? "Annuler" : "Prêt";
+        }
     }
 
     private void OnReadyButtonClicked()
@@ -89,13 +95,11 @@ public class LobbyUI : MonoBehaviour
             return;
         }
 
-        isReady = !isReady;
-        localPlayer.CmdSetReady(isReady);
+        bool newReady = !localPlayer.IsReady;
+        localPlayer.CmdSetReady(newReady);
 
-        if (readyButtonText != null)
-            readyButtonText.text = isReady ? "Annuler" : "Prêt";
 
-        Debug.Log($"[LobbyUI] État prêt: {isReady}");
+        Debug.Log($"[LobbyUI] État prêt: {newReady}");
     }
 
     private void OnStartGameClicked()
