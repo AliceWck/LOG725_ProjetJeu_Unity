@@ -3,15 +3,19 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+using UnityEngine.SceneManagement;
+
 public class LobbyUI : MonoBehaviour
 {
     [Header("Player List")]
     [SerializeField] private Transform playerListContainer;
     [SerializeField] private GameObject playerItemPrefab;
 
+
     [Header("Buttons")]
     [SerializeField] private Button readyButton;
     [SerializeField] private Button startGameButton;
+    [SerializeField] private Button backButton;
 
     [Header("Texts")]
     [SerializeField] private TMP_Text readyButtonText;
@@ -30,6 +34,9 @@ public class LobbyUI : MonoBehaviour
             startGameButton.onClick.AddListener(OnStartGameClicked);
             startGameButton.gameObject.SetActive(Mirror.NetworkServer.active);
         }
+
+        if (backButton != null)
+            backButton.onClick.AddListener(OnBackButtonClicked);
 
         Invoke(nameof(FindLocalPlayer), 0.5f);
     }
@@ -99,6 +106,24 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
+    private void OnBackButtonClicked()
+    {
+        if (Mirror.NetworkServer.active && Mirror.NetworkClient.isConnected)
+        {
+            Mirror.NetworkManager.singleton.StopHost();
+        }
+        else if (Mirror.NetworkClient.isConnected)
+        {
+            Mirror.NetworkManager.singleton.StopClient();
+        }
+        else if (Mirror.NetworkServer.active)
+        {
+            Mirror.NetworkManager.singleton.StopServer();
+        }
+
+        SceneManager.LoadScene("GameSelectionMenu");
+    }
+
     private void OnDestroy()
     {
         if (readyButton != null)
@@ -106,5 +131,8 @@ public class LobbyUI : MonoBehaviour
 
         if (startGameButton != null)
             startGameButton.onClick.RemoveListener(OnStartGameClicked);
+
+        if (backButton != null)
+            backButton.onClick.RemoveListener(OnBackButtonClicked);
     }
 }
