@@ -12,7 +12,7 @@ public class LobbyManager : MonoBehaviour
     [Header("Game Settings")]
     [SerializeField] private int minPlayers = 2;
     [SerializeField] private int maxPlayers = 5;
-    [SerializeField] private string gameSceneName = "GameScene";
+    [SerializeField] private string gameSceneName = "OutdoorsScene";
 
     private List<LobbyPlayer> connectedPlayers = new List<LobbyPlayer>();
 
