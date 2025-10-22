@@ -32,7 +32,7 @@ public class OuverturePorte2 : MonoBehaviour
             doorWing = transform.Find("doorWing");
             if (doorWing == null)
             {
-                Debug.LogError("doorWing introuvable ! Assigne-le dans l'Inspector.");
+                //Debug.LogError("doorWing introuvable ! L'assigner dans l'Inspector.");
                 enabled = false;
                 return;
             }
@@ -65,7 +65,7 @@ public class OuverturePorte2 : MonoBehaviour
             {
                 targetAngle = 0f;
                 openDirection = 0;
-                Debug.Log("Porte se referme automatiquement");
+                //Debug.Log("Porte se referme automatiquement");
             }
         }
     }
@@ -78,7 +78,7 @@ public class OuverturePorte2 : MonoBehaviour
             playerNearby = true;
             playerLastPosition = other.transform.position;
             closeTimer = closeDelay;
-            Debug.Log("Joueur entre dans la zone de la porte");
+            //Debug.Log("Joueur entre dans la zone de la porte");
         }
     }
 
@@ -107,7 +107,7 @@ public class OuverturePorte2 : MonoBehaviour
                 if (openDirection == 0 && Mathf.Abs(pushForward) > 0.01f)
                 {
                     openDirection = (side > 0) ? 1 : -1;
-                    Debug.Log($"Direction d'ouverture : {(openDirection > 0 ? "droite" : "gauche")}");
+                    //Debug.Log($"Direction d'ouverture : {(openDirection > 0 ? "droite" : "gauche")}");
                 }
 
                 // Calculer l'angle cible basé sur le mouvement
@@ -136,7 +136,7 @@ public class OuverturePorte2 : MonoBehaviour
                         targetAngle = Mathf.Clamp(targetAngle, -maxOpenAngle, 0f);
                     }
 
-                    Debug.Log($"Mouvement: {pushForward:F3}, Angle cible: {targetAngle:F1}°");
+                    //Debug.Log($"Mouvement: {pushForward:F3}, Angle cible: {targetAngle:F1}°");
                 }
             }
 
@@ -158,7 +158,7 @@ public class OuverturePorte2 : MonoBehaviour
                 closeTimer = closeDelay;
             }
 
-            Debug.Log("Joueur quitte la zone de la porte");
+            //Debug.Log("Joueur quitte la zone de la porte");
         }
     }
 
