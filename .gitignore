@@ -1,3 +1,10 @@
+#------------------IMPORTANT------------------ 
+# Ajout ici du dossier AssetsExternes, car sinon le git est plein. 
+# Récupérer ce dossier en externe (zip, drive) puis le coller directement dans Assets 
+# Il n'est pas versionné par git. 
+Assets/AssetsExternes/ 
+#----------------------------------------------
+
 # Unity generated files
 [Ll]ibrary/
 [Tt]emp/
