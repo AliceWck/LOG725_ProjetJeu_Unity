@@ -5504,6 +5504,7 @@ GameObject:
   - component: {fileID: 2071455812170976663}
   - component: {fileID: 4531892997709622618}
   - component: {fileID: 5045980635572532165}
+  - component: {fileID: 4494419661812315692}
   m_Layer: 0
   m_Name: Offset Flashlight
   m_TagString: Untagged
@@ -5539,7 +5540,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273f7dfbe01b65448836eca5ae5bfcca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FollowCam: {fileID: 8128225776335307411}
   MoveSpeed: 13
   FlashLight: {fileID: 5220783013253623736}
   Source: {fileID: 5045980635572532165}
@@ -5641,6 +5641,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4494419661812315692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8883693552591711158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ce6f840b7cd3f488fb0f198f2d81e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBatteryLife: 180
+  BatteryEnabled: 1
+  flashLight: {fileID: 5220783013253623736}
 --- !u!1 &8920758026120997564
 GameObject:
   m_ObjectHideFlags: 0

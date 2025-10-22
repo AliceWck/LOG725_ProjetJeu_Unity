@@ -30,7 +30,7 @@ public class OuverturePorte : MonoBehaviour
             doorWing = transform.Find("doorWing");
             if (doorWing == null)
             {
-                Debug.LogError("doorWing introuvable ! Assigne-le dans l'Inspector.");
+                Debug.LogError("DoorWing introuvable, l'assigner dans l'inspector");
                 enabled = false;
                 return;
             }
