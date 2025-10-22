@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/scenes/NetworkSetup.unity
+    guid: 2bcfc19d65db346e5b198da8f41fc7bf
+  - enabled: 1
+    path: Assets/scenes/MainMenu.unity
+    guid: c0bec964f6d774acda41c8c2334c78a8
+  - enabled: 1
+    path: Assets/scenes/GameSelectionMenu.unity
+    guid: 94fbd51c8e9e84e67ad50b98978d2db6
+  - enabled: 1
+    path: Assets/scenes/Lobby.unity
+    guid: e4266b3de63b14ce585bdf10e1500b87
+  - enabled: 0
     path: Assets/OutdoorsScene.unity
     guid: 8124e5870f4fd4c779e7a5f994e84ad1
   m_configObjects: {}
