@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Mirror;
 
 public class NetworkSceneLoader : MonoBehaviour
 {
@@ -8,7 +9,25 @@ public class NetworkSceneLoader : MonoBehaviour
 
     private void Start()
     {
-        Invoke(nameof(LoadFirstScene), delayBeforeLoad);
+        if (SceneManager.GetActiveScene().name == "NetworkSetup")
+        {
+            Debug.Log("[NetworkSceneLoader] Scène NetworkSetup détectée");
+            
+            if (NetworkManager.singleton != null)
+            {
+                Debug.Log("[NetworkSceneLoader] NetworkManager trouvé, chargement du menu...");
+                Invoke(nameof(LoadFirstScene), delayBeforeLoad);
+            }
+            else
+            {
+                Debug.LogError("[NetworkSceneLoader] NetworkManager introuvable dans la scène!");
+            }
+        }
+        else
+        {
+            Debug.Log($"[NetworkSceneLoader] Pas dans NetworkSetup, on est dans: {SceneManager.GetActiveScene().name}");
+            Destroy(gameObject);
+        }
     }
 
     private void LoadFirstScene()
@@ -17,6 +36,10 @@ public class NetworkSceneLoader : MonoBehaviour
         {
             Debug.Log($"[NetworkSceneLoader] Chargement de : {firstSceneName}");
             SceneManager.LoadScene(firstSceneName);
+        }
+        else
+        {
+            Debug.LogError("[NetworkSceneLoader] Nom de scène vide!");
         }
     }
 }

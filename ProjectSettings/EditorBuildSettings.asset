@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/scenes/Lobby.unity
     guid: e4266b3de63b14ce585bdf10e1500b87
-  - enabled: 0
+  - enabled: 1
     path: Assets/OutdoorsScene.unity
     guid: 8124e5870f4fd4c779e7a5f994e84ad1
   m_configObjects: {}
