@@ -14,9 +14,7 @@ public class GamePlayer : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        
         Debug.Log($"[GamePlayer] Client démarré - IsLocal: {isLocalPlayer}, Nom: {playerName}");
-        
         UpdateNameTag();
     }
 
@@ -29,16 +27,11 @@ public class GamePlayer : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        
         Debug.Log($"[GamePlayer] Joueur local démarré: {playerName}");
-        
-        // Ici tu peux activer la caméra, les contrôles, etc.
         SetupLocalPlayer();
     }
 
-    /// <summary>
-    /// Définit le nom du joueur (appelé par le NetworkRoomManager)
-    /// </summary>
+    // Définit le nom du joueur (appelé par le NetworkRoomManager, exécuté côté serveur)
     public void SetPlayerName(string newName)
     {
         if (isServer)
@@ -48,31 +41,22 @@ public class GamePlayer : NetworkBehaviour
         }
     }
 
-    /// <summary>
-    /// Hook appelé quand le nom change
-    /// </summary>
+    // Hook appelé quand le nom change
     private void OnPlayerNameChanged(string oldName, string newName)
     {
         UpdateNameTag();
     }
 
-    /// <summary>
-    /// Met à jour le tag de nom au-dessus du joueur
-    /// </summary>
+    // Met à jour le TextMeshPro affichant le nom
     private void UpdateNameTag()
     {
         if (nameTag != null)
-        {
             nameTag.text = playerName;
-        }
     }
 
-    /// <summary>
-    /// Configure le joueur local (caméra, contrôles, etc.)
-    /// </summary>
+    // Activation des éléments du joueur local (caméra, contrôles, etc.)
     private void SetupLocalPlayer()
     {
-        // Active la caméra pour le joueur local
         Camera cam = GetComponentInChildren<Camera>(true);
         if (cam != null)
         {
@@ -80,33 +64,24 @@ public class GamePlayer : NetworkBehaviour
             Debug.Log("[GamePlayer] Caméra activée pour le joueur local");
         }
 
-        // Active les contrôles
-        // Par exemple, si tu as un script de mouvement:
-        // GetComponent<PlayerMovement>()?.enabled = true;
-
-        // Change la couleur du joueur local pour le distinguer (optionnel)
+        // Optionnel : activer des scripts de mouvement ou changer l'apparence
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (var rend in renderers)
         {
             if (rend.material != null)
-            {
-                rend.material.color = Color.green; // Vert pour le joueur local
-            }
+                rend.material.color = Color.green; // Marque visuelle du joueur local
         }
     }
 
     private void Update()
     {
-        // Tes contrôles de jeu ici
         if (!isLocalPlayer) return;
-
-        // Exemple de mouvement basique (à adapter selon ton jeu)
         HandleMovement();
     }
 
+    // Exemple simple de mouvement (peut être adapté)
     private void HandleMovement()
     {
-        // Exemple simple - remplace par ta propre logique
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 

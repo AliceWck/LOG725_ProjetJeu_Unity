@@ -1,10 +1,7 @@
 using Mirror;
 using UnityEngine;
 
-/// <summary>
-/// Joueur dans le lobby (avant le jeu)
-/// Hérite de NetworkRoomPlayer pour bénéficier du système de "ready" intégré
-/// </summary>
+/// Joueur dans le lobby. Dérive de NetworkRoomPlayer pour le système "ready".
 public class CustomRoomPlayer : NetworkRoomPlayer
 {
     [SyncVar(hook = nameof(OnPlayerNameChanged))]
@@ -15,16 +12,13 @@ public class CustomRoomPlayer : NetworkRoomPlayer
     public override void OnStartClient()
     {
         base.OnStartClient();
-        
+
         Debug.Log($"[RoomPlayer] Client démarré - IsLocal: {isLocalPlayer}, Nom: {playerName}");
 
-        // Si c'est notre joueur local, on définit un nom aléatoire
+        // Pour le joueur local, définir un nom aléatoire
         if (isLocalPlayer)
-        {
             CmdSetPlayerName($"Joueur_{Random.Range(1000, 9999)}");
-        }
 
-        // Rafraîchir l'UI
         RefreshLobbyUI();
     }
 
@@ -43,9 +37,7 @@ public class CustomRoomPlayer : NetworkRoomPlayer
         RefreshLobbyUI();
     }
 
-    /// <summary>
     /// Change le nom du joueur (appelé par le client)
-    /// </summary>
     [Command]
     public void CmdSetPlayerName(string newName)
     {
@@ -59,18 +51,14 @@ public class CustomRoomPlayer : NetworkRoomPlayer
         Debug.Log($"[RoomPlayer] Nom changé: {newName}");
     }
 
-    /// <summary>
-    /// Appelé quand le nom change (hook)
-    /// </summary>
+    /// Hook appelé quand le nom change
     private void OnPlayerNameChanged(string oldName, string newName)
     {
         Debug.Log($"[RoomPlayer] Hook nom: {oldName} → {newName}");
         RefreshLobbyUI();
     }
 
-    /// <summary>
-    /// Override pour personnaliser le comportement du bouton ready
-    /// </summary>
+    /// Mise à jour du state "ready"
     public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)
     {
         base.ReadyStateChanged(oldReadyState, newReadyState);
@@ -81,9 +69,7 @@ public class CustomRoomPlayer : NetworkRoomPlayer
         RefreshLobbyUI();
     }
 
-    /// <summary>
     /// Rafraîchit l'UI du lobby
-    /// </summary>
     private void RefreshLobbyUI()
     {
         if (LobbyUI.Instance != null)
@@ -92,9 +78,7 @@ public class CustomRoomPlayer : NetworkRoomPlayer
         }
     }
 
-    /// <summary>
-    /// Toggle l'état ready (appelé par l'UI)
-    /// </summary>
+    /// Change l'état ready (depuis l'UI)
     public void ToggleReady()
     {
         if (!isLocalPlayer)
@@ -107,9 +91,7 @@ public class CustomRoomPlayer : NetworkRoomPlayer
         CmdChangeReadyState(!readyToBegin);
     }
 
-    /// <summary>
     /// Retourne les informations du joueur pour l'UI
-    /// </summary>
     public (string name, bool isReady, bool isLocal) GetPlayerInfo()
     {
         return (playerName, readyToBegin, isLocalPlayer);

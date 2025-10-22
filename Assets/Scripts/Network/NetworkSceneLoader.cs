@@ -12,7 +12,7 @@ public class NetworkSceneLoader : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "NetworkSetup")
         {
             Debug.Log("[NetworkSceneLoader] Scène NetworkSetup détectée");
-            
+
             if (NetworkManager.singleton != null)
             {
                 Debug.Log("[NetworkSceneLoader] NetworkManager trouvé, chargement du menu...");
@@ -20,12 +20,12 @@ public class NetworkSceneLoader : MonoBehaviour
             }
             else
             {
-                Debug.LogError("[NetworkSceneLoader] NetworkManager introuvable dans la scène!");
+                Debug.LogError("[NetworkSceneLoader] NetworkManager introuvable");
             }
         }
         else
         {
-            Debug.Log($"[NetworkSceneLoader] Pas dans NetworkSetup, on est dans: {SceneManager.GetActiveScene().name}");
+            Debug.Log($"[NetworkSceneLoader] Scène active: {SceneManager.GetActiveScene().name}");
             Destroy(gameObject);
         }
     }
@@ -33,13 +33,8 @@ public class NetworkSceneLoader : MonoBehaviour
     private void LoadFirstScene()
     {
         if (!string.IsNullOrEmpty(firstSceneName))
-        {
-            Debug.Log($"[NetworkSceneLoader] Chargement de : {firstSceneName}");
             SceneManager.LoadScene(firstSceneName);
-        }
         else
-        {
-            Debug.LogError("[NetworkSceneLoader] Nom de scène vide!");
-        }
+            Debug.LogError("[NetworkSceneLoader] Nom de scène vide");
     }
 }

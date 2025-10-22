@@ -4,8 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-// Si tu utilises TextMeshPro, décommente :
-// using TMPro;
+// Pour TextMeshPro, inclure "using TMPro;" si besoin
 
 public class GameSelectionMenuManager : MonoBehaviour
 {
@@ -21,68 +20,33 @@ public class GameSelectionMenuManager : MonoBehaviour
     [SerializeField] private string defaultIP = "localhost";
 
     private CustomNetworkRoomManager roomManager;
-    // Flags pour savoir si on démarre une connexion (utilisés par l'UI)
+    // Flags d'état pour l'UI
     private bool isStartingHost = false;
     private bool isStartingClient = false;
 
     private void Start()
     {
-        Debug.Log("[GameSelectionMenu] Start() appelé");
-        
-        // Récupère le NetworkRoomManager
+        Debug.Log("[GameSelectionMenu] Start");
+
         roomManager = CustomNetworkRoomManager.Instance;
-        
         if (roomManager == null)
         {
-            Debug.LogError("[GameSelectionMenu] NetworkRoomManager introuvable!");
+            Debug.LogError("[GameSelectionMenu] NetworkRoomManager introuvable");
             return;
         }
-        
-        Debug.Log($"[GameSelectionMenu] NetworkRoomManager trouvé: {roomManager.name}");
 
-        // Configure les boutons
-        if (hostButton != null)
-        {
-            hostButton.onClick.AddListener(OnHostButtonClicked);
-            Debug.Log("[GameSelectionMenu] Host button configuré");
-        }
-        else
-        {
-            Debug.LogError("[GameSelectionMenu] Host button est NULL!");
-        }
+        // Configuration des boutons
+        if (hostButton != null) hostButton.onClick.AddListener(OnHostButtonClicked);
+        else Debug.LogError("[GameSelectionMenu] Host button est NULL");
 
-        if (joinButton != null)
-        {
-            joinButton.onClick.AddListener(OnJoinButtonClicked);
-            Debug.Log("[GameSelectionMenu] Join button configuré");
-        }
-        else
-        {
-            Debug.LogWarning("[GameSelectionMenu] Join button est NULL!");
-        }
+        if (joinButton != null) joinButton.onClick.AddListener(OnJoinButtonClicked);
+        if (backButton != null) backButton.onClick.AddListener(OnBackButtonClicked);
 
-        if (backButton != null)
-        {
-            backButton.onClick.AddListener(OnBackButtonClicked);
-            Debug.Log("[GameSelectionMenu] Back button configuré");
-        }
-        else
-        {
-            Debug.LogWarning("[GameSelectionMenu] Back button est NULL!");
-        }
-
-        // Configure l'input field avec l'IP par défaut
+        // Restaure l'IP précédente
         if (ipInputField != null)
-        {
-            string savedIP = PlayerPrefs.GetString("LastUsedIP", defaultIP);
-            ipInputField.text = savedIP;
-        }
+            ipInputField.text = PlayerPrefs.GetString("LastUsedIP", defaultIP);
 
-        // Cache le panel de connexion
-        if (connectionPanel != null)
-            connectionPanel.SetActive(false);
-
-        Debug.Log("[GameSelectionMenu] Initialisé complètement");
+        if (connectionPanel != null) connectionPanel.SetActive(false);
     }
 
     /// <summary>
@@ -90,20 +54,11 @@ public class GameSelectionMenuManager : MonoBehaviour
     /// </summary>
     private void OnHostButtonClicked()
     {
-        Debug.Log("[GameSelectionMenu] ========== HOST BUTTON CLICKED! ==========");
+        Debug.Log("[GameSelectionMenu] Création d'une partie (Host)");
+        if (roomManager == null) { Debug.LogError("NetworkRoomManager introuvable"); return; }
 
-        if (roomManager == null)
-        {
-            Debug.LogError("[GameSelectionMenu] NetworkRoomManager introuvable");
-            return;
-        }
-
-        Debug.Log("[GameSelectionMenu] Création d'une partie (Host)...");
         ShowConnectionPanel("Création de la partie...");
-
         isStartingHost = true;
-
-        // Démarre le host directement et laisse Mirror charger la RoomScene et spawn les RoomPlayer
         roomManager.StartHost();
     }
 
@@ -114,45 +69,20 @@ public class GameSelectionMenuManager : MonoBehaviour
     /// </summary>
     private void OnJoinButtonClicked()
     {
-        Debug.Log("[GameSelectionMenu] ========== JOIN BUTTON CLICKED! ==========");
-        
-        if (roomManager == null)
-        {
-            Debug.LogError("[GameSelectionMenu] NetworkRoomManager introuvable");
-            return;
-        }
+        Debug.Log("[GameSelectionMenu] Rejoindre une partie");
+        if (roomManager == null) { Debug.LogError("NetworkRoomManager introuvable"); return; }
 
         string ip = ipInputField != null ? ipInputField.text : defaultIP;
+        if (string.IsNullOrWhiteSpace(ip)) ip = defaultIP;
 
-        if (string.IsNullOrWhiteSpace(ip))
-        {
-            Debug.LogWarning("[GameSelectionMenu] IP vide, utilisation de l'IP par défaut");
-            ip = defaultIP;
-        }
-
-        Debug.Log($"[GameSelectionMenu] Tentative de connexion à: {ip}");
         ShowConnectionPanel($"Connexion à {ip}...");
-
-        // Sauvegarde l'IP
         PlayerPrefs.SetString("LastUsedIP", ip);
         PlayerPrefs.Save();
 
-        // Configure l'adresse
         roomManager.networkAddress = ip;
-
-        // Marque qu'on démarre en mode client
         isStartingClient = true;
-
-        Debug.Log($"[GameSelectionMenu] Chargement de la scène: {roomManager.RoomScene}");
-        // Démarre le client
         roomManager.StartClient();
-        
-    // Mirror gère la connexion client, pas besoin de coroutine ici
     }
-
-    // Note: Mirror/NetworkRoomManager handles scene loading and spawning for host, so we start host directly.
-
-    // ...coroutine LoadSceneAndStartClient supprimée...
 
     /// <summary>
     /// Retour au menu principal
@@ -160,17 +90,8 @@ public class GameSelectionMenuManager : MonoBehaviour
     private void OnBackButtonClicked()
     {
         Debug.Log("[GameSelectionMenu] Retour au menu principal");
-        
-        // Arrête toute connexion en cours
-        if (NetworkClient.isConnected)
-        {
-            roomManager?.StopClient();
-        }
-        if (NetworkServer.active)
-        {
-            roomManager?.StopHost();
-        }
-
+        if (NetworkClient.isConnected) roomManager?.StopClient();
+        if (NetworkServer.active) roomManager?.StopHost();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -179,14 +100,8 @@ public class GameSelectionMenuManager : MonoBehaviour
     /// </summary>
     private void ShowConnectionPanel(string message)
     {
-        if (connectionPanel != null)
-        {
-            connectionPanel.SetActive(true);
-            
-            if (connectionStatusText != null)
-                connectionStatusText.text = message;
-        }
-
+        if (connectionPanel != null) connectionPanel.SetActive(true);
+        if (connectionStatusText != null) connectionStatusText.text = message;
         SetButtonsInteractable(false);
     }
 
@@ -195,9 +110,7 @@ public class GameSelectionMenuManager : MonoBehaviour
     /// </summary>
     private void HideConnectionPanel()
     {
-        if (connectionPanel != null)
-            connectionPanel.SetActive(false);
-
+        if (connectionPanel != null) connectionPanel.SetActive(false);
         SetButtonsInteractable(true);
     }
 
@@ -218,12 +131,8 @@ public class GameSelectionMenuManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Nettoie les listeners
-        if (hostButton != null)
-            hostButton.onClick.RemoveListener(OnHostButtonClicked);
-        if (joinButton != null)
-            joinButton.onClick.RemoveListener(OnJoinButtonClicked);
-        if (backButton != null)
-            backButton.onClick.RemoveListener(OnBackButtonClicked);
+        if (hostButton != null) hostButton.onClick.RemoveListener(OnHostButtonClicked);
+        if (joinButton != null) joinButton.onClick.RemoveListener(OnJoinButtonClicked);
+        if (backButton != null) backButton.onClick.RemoveListener(OnBackButtonClicked);
     }
 } 

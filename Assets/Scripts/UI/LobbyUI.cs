@@ -6,9 +6,6 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-// Si tu utilises TextMeshPro, décommente cette ligne et change Text par TMP_Text partout :
-// using TMPro;
-
 public class LobbyUI : MonoBehaviour
 {
     public static LobbyUI Instance { get; private set; }
@@ -44,21 +41,13 @@ public class LobbyUI : MonoBehaviour
     private void Start()
     {
         Debug.Log("[LobbyUI] Start");
-        
-        // Configure les boutons
-        if (readyButton != null)
-            readyButton.onClick.AddListener(OnReadyButtonClicked);
-
+        if (readyButton != null) readyButton.onClick.AddListener(OnReadyButtonClicked);
         if (startGameButton != null)
         {
             startGameButton.onClick.AddListener(OnStartGameClicked);
             startGameButton.gameObject.SetActive(false);
         }
-
-        if (backButton != null)
-            backButton.onClick.AddListener(OnBackButtonClicked);
-
-        // Rafraîchit périodiquement (pour mettre à jour l'UI)
+        if (backButton != null) backButton.onClick.AddListener(OnBackButtonClicked);
         InvokeRepeating(nameof(RefreshPlayerList), 0.5f, 0.5f);
     }
 
@@ -67,10 +56,7 @@ public class LobbyUI : MonoBehaviour
         Debug.Log("[LobbyUI] OnEnable - Attente des joueurs...");
     }
 
-    /// <summary>
-    /// Rafraîchit la liste complète des joueurs
-    /// Appelé automatiquement toutes les 0.5 secondes
-    /// </summary>
+    // Rafraîchit la liste des joueurs (appel périodique)
     public void RefreshPlayerList()
     {
         // Récupère le room manager
@@ -81,19 +67,10 @@ public class LobbyUI : MonoBehaviour
         }
 
         Debug.Log($"[LobbyUI] RefreshPlayerList - roomSlots count: {roomManager.roomSlots.Count}");
+        if (localRoomPlayer == null) TryFindLocalPlayer();
 
-        // Si on n'a pas encore de joueur local, essaye de le trouver
-        if (localRoomPlayer == null)
-        {
-            TryFindLocalPlayer();
-        }
-
-        // Nettoie les anciens items
-        foreach (var item in playerListItems)
-        {
-            if (item != null)
-                Destroy(item);
-        }
+        // Supprime les anciens éléments UI
+        foreach (var item in playerListItems) if (item != null) Destroy(item);
         playerListItems.Clear();
 
         int readyCount = 0;
@@ -103,14 +80,10 @@ public class LobbyUI : MonoBehaviour
         foreach (var slot in roomManager.roomSlots)
         {
             if (slot == null) continue;
-
             CustomRoomPlayer roomPlayer = slot as CustomRoomPlayer;
             if (roomPlayer == null) continue;
-
             totalPlayers++;
             if (roomPlayer.readyToBegin) readyCount++;
-
-            // Crée un item d'UI pour ce joueur
             CreatePlayerListItem(roomPlayer);
         }
 
@@ -124,12 +97,9 @@ public class LobbyUI : MonoBehaviour
         UpdateStartButton(roomManager.allPlayersReady && totalPlayers >= roomManager.minPlayers);
     }
 
-    /// <summary>
-    /// Essaye de trouver le joueur local (appelé automatiquement)
-    /// </summary>
+    // Tente de localiser le joueur local (hôte ou client)
     private void TryFindLocalPlayer()
     {
-        // First try to find the local player among the room manager's slots (works in host mode too)
         CustomNetworkRoomManager roomManager = CustomNetworkRoomManager.Instance;
         if (roomManager != null)
         {
@@ -140,28 +110,27 @@ public class LobbyUI : MonoBehaviour
                 if (rp != null && rp.isLocalPlayer)
                 {
                     localRoomPlayer = rp;
-                    Debug.Log($"[LobbyUI] ✓ Joueur local trouvé via roomSlots: {rp.PlayerName}");
+                    Debug.Log($"[LobbyUI] Joueur local trouvé via roomSlots: {rp.PlayerName}");
                     return;
                 }
             }
         }
 
-        // Fallback: search scene objects (older approach)
+        // Fallback: recherche dans la scène
         CustomRoomPlayer[] allPlayers = FindObjectsOfType<CustomRoomPlayer>();
         foreach (var player in allPlayers)
         {
             if (player.isLocalPlayer)
             {
                 localRoomPlayer = player;
-                Debug.Log($"[LobbyUI] ✓ Joueur local trouvé: {player.PlayerName}");
+                Debug.Log($"[LobbyUI] Joueur local trouvé: {player.PlayerName}");
                 return;
             }
         }
 
-        // If still not found, start a retry coroutine (useful in host mode where timing varies)
         if (localRoomPlayer == null)
         {
-            Debug.Log("[LobbyUI] Joueur local non trouvé immédiatement, démarrage d'une tentative réessayée...");
+            Debug.Log("[LobbyUI] Joueur local non trouvé, lancement d'une tentative réessayée...");
             StartCoroutine(RetryFindLocalPlayer(10, 0.25f));
         }
     }
@@ -170,7 +139,6 @@ public class LobbyUI : MonoBehaviour
     {
         for (int i = 0; i < attempts; i++)
         {
-            // try via roomSlots first
             CustomNetworkRoomManager roomManager = CustomNetworkRoomManager.Instance;
             if (roomManager != null)
             {
@@ -181,20 +149,19 @@ public class LobbyUI : MonoBehaviour
                     if (rp != null && rp.isLocalPlayer)
                     {
                         localRoomPlayer = rp;
-                        Debug.Log($"[LobbyUI] ✓ Joueur local trouvé via retry (roomSlots): {rp.PlayerName}");
+                        Debug.Log($"[LobbyUI] Joueur local trouvé via retry (roomSlots): {rp.PlayerName}");
                         yield break;
                     }
                 }
             }
 
-            // fallback search in scene
             CustomRoomPlayer[] allPlayers = FindObjectsOfType<CustomRoomPlayer>();
             foreach (var p in allPlayers)
             {
                 if (p.isLocalPlayer)
                 {
                     localRoomPlayer = p;
-                    Debug.Log($"[LobbyUI] ✓ Joueur local trouvé via retry (FindObjects): {p.PlayerName}");
+                    Debug.Log($"[LobbyUI] Joueur local trouvé via retry (FindObjects): {p.PlayerName}");
                     yield break;
                 }
             }
@@ -205,170 +172,103 @@ public class LobbyUI : MonoBehaviour
         Debug.LogWarning("[LobbyUI] Echec: impossible de trouver le joueur local après plusieurs tentatives.");
     }
 
-    /// <summary>
-    /// Crée un élément d'UI pour un joueur
-    /// </summary>
+    // Crée un élément d'UI pour un joueur (compatible Text et TextMeshPro)
     private void CreatePlayerListItem(CustomRoomPlayer player)
     {
         if (playerItemPrefab == null || playerListContainer == null) return;
 
         GameObject item = Instantiate(playerItemPrefab, playerListContainer);
 
-        // Nom du joueur (supporte TextMeshPro ou UnityEngine.UI.Text)
         var nameTransform = item.transform.Find("PlayerName");
-    if (nameTransform != null)
-        {
-            Text uiName = nameTransform.GetComponent<Text>();
-            TMPro.TMP_Text tmpName = nameTransform.GetComponent<TMP_Text>();
-
-            if (uiName != null)
-            {
-                uiName.text = player.PlayerName;
-                if (player.isLocalPlayer)
-                {
-                    uiName.text += " (Vous)";
-                    uiName.color = Color.cyan;
-                }
-            }
-            else if (tmpName != null)
-            {
-                tmpName.text = player.PlayerName + (player.isLocalPlayer ? " (Vous)" : "");
-                tmpName.color = player.isLocalPlayer ? Color.cyan : Color.white;
-            }
-        }
-        else
-        {
-            Debug.LogWarning("[LobbyUI] PlayerName transform not found on player item prefab. Vérifiez le nom de l'enfant (PlayerName).");
-        }
-
-        // Statut (Prêt / En attente) - supporte TMP ou UI.Text
         var statusTransform = item.transform.Find("PlayerStatus");
-    if (statusTransform != null)
-        {
-            Text uiStatus = statusTransform.GetComponent<Text>();
-            TMPro.TMP_Text tmpStatus = statusTransform.GetComponent<TMP_Text>();
+        GameObject hostIcon = item.transform.Find("HostIcon")?.gameObject;
 
+        TMPro.TMP_Text tmpName = null, tmpStatus = null;
+        Text uiName = null, uiStatus = null;
+
+        if (nameTransform != null)
+        {
+            uiName = nameTransform.GetComponent<Text>();
+            tmpName = nameTransform.GetComponent<TMPro.TMP_Text>();
+            if (tmpName != null) tmpName.text = player.PlayerName + (player.isLocalPlayer ? " (Vous)" : "");
+            else if (uiName != null)
+            {
+                uiName.text = player.PlayerName + (player.isLocalPlayer ? " (Vous)" : "");
+                if (player.isLocalPlayer) uiName.color = Color.cyan;
+            }
+            else Debug.LogWarning("[LobbyUI] PlayerName: pas de composant Text/TMP");
+        }
+        else Debug.LogWarning("[LobbyUI] PlayerName introuvable dans le prefab");
+
+        if (statusTransform != null)
+        {
+            uiStatus = statusTransform.GetComponent<Text>();
+            tmpStatus = statusTransform.GetComponent<TMPro.TMP_Text>();
             string statusString = player.readyToBegin ? "✓ Prêt" : "En attente...";
             Color statusColor = player.readyToBegin ? Color.green : Color.yellow;
+            if (tmpStatus != null) { tmpStatus.text = statusString; tmpStatus.color = statusColor; }
+            else if (uiStatus != null) { uiStatus.text = statusString; uiStatus.color = statusColor; }
+            else Debug.LogWarning("[LobbyUI] PlayerStatus: pas de composant Text/TMP");
+        }
+        else Debug.LogWarning("[LobbyUI] PlayerStatus introuvable dans le prefab");
 
-            if (uiStatus != null)
-            {
-                uiStatus.text = statusString;
-                uiStatus.color = statusColor;
-            }
-            else if (tmpStatus != null)
-            {
-                tmpStatus.text = statusString;
-                tmpStatus.color = statusColor;
-            }
-        }
-        else
-        {
-            Debug.LogWarning("[LobbyUI] PlayerStatus transform not found on player item prefab. Vérifiez le nom de l'enfant (PlayerStatus).");
-        }
-
-        // Icône hôte (optionnel)
-        GameObject hostIcon = item.transform.Find("HostIcon")?.gameObject;
-        if (hostIcon != null)
-        {
-            hostIcon.SetActive(player.index == 0);
-        }
+        if (hostIcon != null) hostIcon.SetActive(player.index == 0);
 
         playerListItems.Add(item);
     }
 
-    /// <summary>
-    /// Met à jour le texte de statut général
-    /// </summary>
+    // Met à jour le texte de statut général
     private void UpdateStatusText(int current, int ready, int max)
     {
-        if (statusText != null)
-        {
-            statusText.text = $"{current}/{max} joueurs - {ready} prêt(s)";
-        }
+        if (statusText != null) statusText.text = $"{current}/{max} joueurs - {ready} prêt(s)";
     }
 
-    /// <summary>
-    /// Met à jour le bouton Ready
-    /// </summary>
+    // Met à jour le bouton Ready
     private void UpdateReadyButton()
     {
         if (localRoomPlayer == null)
         {
-            if (readyButton != null)
-                readyButton.interactable = false;
+            if (readyButton != null) readyButton.interactable = false;
             return;
         }
 
-        if (readyButtonText != null)
-            readyButtonText.text = localRoomPlayer.readyToBegin ? "Annuler" : "Prêt";
-        
-        if (readyButton != null)
-            readyButton.interactable = true;
+        if (readyButtonText != null) readyButtonText.text = localRoomPlayer.readyToBegin ? "Annuler" : "Prêt";
+        if (readyButton != null) readyButton.interactable = true;
     }
 
-    /// <summary>
-    /// Met à jour le bouton Start (visible seulement pour l'hôte)
-    /// </summary>
+    // Met à jour le bouton Start (visible seulement pour l'hôte)
     private void UpdateStartButton(bool canStart)
     {
         if (startGameButton == null) return;
-
         bool isHost = NetworkServer.active;
         startGameButton.gameObject.SetActive(isHost);
-        
-        if (isHost)
-        {
-            startGameButton.interactable = canStart;
-        }
+        if (isHost) startGameButton.interactable = canStart;
     }
 
     #region Button Callbacks
 
     private void OnReadyButtonClicked()
     {
-        if (localRoomPlayer == null)
-        {
-            Debug.LogWarning("[LobbyUI] Joueur local introuvable");
-            return;
-        }
-
+        if (localRoomPlayer == null) { Debug.LogWarning("[LobbyUI] Joueur local introuvable"); return; }
         localRoomPlayer.ToggleReady();
-        Debug.Log($"[LobbyUI] Toggle ready");
+        Debug.Log("[LobbyUI] Toggle ready");
     }
 
     private void OnStartGameClicked()
     {
         CustomNetworkRoomManager roomManager = CustomNetworkRoomManager.Instance;
-        if (roomManager != null)
-        {
-            roomManager.StartGameFromLobby();
-        }
-        else
-        {
-            Debug.LogError("[LobbyUI] NetworkRoomManager introuvable");
-        }
+        if (roomManager != null) roomManager.StartGameFromLobby();
+        else Debug.LogError("[LobbyUI] NetworkRoomManager introuvable");
     }
 
     private void OnBackButtonClicked()
     {
         CustomNetworkRoomManager roomManager = CustomNetworkRoomManager.Instance;
-        if (roomManager != null)
-        {
-            roomManager.ReturnToGameSelection();
-        }
+        if (roomManager != null) roomManager.ReturnToGameSelection();
         else
         {
-            // Fallback
-            if (NetworkServer.active && NetworkClient.isConnected)
-            {
-                NetworkManager.singleton.StopHost();
-            }
-            else if (NetworkClient.isConnected)
-            {
-                NetworkManager.singleton.StopClient();
-            }
-            
+            if (NetworkServer.active && NetworkClient.isConnected) NetworkManager.singleton.StopHost();
+            else if (NetworkClient.isConnected) NetworkManager.singleton.StopClient();
             SceneManager.LoadScene("GameSelectionMenu");
         }
     }
