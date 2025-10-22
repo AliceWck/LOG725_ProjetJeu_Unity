@@ -558,18 +558,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &106308031 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5951981123722560523, guid: 397f26e62694b4416a9651a86cfd7ea6,
-    type: 3}
-  m_PrefabInstance: {fileID: 106308027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &106308032 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2391007789211078404, guid: 397f26e62694b4416a9651a86cfd7ea6,
@@ -996,54 +984,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &584639912
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 584639914}
-  - component: {fileID: 584639913}
-  m_Layer: 0
-  m_Name: LobbyManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &584639913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 584639912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb82d9f01e0d24cdbac16ebf3a66bad1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lobbyUI: {fileID: 753254110}
-  minPlayers: 2
-  maxPlayers: 5
-  gameSceneName: GameScene
---- !u!4 &584639914
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 584639912}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1364.5571, y: 805.6874, z: -11.4279785}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &753254105
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,7 +1108,8 @@ MonoBehaviour:
   readyButton: {fileID: 106308032}
   startGameButton: {fileID: 535772834}
   backButton: {fileID: 26181071}
-  readyButtonText: {fileID: 106308031}
+  readyButtonText: {fileID: 0}
+  statusText: {fileID: 0}
 --- !u!1 &1188225643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1949,4 +1890,3 @@ SceneRoots:
   - {fileID: 1250882318}
   - {fileID: 753254109}
   - {fileID: 1330319259}
-  - {fileID: 584639914}
