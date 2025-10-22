@@ -9,7 +9,7 @@ public class WallWithDoorMaker : MonoBehaviour
     public float murEpaisseur = 0.2f;
 
     [Header("Porte")]
-    public GameObject doorPrefab;          // Glisse ton prefab de porte ici
+    public GameObject doorPrefab;          // Glisse prefab porte
     public float porteX = 2f;              // Position horizontale (depuis la gauche)
     public float porteLargeur = 1f;        // Largeur de l'ouverture
     public float porteHauteur = 2.2f;      // Hauteur de l'ouverture
@@ -67,10 +67,10 @@ public class WallWithDoorMaker : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Aucun prefab de porte assigné ! Glisse ton prefab dans 'Door Prefab'.");
+            Debug.LogWarning("Aucun prefab de porte assigné, le glisser via l'inspector");
         }
 
-        Debug.Log("Mur avec porte créé !");
+        //Debug.Log("Mur avec porte créé");
     }
 
     private void CreerPartie(string nom, Vector3 position, Vector3 taille)
@@ -118,7 +118,7 @@ public class WallWithDoorMaker : MonoBehaviour
             door.transform.localRotation = Quaternion.identity;
         }
 
-        Debug.Log("Porte placée à " + doorPosition);
+        //Debug.Log("Porte placée à " + doorPosition);
     }
 
     // Visualisation dans l'éditeur
@@ -159,10 +159,11 @@ public class WallWithDoorMakerEditor : Editor
 
         EditorGUILayout.Space();
         EditorGUILayout.HelpBox(
-            "1. Ajuste les dimensions du mur\n" +
-            "2. Glisse ton prefab de porte\n" +
-            "3. Positionne l'ouverture\n" +
-            "4. Clique sur le bouton !",
+            "1. Ajuster les dimensions du mur\n" +
+            "2. Glisser le prefab de porte\n" +
+            "3. Positionner l'ouverture\n" +
+            "4. Cliquer sur le bouton" +
+            "5. Régler manuellement le pb de taille du gameobject porte (à régler après)",
             MessageType.Info);
 
         EditorGUILayout.Space();
@@ -170,7 +171,7 @@ public class WallWithDoorMakerEditor : Editor
         // Vérifier si un prefab est assigné
         if (maker.doorPrefab == null)
         {
-            EditorGUILayout.HelpBox("⚠️ Glisse ton prefab de porte dans 'Door Prefab' !", MessageType.Warning);
+            EditorGUILayout.HelpBox("Glisser le prefab de porte dans 'Door Prefab'", MessageType.Warning);
         }
 
         if (GUILayout.Button("CRÉER MUR AVEC PORTE", GUILayout.Height(50)))
