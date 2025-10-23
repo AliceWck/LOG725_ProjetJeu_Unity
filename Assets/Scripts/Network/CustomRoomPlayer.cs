@@ -1,7 +1,6 @@
 using Mirror;
 using UnityEngine;
 
-/// Joueur dans le lobby. Dérive de NetworkRoomPlayer pour le système "ready".
 public class CustomRoomPlayer : NetworkRoomPlayer
 {
     [SyncVar(hook = nameof(OnPlayerNameChanged))]

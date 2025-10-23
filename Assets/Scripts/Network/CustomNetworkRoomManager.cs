@@ -6,8 +6,6 @@ public class CustomNetworkRoomManager : NetworkRoomManager
 {
     [Header("Configuration Initiale")]
     [SerializeField] private string mainMenuSceneName = "MainMenu";
-    // By default do NOT auto-load the Main Menu to avoid interfering with programmatic host/client startup.
-    // You can re-enable this behavior in the inspector if you prefer automatic navigation from NetworkSetup -> MainMenu.
     [SerializeField] private bool autoLoadMainMenu = false;
 
     public static CustomNetworkRoomManager Instance { get; private set; }
@@ -35,7 +33,6 @@ public class CustomNetworkRoomManager : NetworkRoomManager
         if (minPlayers == 0)
             minPlayers = 2;
         
-        // IMPORTANT : Utilise juste le NOM de la scène, pas le chemin complet!
         if (string.IsNullOrEmpty(RoomScene))
             RoomScene = "Lobby";
         
@@ -60,8 +57,6 @@ public class CustomNetworkRoomManager : NetworkRoomManager
         autoCreatePlayer = true;
         showRoomGUI = false;
 
-        // Ensure NetworkManager's onlineScene is set so StartHost will load the room scene
-        // (NetworkManager uses onlineScene when starting a host to load scene on server before connecting local client)
         if (string.IsNullOrWhiteSpace(onlineScene))
         {
             onlineScene = RoomScene;
@@ -191,7 +186,7 @@ public class CustomNetworkRoomManager : NetworkRoomManager
             Debug.LogWarning($"[NetworkRoomManager] ⚠ Problème lors de la création du joueur de jeu");
         }
         
-        // Retourne l'objet joueur de jeu (assure que toutes les routes retournent quelque chose)
+        // Retourne l'objet joueur de jeu
         return gamePlayer;
     }
 
@@ -208,7 +203,6 @@ public class CustomNetworkRoomManager : NetworkRoomManager
 
         Debug.Log("[NetworkRoomManager] StartGameFromLobby appelé - tentative de démarrage de la partie");
 
-        // Reutilise la logique existante qui vérifie le nombre de joueurs et si tous sont prêts
         OnRoomServerPlayersReady();
     }
 

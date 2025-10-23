@@ -31,7 +31,7 @@ public class GamePlayer : NetworkBehaviour
         SetupLocalPlayer();
     }
 
-    // Définit le nom du joueur (appelé par le NetworkRoomManager, exécuté côté serveur)
+    // Définit le nom du joueur
     public void SetPlayerName(string newName)
     {
         if (isServer)
@@ -54,7 +54,7 @@ public class GamePlayer : NetworkBehaviour
             nameTag.text = playerName;
     }
 
-    // Activation des éléments du joueur local (caméra, contrôles, etc.)
+    // Activation des éléments du joueur local
     private void SetupLocalPlayer()
     {
         Camera cam = GetComponentInChildren<Camera>(true);
@@ -64,7 +64,7 @@ public class GamePlayer : NetworkBehaviour
             Debug.Log("[GamePlayer] Caméra activée pour le joueur local");
         }
 
-        // Optionnel : activer des scripts de mouvement ou changer l'apparence
+        // activer des scripts de mouvement ou changer l'apparence
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (var rend in renderers)
         {
@@ -79,7 +79,7 @@ public class GamePlayer : NetworkBehaviour
         HandleMovement();
     }
 
-    // Exemple simple de mouvement (peut être adapté)
+    // Exemple simple de mouvement
     private void HandleMovement()
     {
         float horizontal = Input.GetAxis("Horizontal");

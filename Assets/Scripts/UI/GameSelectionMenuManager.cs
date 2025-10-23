@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-// Pour TextMeshPro, inclure "using TMPro;" si besoin
 
 public class GameSelectionMenuManager : MonoBehaviour
 {
@@ -12,9 +11,9 @@ public class GameSelectionMenuManager : MonoBehaviour
     [SerializeField] private Button hostButton;
     [SerializeField] private Button joinButton;
     [SerializeField] private Button backButton;
-    [SerializeField] private InputField ipInputField; // ou TMP_InputField si TMPro
+    [SerializeField] private InputField ipInputField;
     [SerializeField] private GameObject connectionPanel;
-    [SerializeField] private Text connectionStatusText; // ou TMP_Text si TMPro
+    [SerializeField] private Text connectionStatusText;
 
     [Header("Settings")]
     [SerializeField] private string defaultIP = "localhost";
@@ -61,8 +60,6 @@ public class GameSelectionMenuManager : MonoBehaviour
         isStartingHost = true;
         roomManager.StartHost();
     }
-
-    // ...coroutine LoadSceneAndStartHost supprimée...
 
     /// <summary>
     /// Rejoint une partie (Client)

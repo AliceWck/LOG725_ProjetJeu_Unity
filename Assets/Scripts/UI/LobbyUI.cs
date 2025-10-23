@@ -56,14 +56,14 @@ public class LobbyUI : MonoBehaviour
         Debug.Log("[LobbyUI] OnEnable - Attente des joueurs...");
     }
 
-    // Rafraîchit la liste des joueurs (appel périodique)
+    // Rafraîchit la liste des joueurs
     public void RefreshPlayerList()
     {
         // Récupère le room manager
         CustomNetworkRoomManager roomManager = CustomNetworkRoomManager.Instance;
         if (roomManager == null)
         {
-            return; // Pas encore initialisé
+            return;
         }
 
         Debug.Log($"[LobbyUI] RefreshPlayerList - roomSlots count: {roomManager.roomSlots.Count}");
@@ -116,7 +116,7 @@ public class LobbyUI : MonoBehaviour
             }
         }
 
-        // Fallback: recherche dans la scène
+        // recherche dans la scène
         CustomRoomPlayer[] allPlayers = FindObjectsOfType<CustomRoomPlayer>();
         foreach (var player in allPlayers)
         {
@@ -172,7 +172,7 @@ public class LobbyUI : MonoBehaviour
         Debug.LogWarning("[LobbyUI] Echec: impossible de trouver le joueur local après plusieurs tentatives.");
     }
 
-    // Crée un élément d'UI pour un joueur (compatible Text et TextMeshPro)
+    // Crée un élément d'UI pour un joueur
     private void CreatePlayerListItem(CustomRoomPlayer player)
     {
         if (playerItemPrefab == null || playerListContainer == null) return;
