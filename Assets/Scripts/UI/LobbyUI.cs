@@ -22,7 +22,7 @@ public class LobbyUI : MonoBehaviour
     [Header("Texts")]
     [SerializeField] private Text readyButtonText;
     [SerializeField] private Text statusText;
-    
+
     private List<GameObject> playerListItems = new List<GameObject>();
     private CustomRoomPlayer localRoomPlayer;
 
@@ -34,7 +34,7 @@ public class LobbyUI : MonoBehaviour
             return;
         }
         Instance = this;
-        
+
         Debug.Log("[LobbyUI] Awake - Instance créée");
     }
 
