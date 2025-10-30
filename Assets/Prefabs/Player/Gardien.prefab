@@ -4600,6 +4600,7 @@ GameObject:
   - component: {fileID: 3382983777038232136}
   - component: {fileID: 7146746995045139069}
   - component: {fileID: 6603710347458818308}
+  - component: {fileID: 830038695690913713}
   - component: {fileID: -2693389551597244708}
   m_Layer: 8
   m_Name: Gardien
@@ -4852,6 +4853,22 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &830038695690913713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fb8710ec8724a5286a6130514d485b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  nameTag: {fileID: 0}
 --- !u!114 &-2693389551597244708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5520,7 +5537,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2071455812170976663}
-  - component: {fileID: 4531892997709622618}
+  - component: {fileID: 8399834401634667953}
   - component: {fileID: 5045980635572532165}
   - component: {fileID: 4494419661812315692}
   m_Layer: 0
@@ -5546,7 +5563,7 @@ Transform:
   - {fileID: 774510938495915473}
   m_Father: {fileID: 6559148535414751807}
   m_LocalEulerAnglesHint: {x: -75.751, y: 196.707, z: -165.836}
---- !u!114 &4531892997709622618
+--- !u!114 &8399834401634667953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5555,14 +5572,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8883693552591711158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 273f7dfbe01b65448836eca5ae5bfcca, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e70b131726be4076866ed3c359522bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 13
-  FlashLight: {fileID: 5220783013253623736}
-  Source: {fileID: 5045980635572532165}
-  FlashLightOnSound: {fileID: 8300000, guid: 26ed3354772a43a439cb4295e72ae0c8, type: 3}
-  FlashLightOffSound: {fileID: 8300000, guid: 68e68ae9c12c1f3489697cf202ce466b, type: 3}
+  FlashLight: {fileID: 0}
+  Source: {fileID: 0}
+  FlashLightOnSound: {fileID: 0}
+  FlashLightOffSound: {fileID: 0}
 --- !u!82 &5045980635572532165
 AudioSource:
   m_ObjectHideFlags: 0

@@ -6,7 +6,11 @@ public class CustomRoomPlayer : NetworkRoomPlayer
     [SyncVar(hook = nameof(OnPlayerNameChanged))]
     private string playerName = "Joueur";
 
+    [SyncVar(hook = nameof(OnRoleChanged))]
+    private Role role = Role.Ombre;
+
     public string PlayerName => playerName;
+    public Role PlayerRole => role;
 
     public override void OnStartClient()
     {
@@ -31,7 +35,7 @@ public class CustomRoomPlayer : NetworkRoomPlayer
     {
         base.OnStopClient();
         Debug.Log($"[RoomPlayer] Client arrêté pour {playerName}");
-        
+
         // Rafraîchir l'UI
         RefreshLobbyUI();
     }
@@ -50,6 +54,14 @@ public class CustomRoomPlayer : NetworkRoomPlayer
         Debug.Log($"[RoomPlayer] Nom changé: {newName}");
     }
 
+    /// Change le rôle du joueur (appelé par le serveur)
+    [Server]
+    public void SetPlayerRole(Role newRole)
+    {
+        role = newRole;
+        Debug.Log($"[RoomPlayer] Rôle défini: {newRole}");
+    }
+
     /// Hook appelé quand le nom change
     private void OnPlayerNameChanged(string oldName, string newName)
     {
@@ -57,13 +69,20 @@ public class CustomRoomPlayer : NetworkRoomPlayer
         RefreshLobbyUI();
     }
 
+    /// Hook appelé quand le rôle change
+    private void OnRoleChanged(Role oldRole, Role newRole)
+    {
+        Debug.Log($"[RoomPlayer] Hook rôle: {oldRole} → {newRole}");
+        RefreshLobbyUI();
+    }
+
     /// Mise à jour du state "ready"
     public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)
     {
         base.ReadyStateChanged(oldReadyState, newReadyState);
-        
+
         Debug.Log($"[RoomPlayer] {playerName} est maintenant: {(newReadyState ? "PRÊT" : "EN ATTENTE")}");
-        
+
         // Rafraîchir l'UI
         RefreshLobbyUI();
     }
@@ -91,8 +110,8 @@ public class CustomRoomPlayer : NetworkRoomPlayer
     }
 
     /// Retourne les informations du joueur pour l'UI
-    public (string name, bool isReady, bool isLocal) GetPlayerInfo()
+    public (string name, bool isReady, bool isLocal, Role role) GetPlayerInfo()
     {
-        return (playerName, readyToBegin, isLocalPlayer);
+        return (playerName, readyToBegin, isLocalPlayer, role);
     }
 }

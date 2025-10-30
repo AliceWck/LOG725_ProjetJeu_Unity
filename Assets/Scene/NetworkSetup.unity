@@ -166,8 +166,7 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 7554592982891490919, guid: ee2a01312f5d07f45b5d3962836a84f8,
-    type: 3}
+  playerPrefab: {fileID: 0}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
@@ -190,12 +189,16 @@ MonoBehaviour:
   minPlayers: 1
   roomPlayerPrefab: {fileID: 3332901544790934775, guid: bf5ef8f5a745e425db324875ca28faea,
     type: 3}
-  RoomScene: 
-  GameplayScene: 
+  RoomScene: Assets/Scene/Lobby.unity
+  GameplayScene: Assets/Scene/OutdoorsScene.unity
   _allPlayersReady: 0
   clientIndex: 0
   mainMenuSceneName: MainMenu
   autoLoadMainMenu: 1
+  gardienPrefab: {fileID: 7554592982891490919, guid: ee2a01312f5d07f45b5d3962836a84f8,
+    type: 3}
+  ombrePrefab: {fileID: 7554592982891490919, guid: 93bf7e2574219c14fa06c8c0d78c63f6,
+    type: 3}
 --- !u!4 &473109193
 Transform:
   m_ObjectHideFlags: 0

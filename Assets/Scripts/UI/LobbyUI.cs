@@ -190,10 +190,10 @@ public class LobbyUI : MonoBehaviour
         {
             uiName = nameTransform.GetComponent<Text>();
             tmpName = nameTransform.GetComponent<TMPro.TMP_Text>();
-            if (tmpName != null) tmpName.text = player.PlayerName + (player.isLocalPlayer ? " (Vous)" : "");
+            if (tmpName != null) tmpName.text = player.PlayerName + (player.isLocalPlayer ? " (Vous)" : "") + $" [{player.PlayerRole}]";
             else if (uiName != null)
             {
-                uiName.text = player.PlayerName + (player.isLocalPlayer ? " (Vous)" : "");
+                uiName.text = player.PlayerName + (player.isLocalPlayer ? " (Vous)" : "") + $" [{player.PlayerRole}]";
                 if (player.isLocalPlayer) uiName.color = Color.cyan;
             }
             else Debug.LogWarning("[LobbyUI] PlayerName: pas de composant Text/TMP");

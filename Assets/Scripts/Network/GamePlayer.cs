@@ -6,15 +6,19 @@ public class GamePlayer : NetworkBehaviour
     [SyncVar(hook = nameof(OnPlayerNameChanged))]
     private string playerName = "Joueur";
 
+    [SyncVar(hook = nameof(OnRoleChanged))]
+    private Role role = Role.Ombre;
+
     [Header("Références")]
     [SerializeField] private TMPro.TextMeshProUGUI nameTag;
 
     public string PlayerName => playerName;
+    public Role PlayerRole => role;
 
     public override void OnStartClient()
     {
         base.OnStartClient();
-        Debug.Log($"[GamePlayer] Client démarré - IsLocal: {isLocalPlayer}, Nom: {playerName}");
+        Debug.Log($"[GamePlayer] Client démarré - IsLocal: {isLocalPlayer}, Nom: {playerName}, Rôle: {role}");
         UpdateNameTag();
     }
 
@@ -31,6 +35,19 @@ public class GamePlayer : NetworkBehaviour
         SetupLocalPlayer();
     }
 
+    // Hook appelé quand le nom change
+    private void OnPlayerNameChanged(string oldName, string newName)
+    {
+        UpdateNameTag();
+    }
+
+    // Hook appelé quand le rôle change
+    private void OnRoleChanged(Role oldRole, Role newRole)
+    {
+        Debug.Log($"[GamePlayer] Rôle changé: {oldRole} → {newRole}");
+        ConfigureRoleComponents();
+    }
+
     // Définit le nom du joueur
     public void SetPlayerName(string newName)
     {
@@ -41,10 +58,14 @@ public class GamePlayer : NetworkBehaviour
         }
     }
 
-    // Hook appelé quand le nom change
-    private void OnPlayerNameChanged(string oldName, string newName)
+    // Définit le rôle du joueur
+    public void SetPlayerRole(Role newRole)
     {
-        UpdateNameTag();
+        if (isServer)
+        {
+            role = newRole;
+            Debug.Log($"[GamePlayer] Rôle défini: {newRole}");
+        }
     }
 
     // Met à jour le TextMeshPro affichant le nom
@@ -52,6 +73,27 @@ public class GamePlayer : NetworkBehaviour
     {
         if (nameTag != null)
             nameTag.text = playerName;
+    }
+
+    // Configure les composants selon le rôle
+    private void ConfigureRoleComponents()
+    {
+        // Activer/désactiver ShadowPlayer pour les Ombres
+        ShadowPlayer shadowPlayer = GetComponent<ShadowPlayer>();
+        if (shadowPlayer != null)
+        {
+            shadowPlayer.enabled = (role == Role.Ombre);
+            Debug.Log($"[GamePlayer] ShadowPlayer {(role == Role.Ombre ? "activé" : "désactivé")} pour {role}");
+        }
+
+        // Activer/désactiver OffsetFlashLight pour les Gardiens
+        OffsetFlashLight flashLight = GetComponent<OffsetFlashLight>();
+        if (flashLight != null)
+        {
+            flashLight.enabled = (role == Role.Gardien);
+            Debug.Log($"[GamePlayer] OffsetFlashLight {(role == Role.Gardien ? "activé" : "désactivé")} pour {role}");
+        }
+
     }
 
     // Activation des éléments du joueur local
