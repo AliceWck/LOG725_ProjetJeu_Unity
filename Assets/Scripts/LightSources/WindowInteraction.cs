@@ -176,7 +176,9 @@ public class WindowInteraction : NetworkBehaviour
     public AudioClip openSound;
     public AudioClip closeSound;
     [Range(0f, 1f)]
-    public float soundVolume = 0.5f;
+    public float soundVolume = 0.7f;
+    public float minHearDistance = 1f;      // Distance où le son est à volume max
+    public float maxHearDistance = 15f;     // Distance où le son devient inaudible
 
     [SyncVar(hook = nameof(OnWindowStateChanged))]
     private bool isWindowOpen = false;
@@ -195,15 +197,17 @@ public class WindowInteraction : NetworkBehaviour
             interactionUI.SetActive(false);
         }
 
-        // Créer AudioSource
+        // Créer AudioSource avec spatialisation 3D
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
-        audioSource.spatialBlend = 1f;
+        audioSource.spatialBlend = 1f;              // 1 = son 3D complet (spatialisation)
         audioSource.volume = soundVolume;
-        audioSource.minDistance = 1f;
-        audioSource.maxDistance = 10f;
+        audioSource.minDistance = minHearDistance;  // Distance min pour atténuation
+        audioSource.maxDistance = maxHearDistance;  // Distance max audible
+        audioSource.rolloffMode = AudioRolloffMode.Linear; // Atténuation linéaire
+        audioSource.dopplerLevel = 0f;              // Pas d'effet Doppler pour fenêtres
 
-        // Appliquer état initial
+        // Appliquer état initial (sans son au démarrage)
         if (windowGlass != null)
         {
             windowGlass.SetActive(!isWindowOpen);
@@ -327,9 +331,6 @@ public class WindowInteraction : NetworkBehaviour
         Debug.Log($"[Window {gameObject.name}] Command reçue sur serveur");
         isWindowOpen = !isWindowOpen;
 
-        // Jouer le son sur tous les clients
-        RpcPlaySound(isWindowOpen);
-
         Debug.Log($"[Window Server] Fenêtre {(isWindowOpen ? "OUVERTE" : "FERMÉE")}");
     }
 
@@ -341,20 +342,19 @@ public class WindowInteraction : NetworkBehaviour
         {
             windowGlass.SetActive(!newValue);
         }
-    }
 
-    [ClientRpc]
-    void RpcPlaySound(bool opening)
-    {
-        if (audioSource != null)
+        // Jouer le son localement sur CHAQUE client quand l'état change
+        if (audioSource != null && oldValue != newValue) // Vérif qu'il y a vraiment un changement
         {
-            AudioClip soundToPlay = opening ? openSound : closeSound;
+            AudioClip soundToPlay = newValue ? openSound : closeSound;
             if (soundToPlay != null)
             {
                 audioSource.PlayOneShot(soundToPlay);
+                Debug.Log($"[Window {gameObject.name}] Son joué: {(newValue ? "ouverture" : "fermeture")}");
             }
         }
     }
+
 
     void OnDrawGizmosSelected()
     {

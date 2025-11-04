@@ -400,6 +400,11 @@ MonoBehaviour:
   interactionUI: {fileID: 5551056130419215928}
   interactionDistance: 1
   interactionKey: 101
+  lightOnSound: {fileID: 8300000, guid: 47dccb539565ba4418af55d9c6924600, type: 3}
+  lightOffSound: {fileID: 8300000, guid: 8c2598b02d9fab14ca20d0011db9759e, type: 3}
+  soundVolume: 0.7
+  minHearDistance: 1
+  maxHearDistance: 15
 --- !u!114 &389754360570501891
 MonoBehaviour:
   m_ObjectHideFlags: 0

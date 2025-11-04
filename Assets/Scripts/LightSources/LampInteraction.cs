@@ -1,7 +1,7 @@
 using UnityEngine;
 using Mirror;
 
-// ATTENTION pas oublier de rajouter le network identity sur la lampe dans l'inspecteur Unity, sinon marche pas du totu
+// ATTENTION pas oublier de rajouter le network identity sur la lampe dans l'inspecteur Unity, sinon marche pas du tout
 public class NetworkedLampInteraction : NetworkBehaviour
 {
     [Header("Références")]
@@ -12,12 +12,21 @@ public class NetworkedLampInteraction : NetworkBehaviour
     public float interactionDistance = 1f;
     public KeyCode interactionKey = KeyCode.E;
 
+    [Header("Sons")]
+    public AudioClip lightOnSound;
+    public AudioClip lightOffSound;
+    [Range(0f, 1f)]
+    public float soundVolume = 0.7f;
+    public float minHearDistance = 1f;      // Distance où le son est à volume max
+    public float maxHearDistance = 15f;     // Distance où le son devient inaudible
+
     [SyncVar(hook = nameof(OnLampStateChanged))]
     private bool isLampOn = true;
 
     private Transform localPlayer;
     private bool isPlayerNear = false;
     private bool playerSearchLogged = false;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -33,7 +42,17 @@ public class NetworkedLampInteraction : NetworkBehaviour
             lampLight = GetComponentInChildren<Light>();
         }
 
-        // Appliquer état initial
+        // Créer AudioSource avec spatialisation 3D
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 1f;              // 1 = son 3D complet (spatialisation)
+        audioSource.volume = soundVolume;
+        audioSource.minDistance = minHearDistance;  // Distance min pour atténuation
+        audioSource.maxDistance = maxHearDistance;  // Distance max audible
+        audioSource.rolloffMode = AudioRolloffMode.Linear; // Atténuation linéaire
+        audioSource.dopplerLevel = 0f;              // Pas d'effet Doppler pour les lampes
+
+        // Appliquer état initial (sans son au démarrage)
         if (lampLight != null)
         {
             lampLight.enabled = isLampOn;
@@ -163,9 +182,21 @@ public class NetworkedLampInteraction : NetworkBehaviour
     {
         Debug.Log($"[Lamp {gameObject.name}] Hook: {oldValue} -> {newValue}");
 
+        // Changer l'état visuel
         if (lampLight != null)
         {
             lampLight.enabled = newValue;
+        }
+
+        // Jouer le son localement sur chaque client quand l'état change
+        if (audioSource != null && oldValue != newValue) // Vérifier qu'il y a vraiment un changement
+        {
+            AudioClip soundToPlay = newValue ? lightOnSound : lightOffSound;
+            if (soundToPlay != null)
+            {
+                audioSource.PlayOneShot(soundToPlay);
+                Debug.Log($"[Lamp {gameObject.name}] Son joué: {(newValue ? "allumage" : "extinction")}");
+            }
         }
     }
 
