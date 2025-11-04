@@ -237,6 +237,7 @@ public class CustomNetworkRoomManager : NetworkRoomManager
         if (allPlayersReady && roomSlots.Count >= minPlayers)
         {
             Debug.Log("[NetworkRoomManager] Démarrage manuel de la partie...");
+            AssignRolesToPlayers(); // Assigne les rôles avant de changer de scène
             ServerChangeScene(GameplayScene);
         }
         else
@@ -282,38 +283,15 @@ public class CustomNetworkRoomManager : NetworkRoomManager
         return count;
     }
 
-    /// Assigne les rôles aux joueurs (1 Gardien aléatoire, autres Ombres)
-    private void AssignRolesToPlayers()
+    public enum RoleAssignmentMode
     {
-        if (roomSlots.Count == 0) return;
-
-        // Liste des joueurs valides
-        var validPlayers = roomSlots.Where(slot => slot != null).ToList();
-        if (validPlayers.Count == 0) return;
-
-        // Choisir un Gardien aléatoirement
-        int gardienIndex = Random.Range(0, validPlayers.Count);
-        CustomRoomPlayer gardienPlayer = validPlayers[gardienIndex] as CustomRoomPlayer;
-        if (gardienPlayer != null)
-        {
-            gardienPlayer.SetPlayerRole(Role.Gardien);
-            Debug.Log($"[NetworkRoomManager] Rôle Gardien assigné à {gardienPlayer.PlayerName}");
-        }
-
-        // Les autres sont Ombres
-        for (int i = 0; i < validPlayers.Count; i++)
-        {
-            if (i != gardienIndex)
-            {
-                CustomRoomPlayer ombrePlayer = validPlayers[i] as CustomRoomPlayer;
-                if (ombrePlayer != null)
-                {
-                    ombrePlayer.SetPlayerRole(Role.Ombre);
-                    Debug.Log($"[NetworkRoomManager] Rôle Ombre assigné à {ombrePlayer.PlayerName}");
-                }
-            }
-        }
+        Random,
+        HostIsGardien,
+        HostIsOmbre
     }
+
+    [Header("Assignation du rôle au démarrage")]
+    [SerializeField] public RoleAssignmentMode roleAssignmentMode = RoleAssignmentMode.HostIsGardien;
 
     #endregion
 
