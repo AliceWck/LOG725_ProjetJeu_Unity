@@ -209,7 +209,7 @@ public class LobbyUI : MonoBehaviour
         {
             uiStatus = statusTransform.GetComponent<Text>();
             tmpStatus = statusTransform.GetComponent<TMPro.TMP_Text>();
-            string statusString = player.readyToBegin ? "✓ Prêt" : "En attente...";
+            string statusString = player.readyToBegin ? "Prêt" : "En attente...";
             Color statusColor = player.readyToBegin ? Color.green : Color.yellow;
             if (tmpStatus != null) { tmpStatus.text = statusString; tmpStatus.color = statusColor; }
             else if (uiStatus != null) { uiStatus.text = statusString; uiStatus.color = statusColor; }

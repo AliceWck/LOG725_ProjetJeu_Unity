@@ -187,13 +187,17 @@ public class CustomNetworkRoomManager : NetworkRoomManager
 
         if (lobbyPlayer != null && lobbyPlayer.PlayerRole == Role.Gardien)
         {
-            // Pour le Gardien, utiliser le playerPrefab (gardienPrefab)
-            gamePlayer = base.OnRoomServerCreateGamePlayer(conn, roomPlayer);
+            if (gardienPrefab == null)
+            {
+                Debug.LogError("[NetworkRoomManager] GardienPrefab manquant !");
+                return null;
+            }
+            gamePlayer = Instantiate(gardienPrefab);
+            NetworkServer.Spawn(gamePlayer, conn);
             Debug.Log($"[NetworkRoomManager] Spawned Gardien prefab '{gamePlayer.name}' for {lobbyPlayer.PlayerName}");
         }
         else
         {
-            // Pour les Ombres, spawner directement le prefab Ombre
             if (ombrePrefab == null)
             {
                 Debug.LogError("[NetworkRoomManager] OmbrePrefab manquant !");
