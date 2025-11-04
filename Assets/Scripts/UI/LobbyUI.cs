@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Net;
 
 public class LobbyUI : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class LobbyUI : MonoBehaviour
     [Header("Texts")]
     [SerializeField] private Text readyButtonText;
     [SerializeField] private Text statusText;
+    [SerializeField] private TMP_Text hostIPText;
 
     private List<GameObject> playerListItems = new List<GameObject>();
     private CustomRoomPlayer localRoomPlayer;
@@ -49,6 +51,9 @@ public class LobbyUI : MonoBehaviour
         }
         if (backButton != null) backButton.onClick.AddListener(OnBackButtonClicked);
         InvokeRepeating(nameof(RefreshPlayerList), 0.5f, 0.5f);
+
+        // Afficher l'IP du host si on est l'hôte
+        DisplayHostIP();
     }
 
     private void OnEnable()
@@ -243,6 +248,38 @@ public class LobbyUI : MonoBehaviour
         bool isHost = NetworkServer.active;
         startGameButton.gameObject.SetActive(isHost);
         if (isHost) startGameButton.interactable = canStart;
+    }
+
+    // Affiche l'IP du host si on est l'hôte
+    private void DisplayHostIP()
+    {
+        if (hostIPText == null) return;
+
+        if (NetworkServer.active)
+        {
+            string localIP = GetLocalIPAddress();
+            hostIPText.text = $"IP du serveur : {localIP}";
+            hostIPText.gameObject.SetActive(true);
+            Debug.Log($"[LobbyUI] IP du host affichée : {localIP}");
+        }
+        else
+        {
+            hostIPText.gameObject.SetActive(false);
+        }
+    }
+
+    // Récupère l'IP locale de la machine
+    private string GetLocalIPAddress()
+    {
+        var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+        return "127.0.0.1"; // Fallback
     }
 
     #region Button Callbacks
