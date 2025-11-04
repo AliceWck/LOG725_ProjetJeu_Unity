@@ -23,6 +23,7 @@ public class NetworkedLampInteraction : NetworkBehaviour
 
     void Start()
     {
+
         if (interactionUI != null)
         {
             interactionUI.SetActive(false);
