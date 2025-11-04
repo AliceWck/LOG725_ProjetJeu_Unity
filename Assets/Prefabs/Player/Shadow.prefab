@@ -4276,6 +4276,7 @@ GameObject:
   - component: {fileID: 6603710347458818308}
   - component: {fileID: -2693389551597244708}
   - component: {fileID: 775560033767575422}
+  - component: {fileID: 2248243749394181934}
   m_Layer: 8
   m_Name: Shadow
   m_TagString: Player
@@ -4564,6 +4565,24 @@ MonoBehaviour:
   diveDuration: 0.2
   height: 2
   shadowCircleRadius: 0.5
+--- !u!114 &2248243749394181934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b02f4cc999f0db94fabd24bfa470a8e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  thirdPersonCamera: {fileID: 0}
+  manageAudioListener: 1
+  showDebugLogs: 1
 --- !u!1 &7817352308337221933
 GameObject:
   m_ObjectHideFlags: 0
