@@ -237,7 +237,6 @@ public class CustomNetworkRoomManager : NetworkRoomManager
         if (allPlayersReady && roomSlots.Count >= minPlayers)
         {
             Debug.Log("[NetworkRoomManager] Démarrage manuel de la partie...");
-            AssignRolesToPlayers(); // Assigne les rôles avant de changer de scène
             ServerChangeScene(GameplayScene);
         }
         else
