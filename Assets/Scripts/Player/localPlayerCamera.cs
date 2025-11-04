@@ -4,18 +4,18 @@ using Mirror;
 public class LocalPlayerCamera : NetworkBehaviour
 {
     [Header("Camera Setup")]
-    [Tooltip("Laisse vide, sera trouvé automatiquement")]
+    [Tooltip("Rien mettre dedans, sera trouvé automatiquement")]
     public ThirdPersonCamera thirdPersonCamera;
 
     [Header("Audio Listener")]
     public bool manageAudioListener = true;
 
     [Header("Debug")]
-    public bool showDebugLogs = true;
+    public bool showDebugLogs = false;
 
     public override void OnStartLocalPlayer()
     {
-        // Cette méthode est appelée SEULEMENT pour le joueur local
+        // Méthode est appelée seulement pour le joueur local
         if (showDebugLogs)
             Debug.Log($"[LocalPlayerCamera] OnStartLocalPlayer appelé pour {gameObject.name}");
 
@@ -27,32 +27,31 @@ public class LocalPlayerCamera : NetworkBehaviour
         if (showDebugLogs)
             Debug.Log("[LocalPlayerCamera] Setup caméra...");
 
-        // 1. Trouver le script ThirdPersonCamera
+        // Trouver script ThirdPersonCamera
         if (thirdPersonCamera == null)
         {
             thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
 
             if (thirdPersonCamera == null)
             {
-                Debug.LogError("[LocalPlayerCamera] AUCUN ThirdPersonCamera trouvé dans la scène !");
-                Debug.LogError(" Assure-toi que Main Camera a le script ThirdPersonCamera");
+                Debug.LogError("[LocalPlayerCamera] aucun ThirdPersonCamera trouvé dans la scène");
                 return;
             }
             else
             {
                 if (showDebugLogs)
-                    Debug.Log($"[LocalPlayerCamera] ThirdPersonCamera trouvé sur : {thirdPersonCamera.gameObject.name}");
+                    Debug.Log($"[LocalPlayerCamera] TPC trouvée sur : {thirdPersonCamera.gameObject.name}");
             }
         }
 
-        // 2. Assigner CE joueur comme target
+        // Assigner ce joueur comme target
         thirdPersonCamera.target = transform;
 
-        Debug.Log($"[LocalPlayerCamera]CAMÉRA ATTACHÉE AU JOUEUR LOCAL ");
+        Debug.Log($"[LocalPlayerCamera] Caméra bien attachée au  joueur local");
         Debug.Log($"  Personnage : {gameObject.name}");
         Debug.Log($"  Caméra : {thirdPersonCamera.gameObject.name}");
 
-        // 3. Gérer l'AudioListener
+        // Gérer AudioListener
         if (manageAudioListener)
         {
             // Désactiver tous les AudioListener des autres joueurs
@@ -68,7 +67,7 @@ public class LocalPlayerCamera : NetworkBehaviour
                 }
             }
 
-            // S'assurer que Main Camera a un AudioListener actif
+            // S'assurer que Main Camera a un audioListener actif
             if (Camera.main != null)
             {
                 AudioListener mainListener = Camera.main.GetComponent<AudioListener>();
@@ -76,7 +75,7 @@ public class LocalPlayerCamera : NetworkBehaviour
                 {
                     mainListener = Camera.main.gameObject.AddComponent<AudioListener>();
                     if (showDebugLogs)
-                        Debug.Log("[LocalPlayerCamera] AudioListener ajouté à Main Camera");
+                        Debug.Log("[LocalPlayerCamera] AudioListener ajouté à main Camera");
                 }
                 else
                 {

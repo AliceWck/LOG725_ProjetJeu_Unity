@@ -437,6 +437,7 @@ GameObject:
   - component: {fileID: 6479908095530430040}
   - component: {fileID: 1505751955327686018}
   - component: {fileID: -3736008686867021598}
+  - component: {fileID: -7061525328077175009}
   m_Layer: 0
   m_Name: WindowOpenClose
   m_TagString: Untagged
@@ -534,6 +535,8 @@ MonoBehaviour:
   openSound: {fileID: 8300000, guid: e8d84e5715fc25b418b40b4b392a8094, type: 3}
   closeSound: {fileID: 8300000, guid: bd89198658f2fbc468a8661a2aaf23aa, type: 3}
   soundVolume: 0.5
+  minHearDistance: 1
+  maxHearDistance: 15
 --- !u!114 &-3736008686867021598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,3 +554,24 @@ MonoBehaviour:
   serverOnly: 1
   visibility: 0
   hasSpawned: 0
+--- !u!65 &-7061525328077175009
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338964306065472628}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.37301, y: 4.1680913, z: 0.277072}
+  m_Center: {x: 0, y: 0.29102182, z: 0}
