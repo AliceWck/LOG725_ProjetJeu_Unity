@@ -5888,12 +5888,12 @@ PrefabInstance:
     - target: {fileID: 2957170457323378882, guid: b9073a1809b4af742b40686e28891ce4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.79462
+      value: 2.05
       objectReference: {fileID: 0}
     - target: {fileID: 2957170457323378882, guid: b9073a1809b4af742b40686e28891ce4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05912733
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2957170457323378882, guid: b9073a1809b4af742b40686e28891ce4,
         type: 3}
@@ -9404,7 +9404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   batteryScrollbar: {fileID: 841988032}
   batteryText: {fileID: 971972652}
-  flashlightBattery: {fileID: 8757462158568715560}
+  flashlightBattery: {fileID: 0}
   useColorGradient: 1
   fullBatteryColor: {r: 0, g: 1, b: 0, a: 1}
   lowBatteryColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -27007,12 +27007,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 999188805446351002}
   m_PrefabAsset: {fileID: 0}
---- !u!108 &1492274899 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 5220783013253623736, guid: ee2a01312f5d07f45b5d3962836a84f8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8757462158568715557}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1498158170
 GameObject:
   m_ObjectHideFlags: 0
@@ -33707,7 +33701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 984b03e71aedeff47ba4ba87a9f460ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1927222175}
+  target: {fileID: 0}
   offset: {x: 0, y: 2, z: -5}
   smoothSpeed: 10
   lookAtTarget: 1
@@ -35597,12 +35591,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926352887}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1927222175 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8757462158568715557}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1931437523
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39864,12 +39852,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a63ea5e2fb6dc9141bfc1c6e5b03dc49, type: 3}
---- !u!1 &2123159527 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8883693552591711158, guid: ee2a01312f5d07f45b5d3962836a84f8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8757462158568715557}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2129661541 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2060300802317972753, guid: da47aa385b4dabd4cb42b43aa390c7c2,
@@ -42486,7 +42468,7 @@ PrefabInstance:
         type: 3}
       propertyPath: flashlightBattery
       value: 
-      objectReference: {fileID: 8757462158568715560}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -45907,134 +45889,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4675395427848790456}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &8757462158568715557
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -2693389551597244708, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: sceneId
-      value: 3247604397
-      objectReference: {fileID: 0}
-    - target: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.41
-      objectReference: {fileID: 0}
-    - target: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1.27
-      objectReference: {fileID: 0}
-    - target: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 61857757131955886, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4494419661812315692, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: maxBatteryLife
-      value: 280
-      objectReference: {fileID: 0}
-    - target: {fileID: 6603710347458818308, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6603710347458818308, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_DefaultControlScheme
-      value: KeyboardMouse
-      objectReference: {fileID: 0}
-    - target: {fileID: 7554592982891490919, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      propertyPath: m_Name
-      value: Gardien
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4531892997709622618, guid: ee2a01312f5d07f45b5d3962836a84f8, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8883693552591711158, guid: ee2a01312f5d07f45b5d3962836a84f8,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8757462158568715563}
-  m_SourcePrefab: {fileID: 100100000, guid: ee2a01312f5d07f45b5d3962836a84f8, type: 3}
---- !u!114 &8757462158568715560 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4494419661812315692, guid: ee2a01312f5d07f45b5d3962836a84f8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8757462158568715557}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2123159527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ce6f840b7cd3f488fb0f198f2d81e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!82 &8757462158568715562 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 5045980635572532165, guid: ee2a01312f5d07f45b5d3962836a84f8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8757462158568715557}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8757462158568715563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2123159527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e70b131726be4076866ed3c359522bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 13
-  FlashLight: {fileID: 1492274899}
-  Source: {fileID: 8757462158568715562}
-  FlashLightOnSound: {fileID: 8300000, guid: 26ed3354772a43a439cb4295e72ae0c8, type: 3}
-  FlashLightOffSound: {fileID: 8300000, guid: 68e68ae9c12c1f3489697cf202ce466b, type: 3}
 --- !u!1001 &8879547541565893099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46365,7 +46219,6 @@ SceneRoots:
   - {fileID: 897102273}
   - {fileID: 2027586383}
   - {fileID: 1759317788}
-  - {fileID: 8757462158568715557}
   - {fileID: 2131675930}
   - {fileID: 2355461516853877295}
   - {fileID: 341555471}
