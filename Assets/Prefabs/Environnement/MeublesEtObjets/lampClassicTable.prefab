@@ -398,9 +398,8 @@ MonoBehaviour:
   syncInterval: 0
   lampLight: {fileID: 4712229922173902455}
   interactionUI: {fileID: 5551056130419215928}
-  interactionDistance: 3
+  interactionDistance: 1
   interactionKey: 101
-  useLocalModeForTesting: 0
 --- !u!114 &389754360570501891
 MonoBehaviour:
   m_ObjectHideFlags: 0
