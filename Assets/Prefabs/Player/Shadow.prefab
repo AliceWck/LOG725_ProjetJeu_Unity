@@ -4274,9 +4274,10 @@ GameObject:
   - component: {fileID: 3382983777038232136}
   - component: {fileID: 7146746995045139069}
   - component: {fileID: 6603710347458818308}
-  - component: {fileID: -2693389551597244708}
   - component: {fileID: 775560033767575422}
   - component: {fileID: 2248243749394181934}
+  - component: {fileID: -165930408394311471}
+  - component: {fileID: -2693389551597244708}
   m_Layer: 8
   m_Name: Shadow
   m_TagString: Player
@@ -4528,23 +4529,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &-2693389551597244708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7554592982891490919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 956334121
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!114 &775560033767575422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4583,6 +4567,39 @@ MonoBehaviour:
   thirdPersonCamera: {fileID: 0}
   manageAudioListener: 1
   showDebugLogs: 1
+--- !u!114 &-165930408394311471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fb8710ec8724a5286a6130514d485b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  nameTag: {fileID: 0}
+--- !u!114 &-2693389551597244708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 956334121
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &7817352308337221933
 GameObject:
   m_ObjectHideFlags: 0
