@@ -29,6 +29,28 @@ public class CustomRoomPlayer : NetworkRoomPlayer
     {
         base.OnStartServer();
         Debug.Log($"[RoomPlayer] Serveur démarré pour {playerName}");
+
+        if (isServer)
+        {
+            CustomNetworkRoomManager manager = CustomNetworkRoomManager.Instance;
+            if (manager != null)
+            {
+                Role roleToSet = Role.Ombre;
+                if (manager.roleAssignmentMode == CustomNetworkRoomManager.RoleAssignmentMode.HostIsGardien)
+                {
+                    roleToSet = (index == 0) ? Role.Gardien : Role.Ombre;
+                }
+                else if (manager.roleAssignmentMode == CustomNetworkRoomManager.RoleAssignmentMode.HostIsOmbre)
+                {
+                    roleToSet = (index == 0) ? Role.Ombre : Role.Gardien;
+                }
+                else
+                {
+                    roleToSet = (index == 0) ? Role.Gardien : Role.Ombre;
+                }
+                SetPlayerRole(roleToSet);
+            }
+        }
     }
 
     public override void OnStopClient()
