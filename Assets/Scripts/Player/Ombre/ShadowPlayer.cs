@@ -13,6 +13,7 @@ public class ShadowPlayer : MonoBehaviour
     private bool wasInLight = false;
     public bool hasKey = false;
     public bool inLightSource = false;
+    public bool inEnemyLightSource = false;
     public bool inShadowForm = false;
     private ThirdPersonController _controller;
     private Animator _animator;
@@ -32,11 +33,19 @@ public class ShadowPlayer : MonoBehaviour
     private GameObject _shadowCircle;
     public float shadowCircleRadius = 0.5f;
 
+    public float maxHealth = 20.0f;
+    public float health = 0;
+    public float healthRegenCooldown = 2.0f;
+    public float healthRegenState = 0f;
+    public float healthRegenRate = 2.0f;
+    public float enemyDamageMult = 8.0f;
+
     [SerializeField] private LayerMask blockingLayers;
 
     // Start is called before the first frame update
     void Start()
     {
+        health = maxHealth;
         gameObject.SetActive(true);
         _lightSources.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<ILightSource>());
         _animator = GetComponentInChildren<Animator>();
@@ -85,6 +94,7 @@ public class ShadowPlayer : MonoBehaviour
     void Update()
     {
         InLightCheck();
+        HandleHealth();
         
         if (Input.GetKeyDown(KeyCode.Q) && !inShadowForm && !inLightSource && !inDiving)
             TryEnterShadow();
@@ -172,6 +182,7 @@ public class ShadowPlayer : MonoBehaviour
     private void InLightCheck()
     {
         bool inLight = false;
+        bool inEnemyLight = false;
         foreach (var lightSource in _lightSources)
         {
             if (lightSource.IsPlayerInLight(transform.position))
@@ -183,11 +194,16 @@ public class ShadowPlayer : MonoBehaviour
                 if (!Physics.Raycast(lightSource.GetLightPosition(), directionToPlayer, distance, blockingLayers))
                 {
                     inLight = true;
-                    break;
+                    if (lightSource.IsGuardianLight())
+                    {
+                        inEnemyLight = true;
+                        break;
+                    }
                 }
             }
         }
-        
+
+        inEnemyLightSource = inEnemyLight;
         inLightSource = inLight;
         
         if (inLight)
@@ -236,5 +252,23 @@ public class ShadowPlayer : MonoBehaviour
             GameManager.Instance.UpdatePlayerStatus();
             gameObject.SetActive(false);
         }
+    }
+
+    private void HandleHealth()
+    {
+        if (!inShadowForm)
+            healthRegenState = 0;
+        else
+            healthRegenState += Time.deltaTime;
+
+        if (inEnemyLightSource)
+        {
+            health -= Time.deltaTime * enemyDamageMult;
+            if(health <= 0)
+                OnDeath();
+        }
+        else if (healthRegenState >= healthRegenCooldown && health < maxHealth)
+            health += Time.deltaTime * healthRegenRate;
+
     }
 }

@@ -15,6 +15,11 @@ public class SphereLight : MonoBehaviour, ILightSource
         return transform.position;
     }
 
+    public bool IsGuardianLight()
+    {
+        return false;
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
