@@ -10,6 +10,11 @@ public class SphereLight : MonoBehaviour, ILightSource
         return distance <= radius;
     }
 
+    public Vector3 GetLightPosition()
+    {
+        return transform.position;
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {

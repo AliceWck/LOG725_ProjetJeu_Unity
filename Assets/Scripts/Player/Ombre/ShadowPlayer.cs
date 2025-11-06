@@ -31,7 +31,9 @@ public class ShadowPlayer : MonoBehaviour
 
     private GameObject _shadowCircle;
     public float shadowCircleRadius = 0.5f;
-    
+
+    [SerializeField] private LayerMask blockingLayers;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -174,8 +176,15 @@ public class ShadowPlayer : MonoBehaviour
         {
             if (lightSource.IsPlayerInLight(transform.position))
             {
-                inLight = true;
-                break;
+                // Perform a raycast to check for obstructions
+                Vector3 directionToPlayer = (transform.position - lightSource.GetLightPosition()).normalized;
+                float distance = Vector3.Distance(transform.position, lightSource.GetLightPosition());
+
+                if (!Physics.Raycast(lightSource.GetLightPosition(), directionToPlayer, distance, blockingLayers))
+                {
+                    inLight = true;
+                    break;
+                }
             }
         }
         

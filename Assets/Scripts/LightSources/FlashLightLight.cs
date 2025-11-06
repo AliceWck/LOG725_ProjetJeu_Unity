@@ -35,5 +35,10 @@ public class FlashLightLight : MonoBehaviour, ILightSource
             Quaternion.Euler(0, -spotAngle / 2f, 0) * transform.forward,
             spotAngle, range);
     }
+
+    public Vector3 GetLightPosition()
+    {
+        return transform.position;
+    }
 #endif
 }
