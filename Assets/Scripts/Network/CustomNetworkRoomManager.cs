@@ -249,6 +249,19 @@ public class CustomNetworkRoomManager : NetworkRoomManager
         }
     }
 
+    public void ReturnToLobby()
+    {
+        if (NetworkServer.active)
+        {
+            Debug.Log("[NetworkRoomManager] Retour au lobby...");
+            ServerChangeScene(RoomScene);
+        }
+        else
+        {
+            Debug.LogWarning("[NetworkRoomManager] Impossible de retourner au lobby : pas serveur");
+        }
+    }
+
     public void ReturnToGameSelection()
     {
         Debug.Log("[NetworkRoomManager] Retour au menu de sélection...");
