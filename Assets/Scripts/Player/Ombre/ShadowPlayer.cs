@@ -16,6 +16,7 @@ public class ShadowPlayer : MonoBehaviour
     public bool inEnemyLightSource = false;
     public bool inShadowForm = false;
     private ThirdPersonController _controller;
+    private ParticleSystem _particleSystem;
     private Animator _animator;
     public float diveDuration = 0.2f;
     private bool inDiving = false;
@@ -28,6 +29,7 @@ public class ShadowPlayer : MonoBehaviour
     private Transform _visualRoot;
     private float _originalControllerHeight;
     private Vector3 _originalControllerCenter;
+    private Transform _modelTransform;
     private float shadowCircleGroundOffset = 1.0f;
 
     private GameObject _shadowCircle;
@@ -51,12 +53,17 @@ public class ShadowPlayer : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
         _controller = GetComponent<ThirdPersonController>();
         _characterController = GetComponent<CharacterController>();
+        _particleSystem = GetComponent<ParticleSystem>();
+
+        _particleSystem.Pause();
 
         originalMoveSpeed = _controller.MoveSpeed;
         originalSprintSpeed = _controller.SprintSpeed;
 
         _visualRoot = _animator != null ? _animator.transform.parent ?? _animator.transform : transform;
-        
+
+        _modelTransform = transform.Find("Model");
+
         CreateShadowCircle();
     }
     void CreateShadowCircle()
@@ -115,8 +122,12 @@ public class ShadowPlayer : MonoBehaviour
         inShadowForm = true;
         inDiving = true;
 
-        foreach (var renderer in GetComponentsInChildren<Renderer>())
-            renderer.enabled = false;
+        _particleSystem.Play();
+
+        //foreach (var renderer in GetComponentsInChildren<Renderer>())
+        //    renderer.enabled = false;
+        if (_modelTransform != null)
+            _modelTransform.gameObject.SetActive(false);
 
         // Enable the shadow circle
         _shadowCircle.SetActive(true);
@@ -154,11 +165,15 @@ public class ShadowPlayer : MonoBehaviour
     {
         inShadowForm = false;
         _shadowCircle.SetActive(false);
-        
+
+        _particleSystem.Stop();
+
         if (_animator) _animator.SetTrigger("Emerge");
 
-        foreach (var renderer in GetComponentsInChildren<Renderer>())
-            renderer.enabled = true;
+        //foreach (var renderer in GetComponentsInChildren<Renderer>())
+        //    renderer.enabled = true;
+        if (_modelTransform != null)
+            _modelTransform.gameObject.SetActive(true);
 
         float elapsed = 0;
         Vector3 currentScale = _visualRoot.localScale;
