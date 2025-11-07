@@ -1,20 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class ChargingStation : MonoBehaviour
 {
-    [Header("Paramètres de la station de recharge")]
-    [SerializeField] private float chargingTime = 100f; // Temps nécessaire pour une recharge complète
-    [SerializeField] private float detectionRange = 3f; // distance à laquelle le joueur peut interagir
-
-    [Header("Références")]
-    [SerializeField] private Transform playerTransform; // Référence au transform du joueur
-    [SerializeField] private FlashlightBattery flashlightBattery; // Référence à la lampe de poche du joueur
+    [Header("Paramï¿½tres de la station de recharge")]
+    [SerializeField] private float chargingTime = 5f;
+    [SerializeField] private float detectionRange = 3f;
 
     [Header("UI (optionnel)")]
-    [SerializeField] private TextMeshProUGUI chargingText; // Texte affiché pendant la recharge
+    [SerializeField] private TextMeshProUGUI chargingText;
     [SerializeField] private string lancerChargeMessage = "Appuyez sur 'R' pour recharger";
     [SerializeField] private string chargingMessage = "Rechargement...";
 
@@ -23,44 +18,39 @@ public class ChargingStation : MonoBehaviour
     private float currentChargeAmount = 0f;
     private Coroutine chargingCoroutine;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Si pas assigné, recherce auto
-        if (playerTransform == null)
-        {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                playerTransform = player.transform;
-            }
-        }
+    private FlashlightBattery flashlightBattery;
 
-        if (flashlightBattery == null)
-        {
-            flashlightBattery = FindObjectOfType<FlashlightBattery>();
-        }
-
-        if (chargingText != null)
-        {
-            chargingText.gameObject.SetActive(false);
-        }
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        // Si joueur à portée
-        if (playerTransform != null)
+        // Trouver la batterie du joueur local
+        if (flashlightBattery == null)
         {
-            float distance = Vector3.Distance(transform.position, playerTransform.position);
-            playerInRange = distance <= detectionRange;
+            // Chercher dans tous les FlashlightBattery actifs
+            FlashlightBattery[] allBatteries = FindObjectsOfType<FlashlightBattery>();
 
-            // S'il s'éloigne pendant la recharge, arrêter
-            if (!playerInRange && isCharging)
+            foreach (var battery in allBatteries)
             {
-                StopCharging();
+                // Vï¿½rifier si c'est le joueur local
+                GamePlayer gp = battery.GetComponentInParent<GamePlayer>();
+                if (gp != null && gp.isLocalPlayer && gp.PlayerRole == Role.Gardien)
+                {
+                    flashlightBattery = battery;
+                    Debug.Log("[ChargingStation] Batterie du joueur local trouvï¿½e!");
+                    break;
+                }
             }
+
+            if (flashlightBattery == null) return; // Pas encore trouvï¿½
+        }
+
+        // Vï¿½rifier si le joueur est ï¿½ portï¿½e
+        float distance = Vector3.Distance(transform.position, flashlightBattery.transform.position);
+        playerInRange = distance <= detectionRange;
+
+            // S'il s'ï¿½loigne pendant la recharge, arrï¿½ter
+        if (!playerInRange && isCharging)
+        {
+            StopCharging();
         }
 
         // Afficher ou non le texte 
@@ -70,8 +60,8 @@ public class ChargingStation : MonoBehaviour
             chargingText.gameObject.SetActive(playerInRange);
         }
 
-        // Si le joueur appuie sur R et est à portée 
-        if (playerInRange && Input.GetKeyDown(KeyCode.R) && !isCharging && flashlightBattery!= null)
+        // Dï¿½clencher la recharge
+        if (playerInRange && Input.GetKeyDown(KeyCode.R) && !isCharging)
         {
             chargingCoroutine = StartCoroutine(ChargeBattery());
         }
@@ -97,7 +87,7 @@ public class ChargingStation : MonoBehaviour
 
         while (currentChargeAmount < chargingTime)
         {
-            // Vérifie si le joueur a rallumé sa lampe ou s'est éloigné
+            // Vï¿½rifier si le joueur s'est ï¿½loignï¿½
             if (!playerInRange)
             {
                 StopCharging();
@@ -115,7 +105,7 @@ public class ChargingStation : MonoBehaviour
             yield return null;
         }
 
-        // Recharge complète à la fin
+        // Recharge complï¿½te ï¿½ la fin
         if (flashlightBattery != null)
         {
             flashlightBattery.FullRecharge();
@@ -144,5 +134,11 @@ public class ChargingStation : MonoBehaviour
         {
             chargingText.gameObject.SetActive(false);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 }

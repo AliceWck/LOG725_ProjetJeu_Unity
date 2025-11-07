@@ -40,6 +40,11 @@ public class FlashlightBattery : MonoBehaviour
                 flashLight.enabled = false;
             }
         }
+
+        if (GameUIManager.Instance != null && !GameUIManager.Instance.IsOmbreRole)
+        {
+            GameUIManager.Instance.UpdateLampUI(GetBatteryPercentage());
+        }
     }
 
 

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 376339956168205436}
   - component: {fileID: 2116274879153568601}
   - component: {fileID: 1065774884034683901}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: fire (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1489194023465753037}
   - component: {fileID: 5626268389889435375}
   - component: {fileID: 6324628384613331653}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chandelier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 6331046801453990653}
   - component: {fileID: 3161711727651463434}
   - component: {fileID: 3179136549871136397}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 5584825010873526302}
   - component: {fileID: 7557198237803437058}
   - component: {fileID: 3097287065192947445}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -613,7 +613,7 @@ GameObject:
   - component: {fileID: 2414651552356612367}
   - component: {fileID: 924250846780822110}
   - component: {fileID: 4037564934107745829}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -829,7 +829,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7099798049783221756}
   - component: {fileID: 2422590887144492576}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chandiler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -892,7 +892,7 @@ GameObject:
   - component: {fileID: 2287653385899525371}
   - component: {fileID: 2819243143569483145}
   - component: {fileID: 6896409771537861175}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: fire (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -975,7 +975,7 @@ GameObject:
   - component: {fileID: 8496185457128546979}
   - component: {fileID: 1243257564192962589}
   - component: {fileID: 6290915938595539783}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: fire (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1058,7 +1058,7 @@ GameObject:
   - component: {fileID: 5251133276447323002}
   - component: {fileID: 488564809865263037}
   - component: {fileID: 1369206457187237117}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: fire (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1141,7 +1141,7 @@ GameObject:
   - component: {fileID: 5547749183298801185}
   - component: {fileID: 1083446003010040207}
   - component: {fileID: 2226168401727715750}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

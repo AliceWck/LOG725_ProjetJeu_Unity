@@ -4603,6 +4603,7 @@ GameObject:
   - component: {fileID: 2390159669950249307}
   - component: {fileID: 830038695690913713}
   - component: {fileID: -2693389551597244708}
+  - component: {fileID: 6318271127831668738}
   m_Layer: 8
   m_Name: Gardien
   m_TagString: Player
@@ -4713,7 +4714,7 @@ MonoBehaviour:
   GroundedRadius: 0.28
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 9
   CinemachineCameraTarget: {fileID: 8128225776335307411}
   TopClamp: 70
   BottomClamp: -30
@@ -4905,6 +4906,26 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!114 &6318271127831668738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206a74b1a7f348b41baa5e43aa896547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  iconType: 0
+  iconColor: {r: 0.31290135, g: 0.48763078, b: 0.96981126, a: 1}
+  iconSize: 10
+  rotateWithObject: 0
+  iconHeight: 85
 --- !u!1 &7817352308337221933
 GameObject:
   m_ObjectHideFlags: 0
@@ -5595,10 +5616,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 13
-  FlashLight: {fileID: 0}
-  Source: {fileID: 0}
-  FlashLightOnSound: {fileID: 0}
-  FlashLightOffSound: {fileID: 0}
+  FlashLight: {fileID: 5220783013253623736}
+  Source: {fileID: 5045980635572532165}
+  FlashLightOnSound: {fileID: 8300000, guid: 26ed3354772a43a439cb4295e72ae0c8, type: 3}
+  FlashLightOffSound: {fileID: 8300000, guid: 68e68ae9c12c1f3489697cf202ce466b, type: 3}
 --- !u!82 &5045980635572532165
 AudioSource:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4117126142558771812}
   - component: {fileID: 1261818503112782249}
   - component: {fileID: 8053043412819246199}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: lampCylFloo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ MonoBehaviour:
   syncInterval: 0
   lampLight: {fileID: 844108654853363809}
   interactionUI: {fileID: 7160972507980940609}
-  interactionDistance: 1
+  interactionDistance: 1.5
   interactionKey: 101
   lightOnSound: {fileID: 8300000, guid: 47dccb539565ba4418af55d9c6924600, type: 3}
   lightOffSound: {fileID: 8300000, guid: 8c2598b02d9fab14ca20d0011db9759e, type: 3}
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 1897734257140708506}
   - component: {fileID: 844108654853363809}
   - component: {fileID: 5113981075303513104}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: lampBulb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 4546751348402110210}
   - component: {fileID: 4788424734291542697}
   - component: {fileID: 917160449298478891}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 7470306443633913744}
   - component: {fileID: 8398258444062357650}
   - component: {fileID: 2571948118243474982}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: LampInteraction
   m_TagString: Untagged
   m_Icon: {fileID: 0}

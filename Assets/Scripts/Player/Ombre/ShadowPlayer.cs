@@ -36,13 +36,29 @@ public class ShadowPlayer : MonoBehaviour
     public float shadowCircleRadius = 0.5f;
 
     public float maxHealth = 20.0f;
-    public float health = 0;
+    private float _health;
+    public float health {
+        get => _health;
+        set {
+            _health = Mathf.Clamp(value, 0f, maxHealth);
+            OnHealthChanged?.Invoke(_health);
+            if (_health <= 0)
+            {
+                OnDeath();
+            }
+        }
+    }
+    public event Action<float> OnHealthChanged;
     public float healthRegenCooldown = 2.0f;
     public float healthRegenState = 0f;
     public float healthRegenRate = 2.0f;
     public float enemyDamageMult = 8.0f;
 
     [SerializeField] private LayerMask blockingLayers;
+
+    public GameObject ghostPrefab; // Référence au prefab fantôme
+    private GameObject spawnedGhost;
+    private GameObject mainCamera;
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +81,7 @@ public class ShadowPlayer : MonoBehaviour
         _modelTransform = transform.Find("Model");
 
         CreateShadowCircle();
+        mainCamera = Camera.main.gameObject;
     }
     void CreateShadowCircle()
     {
@@ -249,7 +266,29 @@ public class ShadowPlayer : MonoBehaviour
     {
         playerStatus = PlayerStatus.Dead;
         GameManager.Instance.UpdatePlayerStatus();
-        gameObject.SetActive(false);
+        
+        // Spawn le fantôme à la position du joueur
+        spawnedGhost = Instantiate(ghostPrefab, transform.position, transform.rotation);
+        
+        // Transfert de la caméra
+        mainCamera.transform.parent = spawnedGhost.transform;
+        
+        // Désactive le mesh du joueur mais garde le GameObject actif pour la caméra
+        foreach (var renderer in GetComponentsInChildren<Renderer>())
+        {
+            renderer.enabled = false;
+        }
+        
+        // Désactive les composants de contrôle du joueur
+        if (_controller != null) _controller.enabled = false;
+        if (_characterController != null) _characterController.enabled = false;
+        
+        // Active le contrôle du fantôme
+        var ghostController = spawnedGhost.GetComponent<ThirdPersonController>();
+        if (ghostController != null)
+        {
+            ghostController.enabled = true;
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -276,11 +315,19 @@ public class ShadowPlayer : MonoBehaviour
         else
             healthRegenState += Time.deltaTime;
 
+        // Version avant liaison à l'UI
+        //if (inEnemyLightSource)
+        //{
+        //    health -= Time.deltaTime * enemyDamageMult;
+        //    if(health <= 0)
+        //        OnDeath();
+        //}
+        //else if (healthRegenState >= healthRegenCooldown && health < maxHealth)
+        //    health += Time.deltaTime * healthRegenRate;
+
         if (inEnemyLightSource)
         {
             health -= Time.deltaTime * enemyDamageMult;
-            if(health <= 0)
-                OnDeath();
         }
         else if (healthRegenState >= healthRegenCooldown && health < maxHealth)
             health += Time.deltaTime * healthRegenRate;

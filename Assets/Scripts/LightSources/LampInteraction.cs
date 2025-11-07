@@ -4,11 +4,11 @@ using Mirror;
 // ATTENTION pas oublier de rajouter le network identity sur la lampe dans l'inspecteur Unity, sinon marche pas du tout
 public class NetworkedLampInteraction : NetworkBehaviour
 {
-    [Header("Références")]
+    [Header("Rï¿½fï¿½rences")]
     public Light lampLight;
     public GameObject interactionUI;
 
-    [Header("Paramètres")]
+    [Header("Paramï¿½tres")]
     public float interactionDistance = 1f;
     public KeyCode interactionKey = KeyCode.E;
 
@@ -17,8 +17,8 @@ public class NetworkedLampInteraction : NetworkBehaviour
     public AudioClip lightOffSound;
     [Range(0f, 1f)]
     public float soundVolume = 0.7f;
-    public float minHearDistance = 1f;      // Distance où le son est à volume max
-    public float maxHearDistance = 15f;     // Distance où le son devient inaudible
+    public float minHearDistance = 1f;      // Distance oï¿½ le son est ï¿½ volume max
+    public float maxHearDistance = 15f;     // Distance oï¿½ le son devient inaudible
 
     [SyncVar(hook = nameof(OnLampStateChanged))]
     private bool isLampOn = true;
@@ -42,17 +42,17 @@ public class NetworkedLampInteraction : NetworkBehaviour
             lampLight = GetComponentInChildren<Light>();
         }
 
-        // Créer AudioSource avec spatialisation 3D
+        // Crï¿½er AudioSource avec spatialisation 3D
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
         audioSource.spatialBlend = 1f;              // 1 = son 3D complet (spatialisation)
         audioSource.volume = soundVolume;
-        audioSource.minDistance = minHearDistance;  // Distance min pour atténuation
+        audioSource.minDistance = minHearDistance;  // Distance min pour attï¿½nuation
         audioSource.maxDistance = maxHearDistance;  // Distance max audible
-        audioSource.rolloffMode = AudioRolloffMode.Linear; // Atténuation linéaire
+        audioSource.rolloffMode = AudioRolloffMode.Linear; // Attï¿½nuation linï¿½aire
         audioSource.dopplerLevel = 0f;              // Pas d'effet Doppler pour les lampes
 
-        // Appliquer état initial (sans son au démarrage)
+        // Appliquer ï¿½tat initial (sans son au dï¿½marrage)
         if (lampLight != null)
         {
             lampLight.enabled = isLampOn;
@@ -61,15 +61,15 @@ public class NetworkedLampInteraction : NetworkBehaviour
 
     void Update()
     {
-        // Chercher le joueur local de plusieurs façons
+        // Chercher le joueur local de plusieurs faï¿½ons
         if (localPlayer == null)
         {
-            // Méthode 1 : Via GamePlayer
+            // Mï¿½thode 1 : Via GamePlayer
             GamePlayer[] allPlayers = FindObjectsOfType<GamePlayer>();
 
             if (!playerSearchLogged)
             {
-                Debug.Log($"[Lamp] Recherche joueur... {allPlayers.Length} GamePlayer(s) trouvé(s)");
+                Debug.Log($"[Lamp] Recherche joueur... {allPlayers.Length} GamePlayer(s) trouvï¿½(s)");
             }
 
             foreach (GamePlayer player in allPlayers)
@@ -82,13 +82,13 @@ public class NetworkedLampInteraction : NetworkBehaviour
                 if (player.isLocalPlayer)
                 {
                     localPlayer = player.transform;
-                    Debug.Log($"[Lamp] Joueur local trouvé via GamePlayer: {player.PlayerName}");
+                    Debug.Log($"[Lamp] Joueur local trouvï¿½ via GamePlayer: {player.PlayerName}");
                     playerSearchLogged = true;
                     break;
                 }
             }
 
-            // Méthode 2 : Via Tag "Player" (fallback)
+            // Mï¿½thode 2 : Via Tag "Player" (fallback)
             if (localPlayer == null)
             {
                 GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -98,19 +98,19 @@ public class NetworkedLampInteraction : NetworkBehaviour
                     if (netId != null && netId.isLocalPlayer)
                     {
                         localPlayer = playerObj.transform;
-                        Debug.Log($"[Lamp] Joueur local trouvé via Tag");
+                        Debug.Log($"[Lamp] Joueur local trouvï¿½ via Tag");
                         playerSearchLogged = true;
                     }
                 }
             }
 
-            // Méthode 3 : Via Camera (last resort)
+            // Mï¿½thode 3 : Via Camera (last resort)
             if (localPlayer == null && !playerSearchLogged)
             {
                 Camera mainCam = Camera.main;
                 if (mainCam != null)
                 {
-                    // Chercher le joueur parent de la caméra
+                    // Chercher le joueur parent de la camï¿½ra
                     Transform parent = mainCam.transform.parent;
                     while (parent != null)
                     {
@@ -118,7 +118,7 @@ public class NetworkedLampInteraction : NetworkBehaviour
                         if (netId != null && netId.isLocalPlayer)
                         {
                             localPlayer = parent;
-                            Debug.Log($"[Lamp] Joueur local trouvé via Camera: {parent.name}");
+                            Debug.Log($"[Lamp] Joueur local trouvï¿½ via Camera: {parent.name}");
                             playerSearchLogged = true;
                             break;
                         }
@@ -137,7 +137,7 @@ public class NetworkedLampInteraction : NetworkBehaviour
         // Calculer la distance
         float distance = Vector3.Distance(localPlayer.position, transform.position);
 
-        // Vérifier si le joueur est à portée
+        // Vï¿½rifier si le joueur est ï¿½ portï¿½e
         if (distance <= interactionDistance)
         {
             if (!isPlayerNear)
@@ -153,7 +153,7 @@ public class NetworkedLampInteraction : NetworkBehaviour
 
             if (Input.GetKeyDown(interactionKey))
             {
-                Debug.Log($"[Lamp {gameObject.name}] Touche E pressée");
+                Debug.Log($"[Lamp {gameObject.name}] Touche E pressï¿½e");
                 CmdToggleLamp();
             }
         }
@@ -173,29 +173,37 @@ public class NetworkedLampInteraction : NetworkBehaviour
     [Command(requiresAuthority = false)]
     void CmdToggleLamp()
     {
-        Debug.Log($"[Lamp {gameObject.name}] Command reçue sur serveur");
+        Debug.Log($"[Lamp {gameObject.name}] Command reï¿½ue sur serveur");
         isLampOn = !isLampOn;
-        Debug.Log($"[Lamp Server] Lampe {(isLampOn ? "ALLUMÉE" : "ÉTEINTE")}");
+        Debug.Log($"[Lamp Server] Lampe {(isLampOn ? "ALLUMï¿½E" : "ï¿½TEINTE")}");
+    }
+
+    // MÃ©thode serveur publique pour Ãªtre appelÃ©e par des objets serveur (ex : fantÃ´me IA cÃ´tÃ© serveur)
+    [Server]
+    public void ServerToggleLamp()
+    {
+        isLampOn = !isLampOn;
+        Debug.Log($"[Lamp {gameObject.name}] ServerToggleLamp appelÃ©. Nouvel Ã©tat: {(isLampOn ? "ON" : "OFF")}");
     }
 
     void OnLampStateChanged(bool oldValue, bool newValue)
     {
         Debug.Log($"[Lamp {gameObject.name}] Hook: {oldValue} -> {newValue}");
 
-        // Changer l'état visuel
+        // Changer l'ï¿½tat visuel
         if (lampLight != null)
         {
             lampLight.enabled = newValue;
         }
 
-        // Jouer le son localement sur chaque client quand l'état change
-        if (audioSource != null && oldValue != newValue) // Vérifier qu'il y a vraiment un changement
+        // Jouer le son localement sur chaque client quand l'ï¿½tat change
+        if (audioSource != null && oldValue != newValue) // Vï¿½rifier qu'il y a vraiment un changement
         {
             AudioClip soundToPlay = newValue ? lightOnSound : lightOffSound;
             if (soundToPlay != null)
             {
                 audioSource.PlayOneShot(soundToPlay);
-                Debug.Log($"[Lamp {gameObject.name}] Son joué: {(newValue ? "allumage" : "extinction")}");
+                Debug.Log($"[Lamp {gameObject.name}] Son jouï¿½: {(newValue ? "allumage" : "extinction")}");
             }
         }
     }

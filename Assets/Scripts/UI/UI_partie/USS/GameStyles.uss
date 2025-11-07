@@ -1,0 +1,444 @@
+/* ----- Root Container ----- */
+.root-container {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
+/* ----- Bandeau supérieur ----- */
+.top-banner {
+    width: 100%;
+    height: 120px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(45, 55, 72, 0.95);
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(74, 85, 104, 1);
+    padding: 15px 25px;
+}
+
+.banner-section {
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* ----- Section gauche ----- */
+.left-section {
+    width: 200px;
+    align-items: flex-start;
+}
+
+.quit-link {
+    background-color: transparent;
+    border-width: 0;
+    color: rgba(252, 129, 129, 1);
+    font-size: 14px;
+    padding: 0;
+    margin: 0 0 10px 0;
+    -unity-text-align: left;
+    cursor: link;
+}
+
+.quit-link:hover {
+    color: rgba(254, 178, 178, 1);
+}
+
+.health-container {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.health-label {
+    font-size: 11px;
+    color: rgba(160, 174, 192, 1);
+    margin-bottom: 4px;
+}
+
+
+.health-bar-bg {
+    width: 200px;
+    height: 20px;
+    background-color: gray;
+    border-radius: 4px;
+}
+
+.health-bar-fill {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(237, 137, 54, 1); /* orange de la barre de temps */
+    border-radius: 4px;
+    transition-property: width;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.lamp-container {
+    flex-direction: column;
+    align-items: center;
+    width: 220px;
+}
+
+/* .lamp-title {
+    color: white;
+    font-size: 16px;
+    margin-bottom: 6px; /* titre plus haut que la barre */
+    /* unity-text-align: middle; */
+/* } */
+
+.lamp-bar-bg {
+    width: 200px;
+    height: 20px;
+    background-color: gray;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.lamp-bar-fill {
+    width: 100%;
+    height: 100%;
+    background-color: orange;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* .lamp-bar-percent {
+    color: white;
+    font-size: 14px;
+    unity-text-align: middle;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+} */
+
+
+/* ----- SECTION Centre ----- */
+.center-section {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+/* Timer circulaire */
+.timer-container {
+    width: 180px;
+    height: 90px;
+    position: relative;
+    margin-bottom: 12px;
+}
+
+
+.timer-arc {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 90px;
+    border-top-right-radius: 90px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border: 4px solid rgba(255, 255, 255, 0.3); /* contour du demi-cercle */
+    background-color: transparent;
+}
+
+
+.timer-fill {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+
+.timer-indicator {
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    background-color: rgba(237, 137, 54, 1);
+    border-radius: 6px;
+    top: 12px;
+    left: 50%;
+    translate: -50% 0;
+    transition-property: translate, background-color;
+    transition-duration: 0.5s;
+}
+
+.phase-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 8px;
+}
+
+.phase-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    /* L'icône sera définie via code */
+}
+
+.phase-label {
+    font-size: 14px;
+    color: white;
+    -unity-font-style: bold;
+}
+
+/* Compteur de clés */
+.key-counter {
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(26, 32, 44, 1);
+    padding: 8px 16px;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgba(74, 85, 104, 1);
+}
+
+.key-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    background-image: url('project://database/Assets/Scripts/UI/UI_partie/icons/key_icon.png');
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.key-label {
+    font-size: 18px;
+    color: white;
+    -unity-font-style: bold;
+}
+
+/* ----- SECTION DROITE ----- */
+.right-section {
+    width: 200px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.icon-button {
+    width: 44px;
+    height: 44px;
+    background-color: rgba(55, 65, 81, 1);
+    border-width: 1px;
+    border-color: rgba(74, 85, 104, 1);
+    border-radius: 8px;
+    margin-left: 12px;
+    padding: 0;
+    cursor: link;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+}
+
+.icon-button:hover {
+    background-color: rgba(75, 85, 99, 1);
+}
+
+.sound-button {
+    background-image: url('project://database/Assets/Scripts/UI/UI_partie/icons/volume_icon.png');
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.settings-button {
+    background-image: url('project://database/Assets/Scripts/UI/UI_partie/icons/settings_icon.png');
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+/* ----- Game overlay ----- */
+.game-overlay {
+    width: 100%;
+    flex-grow: 1;
+    position: relative;
+}
+
+/* ----- Minimap ----- */
+.minimap-container {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 200px;
+    height: 200px;
+    background-color: rgba(31, 41, 55, 0.9);
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: rgba(74, 85, 104, 1);
+    padding: 8px;
+}
+
+.minimap-title {
+    font-size: 11px;
+    color: rgba(160, 174, 192, 1);
+    margin-bottom: 4px;
+    -unity-font-style: bold;
+}
+
+.minimap-display {
+    width: 100%;
+    flex-grow: 1;
+    background-color: rgba(17, 24, 39, 1);
+    border-radius: 4px;
+    /* Render Texture sera appliquée via code */
+}
+
+/* ----- Liste joueurs ----- */
+.players-container {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 240px;
+    max-height: 300px;
+    background-color: rgba(31, 41, 55, 0.9);
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: rgba(74, 85, 104, 1);
+    padding: 12px;
+}
+
+.players-title {
+    font-size: 12px;
+    color: rgba(160, 174, 192, 1);
+    margin-bottom: 8px;
+    -unity-font-style: bold;
+}
+
+.players-list {
+    flex-grow: 1;
+}
+
+/* Élément joueur individuel */
+.player-item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: rgba(55, 65, 81, 1);
+    border-radius: 6px;
+}
+
+.player-item--you {
+    background-color: rgba(30, 58, 138, 0.5);
+    border-width: 1px;
+    border-color: rgba(59, 130, 246, 1);
+}
+
+.player-name {
+    font-size: 13px;
+    color: rgba(209, 213, 219, 1);
+}
+
+.player-name--you {
+    color: rgba(147, 197, 253, 1);
+    -unity-font-style: bold;
+}
+
+.player-role {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.player-role--ombre {
+    background-color: rgba(88, 28, 135, 1);
+    color: rgba(216, 180, 254, 1);
+}
+
+.player-role--gardien {
+    background-color: rgba(20, 83, 45, 1);
+    color: rgba(134, 239, 172, 1);
+}
+
+/* ===== UTILITAIRES ===== */
+.hidden {
+    display: none;
+}
+
+.fade-in {
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.3s;
+}
+
+.fade-in--visible {
+    opacity: 1;
+}VisualElement {}
+
+
+/* ----- Popup de confirmation quitter ----- */
+.popup-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    width: 400px;
+    background-color: rgba(31, 41, 55, 0.98);
+    border-radius: 12px;
+    border-width: 2px;
+    border-color: rgba(74, 85, 104, 1);
+    padding: 24px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup-title {
+    font-size: 20px;
+    color: white;
+    -unity-font-style: bold;
+    margin-bottom: 12px;
+}
+
+.popup-message {
+    font-size: 14px;
+    color: rgba(209, 213, 219, 1);
+    margin-bottom: 24px;
+    -unity-text-align: upper-center;
+}
+
+.popup-buttons {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.popup-button {
+    width: 45%;
+    height: 40px;
+    border-radius: 8px;
+    border-width: 1px;
+    font-size: 16px;
+    -unity-font-style: bold;
+    cursor: link;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+}
+
+.popup-button--confirm {
+    background-color: rgba(220, 38, 38, 1);
+    border-color: rgba(185, 28, 28, 1);
+    color: white;
+}
+
+.popup-button--confirm:hover {
+    background-color: rgba(185, 28, 28, 1);
+}
+
+.popup-button--cancel {
+    background-color: rgba(55, 65, 81, 1);
+    border-color: rgba(74, 85, 104, 1);
+    color: white;
+}
+
+.popup-button--cancel:hover {
+    background-color: rgba(75, 85, 99, 1);
+}

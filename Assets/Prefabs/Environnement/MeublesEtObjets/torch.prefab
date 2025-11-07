@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9050358641972189510}
   - component: {fileID: 6510228155804382755}
   - component: {fileID: 7958090043592871322}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LampeTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 4264736117360959978}
   - component: {fileID: 4376889956679817397}
   - component: {fileID: 1159782545372088460}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 4843365832016850601}
   - component: {fileID: 5559042427608767572}
   - component: {fileID: 9187924664159988786}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: torch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -457,7 +457,7 @@ GameObject:
   - component: {fileID: 6375509751261684156}
   - component: {fileID: 8835555389988085323}
   - component: {fileID: 8616913618476958215}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Texte_Interaction
   m_TagString: Untagged
   m_Icon: {fileID: 0}

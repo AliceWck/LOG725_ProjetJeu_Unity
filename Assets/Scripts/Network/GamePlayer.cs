@@ -1,8 +1,12 @@
 using Mirror;
 using UnityEngine;
+using System.Collections.Generic;
+
 
 public class GamePlayer : NetworkBehaviour
 {
+    public static readonly List<GamePlayer> allPlayers = new List<GamePlayer>();
+
     [SyncVar(hook = nameof(OnPlayerNameChanged))]
     private string playerName = "Joueur";
 
@@ -15,11 +19,29 @@ public class GamePlayer : NetworkBehaviour
     public string PlayerName => playerName;
     public Role PlayerRole => role;
 
+    private GameUIManager uiManager;
+
+
+    // Ajout gestion Ui liste joueurs
     public override void OnStartClient()
     {
         base.OnStartClient();
+        allPlayers.Add(this);
         Debug.Log($"[GamePlayer] Client démarré - IsLocal: {isLocalPlayer}, Nom: {playerName}, Rôle: {role}");
         UpdateNameTag();
+
+        GameUIManager ui = FindObjectOfType<GameUIManager>();
+        ui?.RefreshPlayersList();
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+        allPlayers.Remove(this);
+        Debug.Log($"[GamePlayer] - Retiré de la liste : {playerName}");
+
+        GameUIManager ui = FindObjectOfType<GameUIManager>();
+        ui?.RefreshPlayersList();
     }
 
     public override void OnStartServer()
@@ -32,7 +54,22 @@ public class GamePlayer : NetworkBehaviour
     {
         base.OnStartLocalPlayer();
         Debug.Log($"[GamePlayer] Joueur local démarré: {playerName}");
+
+        uiManager = FindObjectOfType<GameUIManager>();
+        if (uiManager != null)
+        {
+            uiManager.SetPlayerRole(role == Role.Ombre);
+            uiManager.SetPlayerHealth(100f);
+        }
+
         SetupLocalPlayer();
+
+        // Connexion auto minimap
+        MinimapSystem minimap = FindObjectOfType<MinimapSystem>();
+        if (minimap != null)
+        {
+            minimap.SetPlayerToFollow(transform);
+        }
     }
 
     // Hook appelé quand le nom change
