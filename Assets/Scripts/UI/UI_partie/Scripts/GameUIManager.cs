@@ -46,11 +46,15 @@ public class GameUIManager : MonoBehaviour
     private float playerHealth = 100f; // 0-100
     private bool isMuted = false;
 
+    private VisualElement lampContainer;
+    private VisualElement lampBarFill;
+
     // Phases du jeu, débt à evening
     private enum GamePhase { Evening, Night, Dawn }
     private GamePhase currentPhase = GamePhase.Evening;
 
     private ShadowPlayer localShadowPlayer;
+    public bool IsOmbreRole => isOmbreRole;
 
 
     public static GameUIManager Instance { get; private set; }
@@ -103,6 +107,9 @@ public class GameUIManager : MonoBehaviour
         quitButton = root.Q<Button>("quit-button");
         healthContainer = root.Q<VisualElement>("health-container");
         healthBarFill = root.Q<VisualElement>("health-bar-fill");
+        lampContainer = root.Q<VisualElement>("lamp-container");
+        lampBarFill = root.Q<VisualElement>("lamp-bar-fill");
+
 
         // Bandeau supérieur - Centre
         timerIndicator = root.Q<VisualElement>("timer-indicator");
@@ -207,6 +214,12 @@ public class GameUIManager : MonoBehaviour
         {
             healthContainer.style.display = isOmbreRole ? DisplayStyle.Flex : DisplayStyle.None;
         }
+
+        if (lampContainer != null)
+        {
+            lampContainer.style.display = isOmbreRole ? DisplayStyle.None : DisplayStyle.Flex;
+        }
+
     }
 
     private void UpdateAllUI()
@@ -214,6 +227,26 @@ public class GameUIManager : MonoBehaviour
         UpdateTimer();
         UpdateKeyCounter();
         UpdatePlayersList();
+    }
+
+    public void UpdateLampUI(float batteryPercent)
+    {
+        if (lampBarFill != null && !isOmbreRole) // Seulement pour Gardien
+        {
+            lampBarFill.style.width = Length.Percent(Mathf.Clamp(batteryPercent, 0f, 100f));
+
+            // Couleur dynamique
+            Color lampColor = Color.green;
+
+            if (batteryPercent <= 0f)
+                lampColor = Color.red;
+            else if (batteryPercent <= 30f)
+                lampColor = Color.Lerp(Color.red, Color.yellow, batteryPercent / 30f);
+            else
+                lampColor = Color.Lerp(Color.yellow, Color.green, (batteryPercent - 30f) / 70f);
+
+            lampBarFill.style.backgroundColor = new StyleColor(lampColor);
+        }
     }
 
     public void RegisterLocalShadowPlayer(ShadowPlayer shadow)

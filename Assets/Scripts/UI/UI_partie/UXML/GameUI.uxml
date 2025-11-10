@@ -10,6 +10,12 @@
                         <ui:VisualElement name="health-bar-fill" class="health-bar-fill" style="width: 100%; height: 100%;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
+                <ui:VisualElement name="lamp-container" class="lamp-container" style="display: none;">
+                    <ui:Label name="lamp-title" text="Lampe" class="lamp-label" style="color: white; margin-bottom: 4px;" />
+                    <ui:VisualElement name="lamp-bar-bg" class="lamp-bar-bg" style="width: 200px; height: 20px; background-color: gray;">
+                        <ui:VisualElement name="lamp-bar-fill" class="lamp-bar-fill" style="width: 100%; height: 100%;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="center-section" class="banner-section center-section">
                 <ui:VisualElement name="timer-container" class="timer-container">
