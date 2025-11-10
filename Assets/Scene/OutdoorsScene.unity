@@ -72553,7 +72553,7 @@ PrefabInstance:
     - target: {fileID: 7470997243653381445, guid: 6d925b13ef8c9d14aa5b547ab50e98c4,
         type: 3}
       propertyPath: chargingTime
-      value: 100
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7470997243653381445, guid: 6d925b13ef8c9d14aa5b547ab50e98c4,
         type: 3}
