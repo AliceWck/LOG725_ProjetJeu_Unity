@@ -41,5 +41,15 @@
                 <ui:ScrollView name="players-list" class="players-list" />
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:VisualElement name="quit-popup" class="popup-overlay hidden">
+            <ui:VisualElement name="quit-popup-content" class="popup-content">
+                <ui:Label text="Quitter la partie ?" class="popup-title" />
+                <ui:Label text="Vous allez être déconnecté(e) et retourner au menu principal." class="popup-message" />
+                <ui:VisualElement class="popup-buttons">
+                    <ui:Button name="quit-confirm-button" text="Oui" class="popup-button popup-button--confirm" />
+                    <ui:Button name="quit-cancel-button" text="Non" class="popup-button popup-button--cancel" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

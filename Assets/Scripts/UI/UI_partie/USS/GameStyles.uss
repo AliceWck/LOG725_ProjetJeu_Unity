@@ -327,3 +327,77 @@
 .fade-in--visible {
     opacity: 1;
 }VisualElement {}
+
+
+/* ----- Popup de confirmation quitter ----- */
+.popup-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    width: 400px;
+    background-color: rgba(31, 41, 55, 0.98);
+    border-radius: 12px;
+    border-width: 2px;
+    border-color: rgba(74, 85, 104, 1);
+    padding: 24px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup-title {
+    font-size: 20px;
+    color: white;
+    -unity-font-style: bold;
+    margin-bottom: 12px;
+}
+
+.popup-message {
+    font-size: 14px;
+    color: rgba(209, 213, 219, 1);
+    margin-bottom: 24px;
+    -unity-text-align: upper-center;
+}
+
+.popup-buttons {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.popup-button {
+    width: 45%;
+    height: 40px;
+    border-radius: 8px;
+    border-width: 1px;
+    font-size: 16px;
+    -unity-font-style: bold;
+    cursor: link;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+}
+
+.popup-button--confirm {
+    background-color: rgba(220, 38, 38, 1);
+    border-color: rgba(185, 28, 28, 1);
+    color: white;
+}
+
+.popup-button--confirm:hover {
+    background-color: rgba(185, 28, 28, 1);
+}
+
+.popup-button--cancel {
+    background-color: rgba(55, 65, 81, 1);
+    border-color: rgba(74, 85, 104, 1);
+    color: white;
+}
+
+.popup-button--cancel:hover {
+    background-color: rgba(75, 85, 99, 1);
+}

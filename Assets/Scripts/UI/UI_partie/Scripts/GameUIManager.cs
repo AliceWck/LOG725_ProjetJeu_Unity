@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UIElements;
+using Mirror;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class GameUIManager : MonoBehaviour
@@ -32,6 +34,11 @@ public class GameUIManager : MonoBehaviour
     // Game overlay
     private VisualElement minimapDisplay;
     private ScrollView playersList;
+
+    // Popup de confirmation quitter
+    private VisualElement quitPopup;
+    private Button quitConfirmButton;
+    private Button quitCancelButton;
 
     // État du jeu
     private int keysFound = 0;
@@ -108,6 +115,12 @@ public class GameUIManager : MonoBehaviour
         // Game overlay
         minimapDisplay = root.Q<VisualElement>("minimap-display");
         playersList = root.Q<ScrollView>("players-list");
+
+        // Popup de confirmation
+        quitPopup = root.Q<VisualElement>("quit-popup");
+        quitConfirmButton = root.Q<Button>("quit-confirm-button");
+        quitCancelButton = root.Q<Button>("quit-cancel-button");
+
     }
 
     private void SetupArcFillPainter()
@@ -170,7 +183,10 @@ public class GameUIManager : MonoBehaviour
     private void SetupEventHandlers()
     {
         // Bouton Quitter
-        quitButton?.RegisterCallback<ClickEvent>(evt => OnQuitClicked());
+        quitButton?.RegisterCallback<ClickEvent>(evt => ShowQuitPopup());
+        quitConfirmButton?.RegisterCallback<ClickEvent>(evt => ConfirmQuit());
+        quitCancelButton?.RegisterCallback<ClickEvent>(evt => HideQuitPopup());
+
 
         // Bouton Son
         soundButton?.RegisterCallback<ClickEvent>(evt => ToggleSound());
@@ -333,12 +349,53 @@ public class GameUIManager : MonoBehaviour
 
     #region Event Handlers
 
-    private void OnQuitClicked()
+
+
+    private void ShowQuitPopup()
     {
-        Debug.Log("Quitter la partie demandé");
-        // TODO: Implémenter la logique de déconnexion réseau, voir si ça marchera :
-        // NetworkManager.Disconnect();
-        // SceneManager.LoadScene("MainMenu");
+        if (quitPopup != null)
+            quitPopup.RemoveFromClassList("hidden");
+    }
+
+    private void HideQuitPopup()
+    {
+        if (quitPopup != null)
+            quitPopup.AddToClassList("hidden");
+    }
+
+    private void ConfirmQuit()
+    {
+        Debug.Log("Quit confirmé, retour au menu principal");
+
+        // Ferme la popup immédiatement
+        HideQuitPopup();
+
+        if (NetworkManager.singleton != null)
+        {
+            if (NetworkServer.active && NetworkClient.isConnected)
+            {
+                NetworkManager.singleton.StopHost();
+            }
+            else if (NetworkClient.isConnected)
+            {
+                NetworkManager.singleton.StopClient();
+            }
+            else if (NetworkServer.active)
+            {
+                NetworkManager.singleton.StopServer();
+            }
+        }
+
+        // Détruit l’UI du jeu avant de changer de scène
+        Destroy(gameObject);
+
+        // Détruire le GameManager aussi
+        if (GameManager.Instance != null)
+        {
+            Destroy(GameManager.Instance.gameObject);
+        }
+
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void ToggleSound()
@@ -435,6 +492,12 @@ public class GameUIManager : MonoBehaviour
         {
             SetPlayerRole(!isOmbreRole);
             Debug.Log($"Rôle changé : {(isOmbreRole ? "Ombre" : "Gardien")}");
+        }
+
+        // "Echap" pour popup quitter
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ShowQuitPopup();
         }
     }
 
