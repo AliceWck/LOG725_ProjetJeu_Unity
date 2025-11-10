@@ -3,12 +3,19 @@ using UnityEngine;
 public class ThirdPersonCamera : MonoBehaviour
 {
     [Header("Target")]
-    public Transform target;                // Le joueur à suivre
+    public Transform target;                // Le joueur ï¿½ suivre
 
     [Header("Camera Settings")]
-    public Vector3 offset = new Vector3(0f, 2f, -5f);  // Position relative à la cible
-    public float smoothSpeed = 10f;         // Vitesse de suivi (plus élevé = plus rapide)
-    public bool lookAtTarget = true;        // La caméra regarde toujours le joueur ?
+    public Vector3 offset = new Vector3(0f, 2f, -5f);  // Position relative ï¿½ la cible
+    public float smoothSpeed = 10f;         // Vitesse de suivi (plus ï¿½levï¿½ = plus rapide)
+    public bool lookAtTarget = true;        // La camï¿½ra regarde toujours le joueur ?
+
+    [Header("Collision Settings")]
+    public LayerMask collisionLayers;       // Les layers qui bloquent la camï¿½ra (murs, etc)
+    public float cameraRadius = 0.3f;       // Rayon de la "sphï¿½re" de la camï¿½ra
+    public float minDistance = 0.5f;        // Distance minimale au joueur
+    public float collisionSmoothSpeed = 15f; // Vitesse d'ajustement lors de collision
+
 
     [Header("Optional - Mouse Rotation")]
     public bool enableMouseRotation = false;
@@ -18,21 +25,22 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private float currentX = 0f;
     private float currentY = 0f;
+    private float currentDistance;
 
     void Start()
     {
-        // Si la target n'est pas assignée, chercher le Player
+        // Si la target n'est pas assignï¿½e, chercher le Player
         if (target == null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
                 target = player.transform;
-                Debug.Log("Target automatiquement trouvée : " + player.name);
+                Debug.Log("Target automatiquement trouvï¿½e : " + player.name);
             }
             else
             {
-                Debug.LogError("Aucune target assignée et aucun objet avec tag 'Player' trouvé !");
+                Debug.LogError("Aucune target assignï¿½e et aucun objet avec tag 'Player' trouvï¿½ !");
             }
         }
 
@@ -40,14 +48,25 @@ public class ThirdPersonCamera : MonoBehaviour
         Vector3 angles = transform.eulerAngles;
         currentX = angles.y;
         currentY = angles.x;
+
+        // Distance initiale
+        currentDistance = offset.magnitude;
+
+        // Si collisionLayers n'est pas configurï¿½, utiliser tout sauf le joueur
+        if (collisionLayers.value == 0)
+        {
+            collisionLayers = ~(1 << LayerMask.NameToLayer("Player"));
+            Debug.LogWarning("collisionLayers non configurï¿½, utilise tous les layers sauf Player");
+        }
     }
 
     void LateUpdate()
     {
         if (target == null) return;
 
-        // Position cible
+        // Position cible dï¿½sirï¿½e
         Vector3 desiredPosition;
+        Vector3 targetPosition = target.position + Vector3.up * 1.5f; // Point de focus
 
         if (enableMouseRotation)
         {
@@ -57,30 +76,66 @@ public class ThirdPersonCamera : MonoBehaviour
             currentY = Mathf.Clamp(currentY, minVerticalAngle, maxVerticalAngle);
 
             Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-            desiredPosition = target.position + rotation * offset;
+            Vector3 direction = rotation * offset.normalized;
 
-            // Déplacer la caméra
-            transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
-            transform.LookAt(target.position + Vector3.up * 1.5f);
+            // Vï¿½rifier les collisions
+            float targetDistance = offset.magnitude;
+            float adjustedDistance = CheckCameraCollision(targetPosition, direction, targetDistance);
+
+            desiredPosition = targetPosition + direction * adjustedDistance;
         }
         else
         {
             // Position fixe relative au joueur
-            desiredPosition = target.position + offset;
+            Vector3 direction = offset.normalized;
+            float targetDistance = offset.magnitude;
 
-            // Déplacer la caméra avec interpolation
-            transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+            // Vï¿½rifier les collisions
+            float adjustedDistance = CheckCameraCollision(targetPosition, direction, targetDistance);
 
-            // Regarder le joueur
-            if (lookAtTarget)
-            {
-                Vector3 lookPosition = target.position + Vector3.up * 1.5f; // Regarde un peu au-dessus du joueur
-                transform.LookAt(lookPosition);
-            }
+            desiredPosition = targetPosition + direction * adjustedDistance;
+        }
+
+        // Dï¿½placer la camï¿½ra avec interpolation
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+
+        // Regarder le joueur
+        if (lookAtTarget)
+        {
+            transform.LookAt(targetPosition);
         }
     }
 
-    // Visualisation dans l'éditeur
+    float CheckCameraCollision(Vector3 targetPos, Vector3 direction, float desiredDistance)
+    {
+        RaycastHit hit;
+
+        // Lancer un SphereCast depuis le joueur vers la position de camï¿½ra
+        if (Physics.SphereCast(
+            targetPos,
+            cameraRadius,
+            direction,
+            out hit,
+            desiredDistance,
+            collisionLayers))
+        {
+            // Obstacle = rapprocher la camï¿½ra
+            float safeDistance = Mathf.Max(hit.distance - cameraRadius, minDistance);
+
+            // Smooth transition de la distance
+            currentDistance = Mathf.Lerp(currentDistance, safeDistance, collisionSmoothSpeed * Time.deltaTime);
+            return currentDistance;
+        }
+        else
+        {
+            // Pas d'obstacle, revenir progressivement ï¿½ la distance dï¿½sirï¿½e
+            currentDistance = Mathf.Lerp(currentDistance, desiredDistance, collisionSmoothSpeed * Time.deltaTime);
+            return currentDistance;
+        }
+    }
+
+
+    // Visualisation dans l'ï¿½diteur
     void OnDrawGizmosSelected()
     {
         if (target == null) return;

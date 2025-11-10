@@ -59931,7 +59931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eabf43efa6f5204c8aa544d1f8b1697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topBannerHeightPixels: 120
+  topBannerHeightPixels: 160
 --- !u!1001 &1823688974
 PrefabInstance:
   m_ObjectHideFlags: 0

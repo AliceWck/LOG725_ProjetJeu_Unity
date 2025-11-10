@@ -4,7 +4,7 @@ using UnityEngine;
 public class CameraViewportAdjuster : MonoBehaviour
 {
     [Header("UI Top Banner")]
-    [SerializeField] private float topBannerHeightPixels = 140f;
+    [SerializeField] private float topBannerHeightPixels = 160f;
 
     private Camera cam;
 
