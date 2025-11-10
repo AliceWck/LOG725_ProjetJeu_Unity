@@ -23,6 +23,16 @@ public class FlashLightLight : MonoBehaviour, ILightSource
         return angleToPlayer <= spotAngle / 2f;
     }
 
+    public bool IsGuardianLight()
+    {
+        return true;
+    }
+
+    public Vector3 GetLightPosition()
+    {
+        return transform.position;
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
@@ -35,5 +45,6 @@ public class FlashLightLight : MonoBehaviour, ILightSource
             Quaternion.Euler(0, -spotAngle / 2f, 0) * transform.forward,
             spotAngle, range);
     }
+
 #endif
 }

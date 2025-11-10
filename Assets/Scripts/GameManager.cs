@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +18,9 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentState { get; private set; } = GameState.Playing;
     private List<ShadowPlayer> players = new();
+    private List<KeySpawnLocation> keySpawnLocations = new();
+
+    public GameObject keyPrefab;
 
     private void Start()
     {
@@ -25,10 +30,21 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         players.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<ShadowPlayer>());
+        keySpawnLocations.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<KeySpawnLocation>());
+
+        if (keySpawnLocations.Count < players.Count) throw new Exception("Not enough spawn locations");
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
+        }
+
+        for (int i = 0; i < players.Count + 1; i++)
+        {
+            int choice = Random.Range(0, keySpawnLocations.Count);
+            Instantiate(keyPrefab, keySpawnLocations[choice].transform.position, keySpawnLocations[choice].transform.rotation);
+            keySpawnLocations.Remove(keySpawnLocations[choice]);
         }
 
         Instance = this;
