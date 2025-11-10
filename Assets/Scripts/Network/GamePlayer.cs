@@ -143,13 +143,6 @@ public class GamePlayer : NetworkBehaviour
             Debug.Log("[GamePlayer] Caméra activée pour le joueur local");
         }
 
-        // activer des scripts de mouvement ou changer l'apparence
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
-        foreach (var rend in renderers)
-        {
-            if (rend.material != null)
-                rend.material.color = Color.green; // Marque visuelle du joueur local
-        }
     }
 
     private void Update()
