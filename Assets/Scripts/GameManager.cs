@@ -8,13 +8,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public float gameTime = 300f;
+    [SerializeField] private float maxGameTime = 300f; // durée totale fixe
+    private float gameTime;
 
     public enum GameState { Loading, Playing, GameOver }
     public GameOverUI gameOverUI; // Assign in Inspector
 
     public GameState CurrentState { get; private set; } = GameState.Playing;
     private List<ShadowPlayer> players = new();
+
+    private void Start()
+    {
+        gameTime = maxGameTime; // initialisation au début de la partie
+    }
 
     private void Awake()
     {
@@ -35,6 +41,15 @@ public class GameManager : MonoBehaviour
         if (CurrentState == GameState.Playing)
         {
             gameTime -= Time.deltaTime;
+            gameTime = Mathf.Max(gameTime, 0f); // clamp à 0
+
+            float progress = (1f - (gameTime / maxGameTime)) * 100f;
+
+            if (GameUIManager.Instance != null)
+            {
+                GameUIManager.Instance.SetGameProgress(progress);
+            }
+                
             if (gameTime <= 0) EndGameShadowsWin(false);
         }
     }
@@ -57,6 +72,7 @@ public class GameManager : MonoBehaviour
         if (!alive && escaped)
             EndGameShadowsWin(true);
     }
+
 
     private void EndGameShadowsWin(bool shadowsWin)
     {
