@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject keyPrefab;
 
+    public float GameProgress => (1f - (gameTime / maxGameTime)) * 100f;
+
     private void Start()
     {
         gameTime = maxGameTime; // initialisation au début de la partie
