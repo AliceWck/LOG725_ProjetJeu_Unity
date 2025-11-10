@@ -4278,6 +4278,7 @@ GameObject:
   - component: {fileID: 2248243749394181934}
   - component: {fileID: -165930408394311471}
   - component: {fileID: -2693389551597244708}
+  - component: {fileID: 8897069923421020620}
   m_Layer: 8
   m_Name: Shadow
   m_TagString: Player
@@ -4388,7 +4389,7 @@ MonoBehaviour:
   GroundedRadius: 0.28
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 9
   CinemachineCameraTarget: {fileID: 8128225776335307411}
   TopClamp: 70
   BottomClamp: -30
@@ -4600,6 +4601,26 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!114 &8897069923421020620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206a74b1a7f348b41baa5e43aa896547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  iconType: 0
+  iconColor: {r: 0.2153434, g: 0.5345692, b: 0.9924528, a: 1}
+  iconSize: 10
+  rotateWithObject: 0
+  iconHeight: 85
 --- !u!1 &7817352308337221933
 GameObject:
   m_ObjectHideFlags: 0

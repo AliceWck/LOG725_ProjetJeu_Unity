@@ -1,0 +1,45 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/GameStyles.uss?fileID=7433441132597879392&amp;guid=f8dfbe20975f63d42a64c925af64bc9f&amp;type=3#GameStyles" />
+    <ui:VisualElement name="root" class="root-container">
+        <ui:VisualElement name="top-banner" class="top-banner" style="height: 172px;">
+            <ui:VisualElement name="left-section" class="banner-section left-section" style="height: 129px;">
+                <ui:Button name="quit-button" text="Quitter la partie" class="quit-link" />
+                <ui:VisualElement name="health-container" class="health-container">
+                    <ui:Label text="Health" class="health-label" style="height: 15px;" />
+                    <ui:VisualElement name="health-bar-bg" class="health-bar-bg">
+                        <ui:VisualElement name="health-bar-fill" class="health-bar-fill" style="height: 46px; width: 168px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="center-section" class="banner-section center-section">
+                <ui:VisualElement name="timer-container" class="timer-container">
+                    <ui:VisualElement name="timer-arc-bg" class="timer-arc" />
+                    <ui:VisualElement name="timer-arc-fill" class="timer-arc timer-fill" />
+                    <ui:VisualElement name="timer-indicator" class="timer-indicator" />
+                    <ui:VisualElement name="phase-container" class="phase-container">
+                        <ui:VisualElement name="phase-icon" class="phase-icon" />
+                        <ui:Label name="phase-label" text="Soirée" class="phase-label" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="key-counter" class="key-counter">
+                    <ui:VisualElement name="key-icon" class="key-icon" />
+                    <ui:Label name="key-label" text="0/5" class="key-label" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="right-section" class="banner-section right-section">
+                <ui:Button name="sound-button" class="icon-button sound-button" />
+                <ui:Button name="settings-button" class="icon-button settings-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="game-overlay" class="game-overlay">
+            <ui:VisualElement name="minimap-container" class="minimap-container">
+                <ui:Label text="Mini-map" class="minimap-title" />
+                <ui:VisualElement name="minimap-display" class="minimap-display" />
+            </ui:VisualElement>
+            <ui:VisualElement name="players-container" class="players-container">
+                <ui:Label text="Joueurs" class="players-title" />
+                <ui:ScrollView name="players-list" class="players-list" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
