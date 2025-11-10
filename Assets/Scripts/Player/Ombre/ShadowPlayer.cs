@@ -54,6 +54,10 @@ public class ShadowPlayer : MonoBehaviour
 
     [SerializeField] private LayerMask blockingLayers;
 
+    public GameObject ghostPrefab; // Référence au prefab fantôme
+    private GameObject spawnedGhost;
+    private GameObject mainCamera;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +74,7 @@ public class ShadowPlayer : MonoBehaviour
         _visualRoot = _animator != null ? _animator.transform.parent ?? _animator.transform : transform;
         
         CreateShadowCircle();
+        mainCamera = Camera.main.gameObject;
     }
     void CreateShadowCircle()
     {
@@ -246,7 +251,29 @@ public class ShadowPlayer : MonoBehaviour
     {
         playerStatus = PlayerStatus.Dead;
         GameManager.Instance.UpdatePlayerStatus();
-        gameObject.SetActive(false);
+        
+        // Spawn le fantôme à la position du joueur
+        spawnedGhost = Instantiate(ghostPrefab, transform.position, transform.rotation);
+        
+        // Transfert de la caméra
+        mainCamera.transform.parent = spawnedGhost.transform;
+        
+        // Désactive le mesh du joueur mais garde le GameObject actif pour la caméra
+        foreach (var renderer in GetComponentsInChildren<Renderer>())
+        {
+            renderer.enabled = false;
+        }
+        
+        // Désactive les composants de contrôle du joueur
+        if (_controller != null) _controller.enabled = false;
+        if (_characterController != null) _characterController.enabled = false;
+        
+        // Active le contrôle du fantôme
+        var ghostController = spawnedGhost.GetComponent<ThirdPersonController>();
+        if (ghostController != null)
+        {
+            ghostController.enabled = true;
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
