@@ -47,6 +47,8 @@ public class GameUIManager : MonoBehaviour
 
     private void Awake()
     {
+        gameObject.SetActive(true); // Force le GameObject actif
+        enabled = true; // Force le component actif
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);

@@ -8993,6 +8993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxGameTime: 15
   gameOverUI: {fileID: 0}
+  keyPrefab: {fileID: 0}
 --- !u!4 &285599203
 Transform:
   m_ObjectHideFlags: 0
