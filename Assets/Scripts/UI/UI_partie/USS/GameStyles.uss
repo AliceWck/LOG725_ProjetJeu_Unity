@@ -298,6 +298,7 @@
     border-width: 2px;
     border-color: rgba(74, 85, 104, 1);
     padding: 12px;
+    overflow: visible;
 }
 
 .players-title {
@@ -308,18 +309,24 @@
 }
 
 .players-list {
-    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: visible; /* plus de scrollbar moche */
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 /* Élément joueur individuel */
 .player-item {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 8px;
-    margin-bottom: 8px;
     background-color: rgba(55, 65, 81, 1);
     border-radius: 6px;
+    min-width: 0;
 }
 
 .player-item--you {
@@ -331,6 +338,10 @@
 .player-name {
     font-size: 13px;
     color: rgba(209, 213, 219, 1);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 1;
 }
 
 .player-name--you {

@@ -46,6 +46,7 @@
                 <ui:Label text="Joueurs" class="players-title" />
                 <ui:ScrollView name="players-list" class="players-list" />
             </ui:VisualElement>
+            <ui:Label name="charging-message-label" class="charging-message-label" text="" style="color: white; font-size: 32px; unity-text-align: middle-center; align-self: center; margin-top: 20px;" />
         </ui:VisualElement>
         <ui:VisualElement name="quit-popup" class="popup-overlay hidden">
             <ui:VisualElement name="quit-popup-content" class="popup-content">

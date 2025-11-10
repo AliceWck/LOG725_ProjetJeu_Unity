@@ -30,6 +30,8 @@ public class GameUIManager : MonoBehaviour
     private Label keyLabel;
     private Button soundButton;
     private Button settingsButton;
+    private Label chargingMessageLabel;
+
 
     // Game overlay
     private VisualElement minimapDisplay;
@@ -125,6 +127,8 @@ public class GameUIManager : MonoBehaviour
         // Game overlay
         minimapDisplay = root.Q<VisualElement>("minimap-display");
         playersList = root.Q<ScrollView>("players-list");
+        chargingMessageLabel = root.Q<Label>("charging-message-label");
+
 
         // Popup de confirmation
         quitPopup = root.Q<VisualElement>("quit-popup");
@@ -132,6 +136,20 @@ public class GameUIManager : MonoBehaviour
         quitCancelButton = root.Q<Button>("quit-cancel-button");
 
     }
+
+    public void ShowChargingMessage(string message)
+    {
+        if (chargingMessageLabel == null) return;
+        chargingMessageLabel.text = message;
+        chargingMessageLabel.style.display = DisplayStyle.Flex;
+    }
+
+    public void HideChargingMessage()
+    {
+        if (chargingMessageLabel == null) return;
+        chargingMessageLabel.style.display = DisplayStyle.None;
+    }
+
 
     private void SetupArcFillPainter()
     {

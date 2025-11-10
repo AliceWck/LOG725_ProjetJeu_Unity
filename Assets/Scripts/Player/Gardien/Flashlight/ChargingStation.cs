@@ -1,5 +1,4 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 
 public class ChargingStation : MonoBehaviour
@@ -9,7 +8,6 @@ public class ChargingStation : MonoBehaviour
     [SerializeField] private float detectionRange = 3f;
 
     [Header("UI (optionnel)")]
-    [SerializeField] private TextMeshProUGUI chargingText;
     [SerializeField] private string lancerChargeMessage = "Appuyez sur 'R' pour recharger";
     [SerializeField] private string chargingMessage = "Rechargement...";
 
@@ -54,11 +52,14 @@ public class ChargingStation : MonoBehaviour
         }
 
         // Afficher ou non le texte 
-        if (chargingText != null && !isCharging)
+        if (!isCharging)
         {
-            chargingText.text = lancerChargeMessage;
-            chargingText.gameObject.SetActive(playerInRange);
+            if (playerInRange)
+                GameUIManager.Instance?.ShowChargingMessage(lancerChargeMessage);
+            else
+                GameUIManager.Instance?.HideChargingMessage();
         }
+
 
         // D�clencher la recharge
         if (playerInRange && Input.GetKeyDown(KeyCode.R) && !isCharging)
@@ -73,11 +74,7 @@ public class ChargingStation : MonoBehaviour
         currentChargeAmount = 0f;
 
         // Afficher le texte de rechargement
-        if (chargingText != null)
-        {
-            chargingText.text = chargingMessage;
-            chargingText.gameObject.SetActive(true);
-        }
+        GameUIManager.Instance?.ShowChargingMessage(chargingMessage);
 
         // Calculer combien de batterie il faut recharger par seconde
         float currentBatteryPercentage = flashlightBattery.GetBatteryPercentage();
@@ -130,10 +127,7 @@ public class ChargingStation : MonoBehaviour
         isCharging = false;
 
         // Cacher le texte de rechargement
-        if (chargingText != null)
-        {
-            chargingText.gameObject.SetActive(false);
-        }
+        GameUIManager.Instance?.HideChargingMessage();
     }
 
     private void OnDrawGizmosSelected()
