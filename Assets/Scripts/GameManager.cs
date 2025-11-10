@@ -25,6 +25,23 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         gameTime = maxGameTime; // initialisation au début de la partie
+
+        // Récupérer tous les ShadowPlayers actifs
+        players.AddRange(FindObjectsOfType<ShadowPlayer>());
+
+        foreach (var player in players)
+        {
+            player.enabled = false; // ou désactiver le script de mouvement
+
+            if (player.TryGetComponent(out Rigidbody rb))
+                rb.velocity = Vector3.zero;
+
+            // Uniquement si c'est le joueur local, enregistre
+            if (player.TryGetComponent(out GamePlayer gp) && gp.isLocalPlayer)
+            {
+                GameUIManager.Instance.RegisterLocalShadowPlayer(player);
+            }
+        }
     }
 
     private void Awake()

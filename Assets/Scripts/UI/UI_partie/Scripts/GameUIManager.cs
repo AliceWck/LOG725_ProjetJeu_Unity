@@ -50,6 +50,9 @@ public class GameUIManager : MonoBehaviour
     private enum GamePhase { Evening, Night, Dawn }
     private GamePhase currentPhase = GamePhase.Evening;
 
+    private ShadowPlayer localShadowPlayer;
+
+
     public static GameUIManager Instance { get; private set; }
 
     private void Awake()
@@ -208,19 +211,30 @@ public class GameUIManager : MonoBehaviour
 
     private void UpdateAllUI()
     {
-        UpdateHealthBar();
         UpdateTimer();
         UpdateKeyCounter();
         UpdatePlayersList();
     }
 
-    private void UpdateHealthBar()
+    public void RegisterLocalShadowPlayer(ShadowPlayer shadow)
+    {
+        localShadowPlayer = shadow;
+        shadow.OnHealthChanged += UpdateShadowHealthUI;
+
+        // Màj la barre
+        UpdateShadowHealthUI(shadow.health);
+    }
+
+    private void UpdateShadowHealthUI(float currentHealth)
     {
         if (healthBarFill != null && isOmbreRole)
         {
-            healthBarFill.style.width = Length.Percent(playerHealth);
+            // convertit la vie de 0-20 en 0-100%
+            float percent = (currentHealth / localShadowPlayer.maxHealth) * 100f;
+            healthBarFill.style.width = Length.Percent(percent);
         }
     }
+
 
     private void UpdateTimer()
     {
@@ -429,7 +443,10 @@ public class GameUIManager : MonoBehaviour
     public void SetPlayerHealth(float health)
     {
         playerHealth = Mathf.Clamp(health, 0f, 100f);
-        UpdateHealthBar();
+        if (localShadowPlayer != null)
+        {
+            UpdateShadowHealthUI(localShadowPlayer.health);
+        }
     }
 
 

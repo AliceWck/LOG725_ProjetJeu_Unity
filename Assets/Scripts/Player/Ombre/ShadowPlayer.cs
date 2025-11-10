@@ -34,7 +34,19 @@ public class ShadowPlayer : MonoBehaviour
     public float shadowCircleRadius = 0.5f;
 
     public float maxHealth = 20.0f;
-    public float health = 0;
+    private float _health;
+    public float health {
+        get => _health;
+        set {
+            _health = Mathf.Clamp(value, 0f, maxHealth);
+            OnHealthChanged?.Invoke(_health);
+            if (_health <= 0)
+            {
+                OnDeath();
+            }
+        }
+    }
+    public event Action<float> OnHealthChanged;
     public float healthRegenCooldown = 2.0f;
     public float healthRegenState = 0f;
     public float healthRegenRate = 2.0f;
@@ -261,11 +273,19 @@ public class ShadowPlayer : MonoBehaviour
         else
             healthRegenState += Time.deltaTime;
 
+        // Version avant liaison à l'UI
+        //if (inEnemyLightSource)
+        //{
+        //    health -= Time.deltaTime * enemyDamageMult;
+        //    if(health <= 0)
+        //        OnDeath();
+        //}
+        //else if (healthRegenState >= healthRegenCooldown && health < maxHealth)
+        //    health += Time.deltaTime * healthRegenRate;
+
         if (inEnemyLightSource)
         {
             health -= Time.deltaTime * enemyDamageMult;
-            if(health <= 0)
-                OnDeath();
         }
         else if (healthRegenState >= healthRegenCooldown && health < maxHealth)
             health += Time.deltaTime * healthRegenRate;
