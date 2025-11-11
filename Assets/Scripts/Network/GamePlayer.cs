@@ -53,7 +53,7 @@ public class GamePlayer : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        Debug.Log($"[GamePlayer] Joueur local démarré: {playerName}");
+        Debug.Log($"[GamePlayer] Joueur local démarré: {playerName}, Rôle: {role}");
 
         uiManager = FindObjectOfType<GameUIManager>();
         if (uiManager != null)
@@ -63,6 +63,9 @@ public class GamePlayer : NetworkBehaviour
         }
 
         SetupLocalPlayer();
+
+        // Forcer la configuration des composants selon le rôle
+        ConfigureRoleComponents();
 
         // Connexion auto minimap
         MinimapSystem minimap = FindObjectOfType<MinimapSystem>();
@@ -115,44 +118,54 @@ public class GamePlayer : NetworkBehaviour
     // Configure les composants selon le rôle
     private void ConfigureRoleComponents()
     {
+        Debug.Log($"[GamePlayer] ConfigureRoleComponents appelé - Rôle actuel: {role}, IsLocal: {isLocalPlayer}");
+
         // Activer/désactiver ShadowPlayer pour les Ombres
         ShadowPlayer shadowPlayer = GetComponent<ShadowPlayer>();
         if (shadowPlayer != null)
         {
-            shadowPlayer.enabled = (role == Role.Ombre);
-            Debug.Log($"[GamePlayer] ShadowPlayer {(role == Role.Ombre ? "activé" : "désactivé")} pour {role}");
+            bool shouldEnable = (role == Role.Ombre);
+            shadowPlayer.enabled = shouldEnable;
+            Debug.Log($"[GamePlayer] ShadowPlayer {(shouldEnable ? "activé" : "désactivé")} pour {role}");
+        }
+        else
+        {
+            Debug.Log($"[GamePlayer] Aucun ShadowPlayer trouvé sur ce GameObject");
         }
 
         // Activer/désactiver OffsetFlashLight pour les Gardiens
         OffsetFlashLight flashLight = GetComponent<OffsetFlashLight>();
         if (flashLight != null)
         {
-            flashLight.enabled = (role == Role.Gardien);
-            Debug.Log($"[GamePlayer] OffsetFlashLight {(role == Role.Gardien ? "activé" : "désactivé")} pour {role}");
+            bool shouldEnable = (role == Role.Gardien);
+            flashLight.enabled = shouldEnable;
+            Debug.Log($"[GamePlayer] OffsetFlashLight {(shouldEnable ? "activé" : "désactivé")} pour {role}");
         }
-
+        else
+        {
+            Debug.Log($"[GamePlayer] Aucun OffsetFlashLight trouvé sur ce GameObject");
+        }
     }
 
     // Activation des éléments du joueur local
     private void SetupLocalPlayer()
     {
+        Debug.Log($"[GamePlayer] SetupLocalPlayer appelé pour {playerName}");
+
         Camera cam = GetComponentInChildren<Camera>(true);
         if (cam != null)
         {
             cam.gameObject.SetActive(true);
             Debug.Log("[GamePlayer] Caméra activée pour le joueur local");
         }
-
-        var thirdPersonController = GetComponent<MonoBehaviour>();
-        if (thirdPersonController != null)
+        else
         {
-            string controllerType = thirdPersonController.GetType().Name;
-            if (controllerType.Contains("ThirdPerson") || controllerType.Contains("Controller"))
-            {
-                thirdPersonController.enabled = true;
-                Debug.Log($"[GamePlayer] {controllerType} activé pour le joueur local");
-            }
+            Debug.LogWarning("[GamePlayer] Aucune caméra trouvée pour le joueur local");
         }
+
+        // Note: NetworkPlayerController gère l'activation du ThirdPersonController
+        // On ne l'active plus ici pour éviter les conflits
+        Debug.Log("[GamePlayer] Le ThirdPersonController sera géré par NetworkPlayerController");
     }
 
     private void Update()
