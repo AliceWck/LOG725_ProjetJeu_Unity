@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using TMPro;
 
 
 public class GameSelectionMenuManager : MonoBehaviour
@@ -11,7 +12,7 @@ public class GameSelectionMenuManager : MonoBehaviour
     [SerializeField] private Button hostButton;
     [SerializeField] private Button joinButton;
     [SerializeField] private Button backButton;
-    [SerializeField] private InputField ipInputField;
+    [SerializeField] private TMP_InputField ipInputField;
     [SerializeField] private GameObject connectionPanel;
     [SerializeField] private Text connectionStatusText;
 
@@ -132,4 +133,4 @@ public class GameSelectionMenuManager : MonoBehaviour
         if (joinButton != null) joinButton.onClick.RemoveListener(OnJoinButtonClicked);
         if (backButton != null) backButton.onClick.RemoveListener(OnBackButtonClicked);
     }
-} 
+}

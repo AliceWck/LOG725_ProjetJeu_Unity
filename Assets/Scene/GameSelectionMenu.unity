@@ -679,7 +679,7 @@ MonoBehaviour:
   hostButton: {fileID: 7635277688992601585}
   joinButton: {fileID: 1375020535}
   backButton: {fileID: 2120005023}
-  ipInputField: {fileID: 0}
+  ipInputField: {fileID: 1472354112}
   connectionPanel: {fileID: 0}
   connectionStatusText: {fileID: 0}
   defaultIP: localhost
