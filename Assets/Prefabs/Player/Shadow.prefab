@@ -4561,7 +4561,8 @@ MonoBehaviour:
   blockingLayers:
     serializedVersion: 2
     m_Bits: 0
-  ghostPrefab: {fileID: 0}
+  ghostPrefab: {fileID: 109020058382557755, guid: 8d940f89728a62445a87fe9bd4635a5d,
+    type: 3}
 --- !u!114 &2248243749394181934
 MonoBehaviour:
   m_ObjectHideFlags: 0
