@@ -103,7 +103,7 @@ public class NetworkPlayerSetup : NetworkBehaviour
     }
 
 #if UNITY_EDITOR
-    private void OnValidate()
+    protected virtual void OnValidate()
     {
         // Dans l'éditeur, vérifier si NetworkTransform existe en utilisant GetComponent avec string
         Component netTransform = GetComponent("NetworkTransform") as Component;

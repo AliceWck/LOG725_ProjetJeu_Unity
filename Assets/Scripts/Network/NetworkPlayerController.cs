@@ -89,18 +89,26 @@ public class NetworkPlayerController : NetworkBehaviour
     /// </summary>
     private void EnableLocalPlayerComponents()
     {
+        Debug.Log($"[NetworkPlayerController] EnableLocalPlayerComponents appelé - IsLocal: {isLocalPlayer}, NetID: {netId}");
+
         // Activer le contrôleur de mouvement
         if (thirdPersonController != null)
         {
+            Debug.Log($"[NetworkPlayerController] État du ThirdPersonController AVANT activation: {thirdPersonController.enabled}");
             thirdPersonController.enabled = true;
-            if (showDebugLogs)
-            {
-                Debug.Log($"[NetworkPlayerController] ✓ {thirdPersonController.GetType().Name} activé pour le joueur local");
-            }
+            Debug.Log($"[NetworkPlayerController] ✓ {thirdPersonController.GetType().Name} activé pour le joueur local (État APRÈS: {thirdPersonController.enabled})");
         }
         else
         {
-            Debug.LogWarning("[NetworkPlayerController] ThirdPersonController non trouvé !");
+            Debug.LogError("[NetworkPlayerController] ❌ ThirdPersonController non trouvé ! Le joueur ne pourra pas bouger.");
+
+            // Essayer de le trouver manuellement
+            MonoBehaviour[] allComponents = GetComponents<MonoBehaviour>();
+            Debug.Log($"[NetworkPlayerController] Composants trouvés sur ce GameObject:");
+            foreach (var comp in allComponents)
+            {
+                Debug.Log($"  - {comp.GetType().Name}");
+            }
         }
 
         // Activer la caméra
@@ -109,7 +117,7 @@ public class NetworkPlayerController : NetworkBehaviour
             playerCamera.gameObject.SetActive(true);
             playerCamera.enabled = true;
 
-            // Désactiver l'Audio Listener des autres joueurs pour éviter les conflits
+            // Activer l'Audio Listener
             AudioListener audioListener = playerCamera.GetComponent<AudioListener>();
             if (audioListener != null)
             {
@@ -120,6 +128,10 @@ public class NetworkPlayerController : NetworkBehaviour
             {
                 Debug.Log("[NetworkPlayerController] ✓ Caméra activée pour le joueur local");
             }
+        }
+        else
+        {
+            Debug.LogWarning("[NetworkPlayerController] ⚠️ Aucune caméra trouvée pour le joueur local");
         }
 
         // Activer le CharacterController si présent
@@ -161,15 +173,21 @@ public class NetworkPlayerController : NetworkBehaviour
 
     private void Start()
     {
-        // Si ce n'est pas le joueur local, désactiver les composants
-        if (!isLocalPlayer)
+        if (isLocalPlayer)
         {
+            // Si c'est le joueur local, activer les composants
+            EnableLocalPlayerComponents();
+            Debug.Log("[NetworkPlayerController] Composants activés pour le joueur local dans Start()");
+        }
+        else
+        {
+            // Si ce n'est pas le joueur local, désactiver les composants
             DisableRemotePlayerComponents();
         }
     }
 
 #if UNITY_EDITOR
-    private void OnValidate()
+    protected virtual void OnValidate()
     {
         // Vérifier que NetworkTransform est présent en cherchant par nom de type
         Component networkTransform = GetComponent("NetworkTransform") as Component;

@@ -20,9 +20,6 @@ public class GameSelectionMenuManager : MonoBehaviour
     [SerializeField] private string defaultIP = "localhost";
 
     private CustomNetworkRoomManager roomManager;
-    // Flags d'état pour l'UI
-    private bool isStartingHost = false;
-    private bool isStartingClient = false;
 
     private void Start()
     {
@@ -58,7 +55,6 @@ public class GameSelectionMenuManager : MonoBehaviour
         if (roomManager == null) { Debug.LogError("NetworkRoomManager introuvable"); return; }
 
         ShowConnectionPanel("Création de la partie...");
-        isStartingHost = true;
         roomManager.StartHost();
     }
 
@@ -78,7 +74,6 @@ public class GameSelectionMenuManager : MonoBehaviour
         PlayerPrefs.Save();
 
         roomManager.networkAddress = ip;
-        isStartingClient = true;
         roomManager.StartClient();
     }
 
