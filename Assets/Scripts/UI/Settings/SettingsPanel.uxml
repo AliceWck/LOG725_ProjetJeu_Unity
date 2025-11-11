@@ -1,0 +1,76 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/Settings/SettingsStyles.uss?fileID=7433441132597879392&amp;guid=fcc44ee98ed11a64eb9c8c6cf3021f79&amp;type=3#SettingsStyles" />
+    <ui:VisualElement name="settings-overlay" class="overlay" style="top: -4px; left: 0;">
+        <ui:VisualElement name="settings-panel" class="panel" style="height: 826px;">
+            <ui:VisualElement name="settings-header" class="panel-header">
+                <ui:Button name="back-button" text="← Retour" class="back-button" style="height: 29px;" />
+                <ui:Label text="Paramètres" class="panel-title" />
+            </ui:VisualElement>
+            <ui:ScrollView name="settings-content" class="panel-content">
+                <ui:VisualElement name="sound-section" class="settings-section">
+                    <ui:Label text="Son" class="section-title" />
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Volume musique" class="setting-label" />
+                        <ui:VisualElement class="slider-container">
+                            <ui:Slider name="music-volume-slider" low-value="0" high-value="100" value="25" class="setting-slider" />
+                            <ui:Label name="music-volume-value" text="25%" class="slider-value" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Couper musique" class="setting-label" />
+                        <ui:Toggle name="music-mute-toggle" class="setting-toggle" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Volume effets" class="setting-label" />
+                        <ui:VisualElement class="slider-container">
+                            <ui:Slider name="sfx-volume-slider" low-value="0" high-value="100" value="95" class="setting-slider" />
+                            <ui:Label name="sfx-volume-value" text="95%" class="slider-value" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Couper effets" class="setting-label" />
+                        <ui:Toggle name="sfx-mute-toggle" value="true" class="setting-toggle" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Active le chat de proximité par défaut" class="setting-label" />
+                        <ui:Toggle name="chat-toggle" value="true" class="setting-toggle" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="controls-section" class="settings-section">
+                    <ui:Label text="Contrôles" class="section-title" />
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Avancer" class="setting-label" />
+                        <ui:TextField name="forward-key" value="Z" readonly="true" class="key-input" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Reculer" class="setting-label" />
+                        <ui:TextField name="backward-key" value="S" readonly="true" class="key-input" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Gauche" class="setting-label" />
+                        <ui:TextField name="left-key" value="Q" readonly="true" class="key-input" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Droite" class="setting-label" />
+                        <ui:TextField name="right-key" value="D" readonly="true" class="key-input" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Sauter" class="setting-label" />
+                        <ui:TextField name="jump-key" value="Space" readonly="true" class="key-input" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Courir" class="setting-label" />
+                        <ui:TextField name="run-key" value="Shift" readonly="true" class="key-input" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="setting-row">
+                        <ui:Label text="Interagir" class="setting-label" />
+                        <ui:TextField name="interact-key" value="E" readonly="true" class="key-input" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:ScrollView>
+            <ui:VisualElement name="settings-footer" class="panel-footer" style="height: 64px;">
+                <ui:Button name="save-button" text="Sauvegarder" class="save-button" style="bottom: 12px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

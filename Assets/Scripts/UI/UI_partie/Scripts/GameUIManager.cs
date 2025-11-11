@@ -1,13 +1,17 @@
-﻿using UnityEngine;
-using UnityEngine.UIElements;
-using Mirror;
-using UnityEngine.SceneManagement;
+﻿using Mirror;
 using System.Collections.Generic;
+using UI.MainMenu;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameUIManager : MonoBehaviour
 {
     [Header("UI Document")]
     [SerializeField] private UIDocument uiDocument;
+
+    [Header("Panels")]
+    [SerializeField] private SettingsPanelManager settingsPanel;
 
     [Header("Game Settings")]
     [SerializeField] private int totalKeys = 5;
@@ -69,6 +73,13 @@ public class GameUIManager : MonoBehaviour
         {
             Destroy(gameObject);
             return;
+        }
+
+        // Changer la musique pour celle de jeu
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayGameMusic();
+            Debug.Log("Musique de jeu lancée via AudioManager");
         }
 
         Instance = this;
@@ -477,9 +488,25 @@ public class GameUIManager : MonoBehaviour
 
     private void OnSettingsClicked()
     {
-        Debug.Log("Ouverture des paramètres");
-        // TODO: Ouvrir le menu paramètres
+        Debug.Log("Ouverture des paramètres en jeu");
+
+        if (settingsPanel != null)
+        {
+            settingsPanel.Show();
+
+            // Pause le jeu quand les paramètres sont ouverts
+            Time.timeScale = 0f;
+
+            // Déverrouiller le curseur
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            UnityEngine.Cursor.visible = true;
+        }
+        else
+        {
+            Debug.LogWarning("SettingsPanel non assigné dans GameUIManager !");
+        }
     }
+
 
     #endregion
 
@@ -527,6 +554,12 @@ public class GameUIManager : MonoBehaviour
         {
             minimapDisplay.style.backgroundImage = Background.FromRenderTexture(texture);
         }
+    }
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.visible = false;
     }
 
     #endregion

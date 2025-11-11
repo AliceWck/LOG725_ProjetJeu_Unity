@@ -1,0 +1,42 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/RulesStyles.uss?fileID=7433441132597879392&amp;guid=e25d40563497a0a4aadf4d5f31e7891a&amp;type=3#RulesStyles" />
+    
+    <ui:VisualElement name="rules-overlay" class="overlay">
+        <ui:VisualElement name="rules-panel" class="panel">
+            <!-- Header avec bouton retour -->
+            <ui:VisualElement name="rules-header" class="panel-header">
+                <ui:Button name="back-button" text="← Retour" class="back-button" />
+                <ui:Label text="Règles" class="panel-title" />
+            </ui:VisualElement>
+            
+            <!-- Contenu scrollable -->
+            <ui:ScrollView name="rules-content" class="panel-content">
+                
+                <!-- Section But principal -->
+                <ui:VisualElement name="goal-section" class="rules-section">
+                    <ui:Label text="But principal" class="section-title" />
+                    <ui:Label name="goal-text" class="section-text" />
+                </ui:VisualElement>
+                
+                <!-- Section Gardien -->
+                <ui:VisualElement name="gardien-section" class="rules-section">
+                    <ui:Label text="Gardien" class="section-title section-title--gardien" />
+                    <ui:Label name="gardien-text" class="section-text" />
+                </ui:VisualElement>
+                
+                <!-- Section Ombres -->
+                <ui:VisualElement name="ombres-section" class="rules-section">
+                    <ui:Label text="Ombres" class="section-title section-title--ombre" />
+                    <ui:Label name="ombres-text" class="section-text" />
+                </ui:VisualElement>
+                
+                <!-- Section Fantôme -->
+                <ui:VisualElement name="fantome-section" class="rules-section">
+                    <ui:Label text="Fantôme" class="section-title section-title--fantome" />
+                    <ui:Label name="fantome-text" class="section-text" />
+                </ui:VisualElement>
+                
+            </ui:ScrollView>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

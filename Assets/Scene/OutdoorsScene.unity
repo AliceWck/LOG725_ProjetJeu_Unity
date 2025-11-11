@@ -8667,7 +8667,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c149896ce3dc7a349832c7c434208e73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiDocument: {fileID: 0}
+  uiDocument: {fileID: 250822525}
+  settingsPanel: {fileID: 377287608}
   totalKeys: 5
   isOmbreRole: 1
   backgroundMusic: {fileID: 0}
@@ -12439,6 +12440,69 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 374298009}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &377287607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 377287610}
+  - component: {fileID: 377287609}
+  - component: {fileID: 377287608}
+  m_Layer: 0
+  m_Name: SettingsPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &377287608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377287607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddcc63f37f1b89c4f8cca4f91730b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiDocument: {fileID: 0}
+--- !u!114 &377287609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377287607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 219a930f35008f3459d34db5f5d7d90d, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 79822dbd81ad3d642bf48e744216574c,
+    type: 3}
+  m_SortingOrder: 10
+--- !u!4 &377287610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377287607}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 487.4556, y: 531.61224, z: 47.25305}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &377449342 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2643814664230333401, guid: 17e41d9b479b23145bdac7d992ed9305,
@@ -29126,6 +29190,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 534394925}
     m_Modifications:
+    - target: {fileID: 924250846780822110, guid: a63ea5e2fb6dc9141bfc1c6e5b03dc49,
+        type: 3}
+      propertyPath: m_AreaSize.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 924250846780822110, guid: a63ea5e2fb6dc9141bfc1c6e5b03dc49,
+        type: 3}
+      propertyPath: m_AreaSize.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 924250846780822110, guid: a63ea5e2fb6dc9141bfc1c6e5b03dc49,
+        type: 3}
+      propertyPath: m_UseViewFrustumForShadowCasterCull
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083446003010040207, guid: a63ea5e2fb6dc9141bfc1c6e5b03dc49,
+        type: 3}
+      propertyPath: m_UseViewFrustumForShadowCasterCull
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161711727651463434, guid: a63ea5e2fb6dc9141bfc1c6e5b03dc49,
+        type: 3}
+      propertyPath: m_UseViewFrustumForShadowCasterCull
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4943661205684676648, guid: a63ea5e2fb6dc9141bfc1c6e5b03dc49,
         type: 3}
       propertyPath: m_Name
@@ -29179,6 +29268,11 @@ PrefabInstance:
     - target: {fileID: 7099798049783221756, guid: a63ea5e2fb6dc9141bfc1c6e5b03dc49,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557198237803437058, guid: a63ea5e2fb6dc9141bfc1c6e5b03dc49,
+        type: 3}
+      propertyPath: m_UseViewFrustumForShadowCasterCull
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -69066,6 +69160,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 534394925}
     m_Modifications:
+    - target: {fileID: 484553328312550154, guid: f4dcb0c31cf61404eaa8ed1bf012d22b,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484553328312550154, guid: f4dcb0c31cf61404eaa8ed1bf012d22b,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 836493718134841940, guid: f4dcb0c31cf61404eaa8ed1bf012d22b,
         type: 3}
       propertyPath: m_Name
@@ -78797,3 +78901,4 @@ SceneRoots:
   - {fileID: 38873814}
   - {fileID: 285599203}
   - {fileID: 1342511442}
+  - {fileID: 377287610}
