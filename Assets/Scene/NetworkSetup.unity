@@ -200,7 +200,7 @@ MonoBehaviour:
     type: 3}
   ombrePrefab: {fileID: 7554592982891490919, guid: 93bf7e2574219c14fa06c8c0d78c63f6,
     type: 3}
-  roleAssignmentMode: 0
+  roleAssignmentMode: 2
 --- !u!4 &473109193
 Transform:
   m_ObjectHideFlags: 0

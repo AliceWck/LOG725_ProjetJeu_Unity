@@ -14,6 +14,21 @@ public class NetworkPlayerController : NetworkBehaviour
     private CharacterController characterController;
     private Camera playerCamera;
 
+    // Surcharger les méthodes de sérialisation pour éviter les erreurs
+    // Ce script ne synchronise aucune donnée, juste gère les composants localement
+    public override void OnSerialize(NetworkWriter writer, bool initialState)
+    {
+        // Ne rien sérialiser - ce script gère uniquement l'activation locale des composants
+        // Appeler la méthode de base pour éviter les erreurs de sérialisation
+        base.OnSerialize(writer, initialState);
+    }
+
+    public override void OnDeserialize(NetworkReader reader, bool initialState)
+    {
+        // Appeler la méthode de base pour maintenir la compatibilité
+        base.OnDeserialize(reader, initialState);
+    }
+
     private void Awake()
     {
         if (autoFindControllers)
