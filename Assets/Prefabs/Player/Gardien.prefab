@@ -4604,6 +4604,8 @@ GameObject:
   - component: {fileID: 830038695690913713}
   - component: {fileID: -2693389551597244708}
   - component: {fileID: 6318271127831668738}
+  - component: {fileID: 8636839557678999318}
+  - component: {fileID: 2269596022676610493}
   m_Layer: 8
   m_Name: Gardien
   m_TagString: Player
@@ -4683,7 +4685,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7554592982891490919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
@@ -4880,7 +4882,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7554592982891490919}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29fb8710ec8724a5286a6130514d485b, type: 3}
   m_Name: 
@@ -4926,6 +4928,57 @@ MonoBehaviour:
   iconSize: 10
   rotateWithObject: 0
   iconHeight: 85
+--- !u!114 &8636839557678999318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 61857757131955886}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  useFixedUpdate: 0
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
+--- !u!114 &2269596022676610493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fbc4ceca5dca465598e5a3eda8fb0d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  autoFindControllers: 1
+  showDebugLogs: 1
 --- !u!1 &7817352308337221933
 GameObject:
   m_ObjectHideFlags: 0
@@ -5616,6 +5669,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 13
+  verticalRotationSpeed: 50
+  minVerticalAngle: -80
+  maxVerticalAngle: 80
   FlashLight: {fileID: 5220783013253623736}
   Source: {fileID: 5045980635572532165}
   FlashLightOnSound: {fileID: 8300000, guid: 26ed3354772a43a439cb4295e72ae0c8, type: 3}

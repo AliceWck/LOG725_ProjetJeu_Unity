@@ -143,21 +143,20 @@ public class GamePlayer : NetworkBehaviour
             Debug.Log("[GamePlayer] Caméra activée pour le joueur local");
         }
 
+        var thirdPersonController = GetComponent<MonoBehaviour>();
+        if (thirdPersonController != null)
+        {
+            string controllerType = thirdPersonController.GetType().Name;
+            if (controllerType.Contains("ThirdPerson") || controllerType.Contains("Controller"))
+            {
+                thirdPersonController.enabled = true;
+                Debug.Log($"[GamePlayer] {controllerType} activé pour le joueur local");
+            }
+        }
     }
 
     private void Update()
     {
-        if (!isLocalPlayer) return;
-        HandleMovement();
-    }
 
-    // Exemple simple de mouvement
-    private void HandleMovement()
-    {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        Vector3 movement = new Vector3(horizontal, 0, vertical) * 5f * Time.deltaTime;
-        transform.Translate(movement, Space.World);
     }
 }
