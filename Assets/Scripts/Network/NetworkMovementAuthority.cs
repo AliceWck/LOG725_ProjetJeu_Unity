@@ -22,7 +22,7 @@ public class NetworkMovementAuthority : NetworkBehaviour
     [SerializeField] private bool autoFindComponents = true;
 
     [Header("Debug")]
-    [SerializeField] private bool showDebugLogs = true;  // Activé pour diagnostic
+    [SerializeField] private bool showDebugLogs = false;
 
     private void Awake()
     {
@@ -34,14 +34,6 @@ public class NetworkMovementAuthority : NetworkBehaviour
 
     private void Start()
     {
-        // OnStartAuthority est appelé AVANT Start()
-        // On ne fait rien ici pour ne pas interférer avec l'autorité déjà configurée
-        // Juste vérifier et synchroniser si nécessaire
-        if (!isOwned && (movementController != null && movementController.enabled))
-        {
-            // Seulement désactiver si on n'a pas l'autorité ET que c'est activé
-            DisableMovement();
-        }
     }
 
     /// <summary>

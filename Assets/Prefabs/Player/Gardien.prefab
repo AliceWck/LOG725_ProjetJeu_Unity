@@ -4597,6 +4597,7 @@ GameObject:
   - component: {fileID: 4180581752262114565}
   - component: {fileID: -2693389551597244708}
   - component: {fileID: 8636839557678999318}
+  - component: {fileID: -4404490424361284768}
   - component: {fileID: 830038695690913713}
   - component: {fileID: -1296769855152661331}
   - component: {fileID: 2269596022676610493}
@@ -4610,6 +4611,7 @@ GameObject:
   - component: {fileID: 4888223962028350344}
   - component: {fileID: 121401427868173845}
   - component: {fileID: 8681980043536109446}
+  - component: {fileID: 2739730960601048209}
   m_Layer: 8
   m_Name: Gardien
   m_TagString: Player
@@ -4707,6 +4709,24 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &-4404490424361284768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddc123aca2df94646bf2b1e1008f843a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  characterController: {fileID: 7210070181173748768}
+  reactivationDelay: 0.1
+  showDebugLogs: 1
 --- !u!114 &830038695690913713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4776,7 +4796,7 @@ CharacterController:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.8
   m_Radius: 0.28
@@ -5053,6 +5073,27 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   prefabName: GARDIEN
+--- !u!114 &2739730960601048209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f619db12e560a4acf81d4aad3decc2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  forceUpright: 1
+  visualModel: {fileID: 4536987828445403695}
+  showDebugLogs: 0
+  showContinuousLogs: 0
+  disableAnimatorOnSpawn: 0
+  disableThirdPersonControllerOnSpawn: 1
 --- !u!1 &7817352308337221933
 GameObject:
   m_ObjectHideFlags: 0

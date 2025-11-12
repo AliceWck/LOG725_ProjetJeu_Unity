@@ -8,7 +8,7 @@ public class NetworkPlayerController : NetworkBehaviour
     [SerializeField] private bool autoFindControllers = true;
 
     [Header("Debug")]
-    [SerializeField] private bool showDebugLogs = true;
+    [SerializeField] private bool showDebugLogs = false;
 
     private MonoBehaviour thirdPersonController;
     private CharacterController characterController;

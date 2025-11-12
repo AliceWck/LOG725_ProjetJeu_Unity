@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 473109193}
   - component: {fileID: 473109192}
   - component: {fileID: 473109194}
-  - component: {fileID: 473109196}
   m_Layer: 0
   m_Name: CustomNetworkRoomManager
   m_TagString: Untagged
@@ -204,7 +203,7 @@ MonoBehaviour:
     type: 3}
   ombrePrefab: {fileID: 7554592982891490919, guid: 93bf7e2574219c14fa06c8c0d78c63f6,
     type: 3}
-  roleAssignmentMode: 2
+  roleAssignmentMode: 1
 --- !u!4 &473109193
 Transform:
   m_ObjectHideFlags: 0
@@ -249,21 +248,6 @@ MonoBehaviour:
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
---- !u!114 &473109196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 473109191}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 251e73462915747438de4079f875def8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enableLogs: 1
-  autoLoadFirstScene: 1
-  loadDelay: 2
 --- !u!1 &789648428
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ public class NetworkSpawnFix : NetworkBehaviour
     [SerializeField] private float reactivationDelay = 0.1f;
 
     [Header("Debug")]
-    [SerializeField] private bool showDebugLogs = true;
+    [SerializeField] private bool showDebugLogs = false;
 
     private void Awake()
     {
