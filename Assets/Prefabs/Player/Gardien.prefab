@@ -4612,6 +4612,7 @@ GameObject:
   - component: {fileID: 121401427868173845}
   - component: {fileID: 8681980043536109446}
   - component: {fileID: 2739730960601048209}
+  - component: {fileID: -1506887944230341991}
   m_Layer: 8
   m_Name: Gardien
   m_TagString: Player
@@ -5091,9 +5092,24 @@ MonoBehaviour:
   forceUpright: 1
   visualModel: {fileID: 4536987828445403695}
   showDebugLogs: 0
-  showContinuousLogs: 0
-  disableAnimatorOnSpawn: 0
   disableThirdPersonControllerOnSpawn: 1
+--- !u!114 &-1506887944230341991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  animator: {fileID: 4180581752262114565}
 --- !u!1 &7817352308337221933
 GameObject:
   m_ObjectHideFlags: 0

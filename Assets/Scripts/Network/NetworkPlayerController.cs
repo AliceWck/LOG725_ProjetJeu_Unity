@@ -35,6 +35,9 @@ public class NetworkPlayerController : NetworkBehaviour
         {
             FindControllers();
         }
+
+        // Désactiver tout par défaut
+        DisableRemotePlayerComponents();
     }
 
     public override void OnStartClient()
@@ -47,6 +50,7 @@ public class NetworkPlayerController : NetworkBehaviour
                       $"HasAuthority: {isOwned}, NetID: {netId}");
         }
     }
+
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
@@ -59,6 +63,9 @@ public class NetworkPlayerController : NetworkBehaviour
         {
             Debug.Log($"[NetworkPlayerController] ✓ Joueur local configuré - NetID: {netId}");
         }
+
+        // Activer directement pour le joueur local
+        EnableLocalPlayerComponents();
     }
 
     public override void OnStartServer()
@@ -150,26 +157,19 @@ public class NetworkPlayerController : NetworkBehaviour
     /// </summary>
     private void EnableLocalPlayerComponents()
     {
-        Debug.Log($"[NetworkPlayerController] EnableLocalPlayerComponents appelé - IsLocal: {isLocalPlayer}, NetID: {netId}");
+        if (showDebugLogs)
+            Debug.Log($"[NetworkPlayerController] EnableLocalPlayerComponents appelé - IsLocal: {isLocalPlayer}, NetID: {netId}");
 
         // Activer le contrôleur de mouvement
         if (thirdPersonController != null)
         {
-            Debug.Log($"[NetworkPlayerController] État du ThirdPersonController AVANT activation: {thirdPersonController.enabled}");
             thirdPersonController.enabled = true;
-            Debug.Log($"[NetworkPlayerController] ✓ {thirdPersonController.GetType().Name} activé pour le joueur local (État APRÈS: {thirdPersonController.enabled})");
+            if (showDebugLogs)
+                Debug.Log($"[NetworkPlayerController] ✓ {thirdPersonController.GetType().Name} ACTIVÉ");
         }
         else
         {
-            Debug.LogError("[NetworkPlayerController] ❌ ThirdPersonController non trouvé ! Le joueur ne pourra pas bouger.");
-
-            // Essayer de le trouver manuellement
-            MonoBehaviour[] allComponents = GetComponents<MonoBehaviour>();
-            Debug.Log($"[NetworkPlayerController] Composants trouvés sur ce GameObject:");
-            foreach (var comp in allComponents)
-            {
-                Debug.Log($"  - {comp.GetType().Name}");
-            }
+            Debug.LogError("[NetworkPlayerController] ✗ ThirdPersonController non trouvé");
         }
 
         // Activer la caméra
@@ -190,17 +190,35 @@ public class NetworkPlayerController : NetworkBehaviour
                 Debug.Log("[NetworkPlayerController] ✓ Caméra activée pour le joueur local");
             }
         }
-        else
-        {
-            Debug.LogWarning("[NetworkPlayerController] ⚠️ Aucune caméra trouvée pour le joueur local");
-        }
 
         // Activer le CharacterController si présent
         if (characterController != null)
         {
             characterController.enabled = true;
+            if (showDebugLogs)
+                Debug.Log("[NetworkPlayerController] ✓ CharacterController activé");
         }
+
+        // CRITIQUE : Activer aussi les inputs
+        var starterInputs = GetComponent<StarterAssets.StarterAssetsInputs>();
+        if (starterInputs != null)
+        {
+            starterInputs.enabled = true;
+            if (showDebugLogs)
+                Debug.Log("[NetworkPlayerController] ✓ StarterAssetsInputs activé");
+        }
+
+    #if ENABLE_INPUT_SYSTEM
+            var playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
+            if (playerInput != null)
+            {
+                playerInput.enabled = true;
+                if (showDebugLogs)
+                    Debug.Log("[NetworkPlayerController] ✓ PlayerInput activé");
+            }
+    #endif
     }
+
 
     /// <summary>
     /// Désactive les composants pour les joueurs distants
@@ -230,40 +248,39 @@ public class NetworkPlayerController : NetworkBehaviour
                 audioListener.enabled = false;
             }
         }
-    }
 
-    private void Start()
-    {
-        // NOTE: On ne fait PLUS l'activation/désactivation dans Start()
-        // Tout est géré par OnStartAuthority() / OnStopAuthority()
-
-        if (showDebugLogs)
+        // Désactiver le CharacterController
+        if (characterController != null)
         {
-            Debug.Log($"[NetworkPlayerController] Start() - IsLocalPlayer: {isLocalPlayer}, HasAuthority: {isOwned}");
+            characterController.enabled = false;
         }
+
+        // Désactiver les inputs
+        var starterInputs = GetComponent<StarterAssets.StarterAssetsInputs>();
+        if (starterInputs != null)
+        {
+            starterInputs.enabled = false;
+        }
+#if ENABLE_INPUT_SYSTEM
+        var playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
+        if (playerInput != null)
+        {
+            playerInput.enabled = false;
+        }
+#endif
     }
 
 #if UNITY_EDITOR
     protected override void OnValidate()
     {
         base.OnValidate();
-        
-        // Vérifier que NetworkTransform est présent en cherchant par nom de type
+
         Component networkTransform = GetComponent("NetworkTransform") as Component;
         Component networkTransformReliable = GetComponent("NetworkTransformReliable") as Component;
-        
+
         if (networkTransform == null && networkTransformReliable == null)
         {
-            Debug.LogWarning($"[NetworkPlayerController] '{gameObject.name}' n'a pas de NetworkTransform ! " +
-                           "Ajoutez NetworkTransform ou NetworkTransformReliable pour synchroniser la position.", this);
-        }
-
-        // Vérifier que NetworkIdentity a Local Player Authority
-        NetworkIdentity identity = GetComponent<NetworkIdentity>();
-        if (identity != null)
-        {
-            // Note: Dans Mirror, l'autorité est gérée automatiquement au runtime
-            // Pas besoin de vérifier localPlayerAuthority en OnValidate
+            Debug.LogWarning($"[NetworkPlayerController] '{gameObject.name}' n'a pas de NetworkTransform !", this);
         }
     }
 #endif
