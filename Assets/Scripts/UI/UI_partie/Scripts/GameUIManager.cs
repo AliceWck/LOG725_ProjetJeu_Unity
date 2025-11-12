@@ -387,7 +387,7 @@ public class GameUIManager : MonoBehaviour
         {
             // Utiliser isOwned au lieu de isLocalPlayer pour détecter le joueur local
             bool isLocal = gp.isOwned || gp.isLocalPlayer;
-            
+
             var playerItem = CreatePlayerItem(new PlayerData
             {
                 playerName = gp.PlayerName,

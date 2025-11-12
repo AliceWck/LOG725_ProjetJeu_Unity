@@ -37,9 +37,9 @@ public class CustomRoomPlayer : NetworkRoomPlayer
             {
                 // Vérifier si ce joueur est le Host (connectionToClient == null signifie que c'est le serveur local)
                 bool isHost = connectionToClient == null || connectionToClient.connectionId == 0;
-                
+
                 Debug.Log($"[RoomPlayer] isHost: {isHost}, connectionId: {(connectionToClient != null ? connectionToClient.connectionId.ToString() : "NULL")}, netId: {netId}");
-                
+
                 int gardienCount = 0;
 
                 foreach (var slot in manager.roomSlots)

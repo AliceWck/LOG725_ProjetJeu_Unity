@@ -28,10 +28,10 @@ public class LocalPlayerCamera : NetworkBehaviour
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
-        
+
         if (showDebugLogs)
             Debug.Log($"[LocalPlayerCamera] OnStartAuthority - Setup caméra (isLocal: {isLocalPlayer})");
-        
+
         // Si isLocalPlayer est false mais on a l'autorité, on est en mode Host
         if (!isLocalPlayer)
         {

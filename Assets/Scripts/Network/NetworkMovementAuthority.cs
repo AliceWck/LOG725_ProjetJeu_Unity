@@ -132,7 +132,7 @@ public class NetworkMovementAuthority : NetworkBehaviour
             foreach (var comp in allComponents)
             {
                 if (comp == null || comp == this) continue;
-                
+
                 string typeName = comp.GetType().Name;
 
                 // Liste des scripts de mouvement à EXCLURE (scripts réseau uniquement)
@@ -166,7 +166,7 @@ public class NetworkMovementAuthority : NetworkBehaviour
         {
             Debug.LogWarning($"[NetworkMovementAuthority] ⚠️ Aucun contrôleur de mouvement trouvé sur {gameObject.name}! " +
                            "Scripts disponibles:");
-            
+
             // Lister tous les scripts pour aider au diagnostic
             MonoBehaviour[] allComponents = GetComponents<MonoBehaviour>();
             foreach (var comp in allComponents)
@@ -174,7 +174,7 @@ public class NetworkMovementAuthority : NetworkBehaviour
                 if (comp != null)
                     Debug.Log($"  - {comp.GetType().Name}");
             }
-            
+
             Debug.LogWarning("Assignez le contrôleur de mouvement manuellement dans l'Inspector.");
         }
     }

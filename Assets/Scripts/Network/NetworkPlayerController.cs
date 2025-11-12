@@ -111,17 +111,17 @@ public class NetworkPlayerController : NetworkBehaviour
         {
             // Ne pas se sélectionner soi-même !
             if (component == this) continue;
-            
+
             string typeName = component.GetType().Name;
-            
+
             // Exclure les scripts réseau
-            if (typeName.Contains("Network") || 
+            if (typeName.Contains("Network") ||
                 typeName == "CharacterController" ||
                 typeName == "GamePlayer")
             {
                 continue;
             }
-            
+
             // Chercher le vrai contrôleur de mouvement
             if (typeName.Contains("ThirdPerson") ||
                 typeName.Contains("FirstPerson") ||
@@ -236,7 +236,7 @@ public class NetworkPlayerController : NetworkBehaviour
     {
         // NOTE: On ne fait PLUS l'activation/désactivation dans Start()
         // Tout est géré par OnStartAuthority() / OnStopAuthority()
-        
+
         if (showDebugLogs)
         {
             Debug.Log($"[NetworkPlayerController] Start() - IsLocalPlayer: {isLocalPlayer}, HasAuthority: {isOwned}");

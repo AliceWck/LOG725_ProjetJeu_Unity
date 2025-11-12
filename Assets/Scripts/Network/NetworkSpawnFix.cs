@@ -11,11 +11,11 @@ public class NetworkSpawnFix : NetworkBehaviour
 {
     [Header("Références")]
     [SerializeField] private CharacterController characterController;
-    
+
     [Header("Configuration")]
     [Tooltip("Délai avant de réactiver le CharacterController (en secondes)")]
     [SerializeField] private float reactivationDelay = 0.1f;
-    
+
     [Header("Debug")]
     [SerializeField] private bool showDebugLogs = true;
 
@@ -39,10 +39,10 @@ public class NetworkSpawnFix : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        
+
         if (showDebugLogs)
             Debug.Log($"[NetworkSpawnFix] Client démarré sur {gameObject.name} - Attente avant réactivation...");
-        
+
         // Attendre que NetworkTransform ait positionné le joueur
         StartCoroutine(ReactivateCharacterControllerDelayed());
     }
@@ -50,7 +50,7 @@ public class NetworkSpawnFix : NetworkBehaviour
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
-        
+
         // Si on a l'autorité, réactiver immédiatement (pas besoin d'attendre)
         if (characterController != null && !characterController.enabled)
         {
@@ -64,7 +64,7 @@ public class NetworkSpawnFix : NetworkBehaviour
     {
         // Attendre quelques frames pour que NetworkTransform se synchronise
         yield return new WaitForSeconds(reactivationDelay);
-        
+
         // Ne réactiver que si on n'a PAS l'autorité (les joueurs distants)
         // Les joueurs avec autorité sont gérés par OnStartAuthority
         if (characterController != null && !characterController.enabled && !isOwned)

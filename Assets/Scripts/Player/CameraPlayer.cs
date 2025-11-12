@@ -43,7 +43,7 @@ public class ThirdPersonCamera : MonoBehaviour
                     break;
                 }
             }
-            
+
             // Méthode 2: Si toujours rien, chercher par tag
             if (target == null)
             {
@@ -54,7 +54,7 @@ public class ThirdPersonCamera : MonoBehaviour
                     Debug.Log("[ThirdPersonCamera] Target trouvée via tag Player: " + player.name);
                 }
             }
-            
+
             if (target == null)
             {
                 Debug.LogWarning("[ThirdPersonCamera] ⚠️ Aucune target trouvée! Caméra inactive.");
