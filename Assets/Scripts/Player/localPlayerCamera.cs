@@ -4,7 +4,7 @@ using Mirror;
 public class LocalPlayerCamera : NetworkBehaviour
 {
     [Header("Camera Setup")]
-    [Tooltip("Rien mettre dedans, sera trouvé automatiquement")]
+    [Tooltip("Rien mettre dedans, sera trouvï¿½ automatiquement")]
     public ThirdPersonCamera thirdPersonCamera;
 
     [Header("Audio Listener")]
@@ -15,17 +15,35 @@ public class LocalPlayerCamera : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        // Méthode est appelée seulement pour le joueur local
+        // MÃ©thode est appelÃ©e seulement pour le joueur local
         if (showDebugLogs)
-            Debug.Log($"[LocalPlayerCamera] OnStartLocalPlayer appelé pour {gameObject.name}");
+            Debug.Log($"[LocalPlayerCamera] OnStartLocalPlayer appelÃ© pour {gameObject.name}");
 
         SetupCamera();
+    }
+
+    /// <summary>
+    /// Alternative: Setup via OnStartAuthority pour mode Host
+    /// </summary>
+    public override void OnStartAuthority()
+    {
+        base.OnStartAuthority();
+        
+        if (showDebugLogs)
+            Debug.Log($"[LocalPlayerCamera] OnStartAuthority - Setup camÃ©ra (isLocal: {isLocalPlayer})");
+        
+        // Si isLocalPlayer est false mais on a l'autoritÃ©, on est en mode Host
+        if (!isLocalPlayer)
+        {
+            Debug.Log($"[LocalPlayerCamera] Mode Host dÃ©tectÃ© - Setup camÃ©ra via autoritÃ©");
+            SetupCamera();
+        }
     }
 
     void SetupCamera()
     {
         if (showDebugLogs)
-            Debug.Log("[LocalPlayerCamera] Setup caméra...");
+            Debug.Log("[LocalPlayerCamera] Setup camï¿½ra...");
 
         // Trouver script ThirdPersonCamera
         if (thirdPersonCamera == null)
@@ -34,27 +52,27 @@ public class LocalPlayerCamera : NetworkBehaviour
 
             if (thirdPersonCamera == null)
             {
-                Debug.LogError("[LocalPlayerCamera] aucun ThirdPersonCamera trouvé dans la scène");
+                Debug.LogError("[LocalPlayerCamera] aucun ThirdPersonCamera trouvï¿½ dans la scï¿½ne");
                 return;
             }
             else
             {
                 if (showDebugLogs)
-                    Debug.Log($"[LocalPlayerCamera] TPC trouvée sur : {thirdPersonCamera.gameObject.name}");
+                    Debug.Log($"[LocalPlayerCamera] TPC trouvï¿½e sur : {thirdPersonCamera.gameObject.name}");
             }
         }
 
         // Assigner ce joueur comme target
         thirdPersonCamera.target = transform;
 
-        Debug.Log($"[LocalPlayerCamera] Caméra bien attachée au  joueur local");
+        Debug.Log($"[LocalPlayerCamera] Camï¿½ra bien attachï¿½e au  joueur local");
         Debug.Log($"  Personnage : {gameObject.name}");
-        Debug.Log($"  Caméra : {thirdPersonCamera.gameObject.name}");
+        Debug.Log($"  Camï¿½ra : {thirdPersonCamera.gameObject.name}");
 
-        // Gérer AudioListener
+        // Gï¿½rer AudioListener
         if (manageAudioListener)
         {
-            // Désactiver tous les AudioListener des autres joueurs
+            // Dï¿½sactiver tous les AudioListener des autres joueurs
             AudioListener[] allListeners = FindObjectsOfType<AudioListener>();
             foreach (var listener in allListeners)
             {
@@ -63,7 +81,7 @@ public class LocalPlayerCamera : NetworkBehaviour
                 {
                     listener.enabled = false;
                     if (showDebugLogs)
-                        Debug.Log($"[LocalPlayerCamera] AudioListener désactivé sur {listener.name}");
+                        Debug.Log($"[LocalPlayerCamera] AudioListener dï¿½sactivï¿½ sur {listener.name}");
                 }
             }
 
@@ -75,7 +93,7 @@ public class LocalPlayerCamera : NetworkBehaviour
                 {
                     mainListener = Camera.main.gameObject.AddComponent<AudioListener>();
                     if (showDebugLogs)
-                        Debug.Log("[LocalPlayerCamera] AudioListener ajouté à main Camera");
+                        Debug.Log("[LocalPlayerCamera] AudioListener ajoutï¿½ ï¿½ main Camera");
                 }
                 else
                 {
@@ -92,7 +110,7 @@ public class LocalPlayerCamera : NetworkBehaviour
             thirdPersonCamera.target = null;
 
             if (showDebugLogs)
-                Debug.Log("[LocalPlayerCamera] Caméra détachée (joueur détruit)");
+                Debug.Log("[LocalPlayerCamera] Camï¿½ra dï¿½tachï¿½e (joueur dï¿½truit)");
         }
     }
 }

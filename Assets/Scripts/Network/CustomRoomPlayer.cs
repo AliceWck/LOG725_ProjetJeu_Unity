@@ -35,11 +35,16 @@ public class CustomRoomPlayer : NetworkRoomPlayer
             CustomNetworkRoomManager manager = CustomNetworkRoomManager.Instance;
             if (manager != null)
             {
-                // Compter le nombre de Gardiens existants
+                // Vérifier si ce joueur est le Host (connectionToClient == null signifie que c'est le serveur local)
+                bool isHost = connectionToClient == null || connectionToClient.connectionId == 0;
+                
+                Debug.Log($"[RoomPlayer] isHost: {isHost}, connectionId: {(connectionToClient != null ? connectionToClient.connectionId.ToString() : "NULL")}, netId: {netId}");
+                
                 int gardienCount = 0;
+
                 foreach (var slot in manager.roomSlots)
                 {
-                    if (slot != null)
+                    if (slot != null && slot != this) // Ne pas compter ce joueur
                     {
                         CustomRoomPlayer roomPlayer = slot as CustomRoomPlayer;
                         if (roomPlayer != null && roomPlayer.PlayerRole == Role.Gardien)
@@ -49,22 +54,50 @@ public class CustomRoomPlayer : NetworkRoomPlayer
                     }
                 }
 
-                // Assigner le rôle : un seul Gardien maximum
+                // Assigner le rôle selon le mode configuré
                 Role roleToSet = Role.Ombre;
 
-                if (gardienCount == 0)
+                Debug.Log($"[RoomPlayer] Gardiens existants: {gardienCount}, Mode: {manager.roleAssignmentMode}");
+
+                if (manager.roleAssignmentMode == CustomNetworkRoomManager.RoleAssignmentMode.HostIsGardien)
                 {
-                    // Pas encore de Gardien, le premier joueur devient Gardien
-                    roleToSet = Role.Gardien;
+                    // Host = Gardien, tous les autres = Ombre
+                    if (isHost)
+                    {
+                        roleToSet = Role.Gardien;
+                        Debug.Log($"[RoomPlayer] Mode HostIsGardien - Host → Gardien");
+                    }
+                    else
+                    {
+                        roleToSet = Role.Ombre;
+                        Debug.Log($"[RoomPlayer] Mode HostIsGardien - Client → Ombre");
+                    }
                 }
-                else
+                else if (manager.roleAssignmentMode == CustomNetworkRoomManager.RoleAssignmentMode.HostIsOmbre)
                 {
-                    // Il y a déjà un Gardien, tous les autres sont des Ombres
-                    roleToSet = Role.Ombre;
+                    // Host = Ombre, premier client qui rejoint = Gardien, les autres = Ombre
+                    if (isHost)
+                    {
+                        // Host = Ombre
+                        roleToSet = Role.Ombre;
+                        Debug.Log($"[RoomPlayer] Mode HostIsOmbre - Host → Ombre");
+                    }
+                    else if (gardienCount == 0)
+                    {
+                        // Premier client = Gardien
+                        roleToSet = Role.Gardien;
+                        Debug.Log($"[RoomPlayer] Mode HostIsOmbre - Premier client → Gardien");
+                    }
+                    else
+                    {
+                        // Autres clients = Ombre
+                        roleToSet = Role.Ombre;
+                        Debug.Log($"[RoomPlayer] Mode HostIsOmbre - Autres clients → Ombre");
+                    }
                 }
 
                 SetPlayerRole(roleToSet);
-                Debug.Log($"[RoomPlayer] Rôle assigné: {roleToSet} (Gardiens existants: {gardienCount})");
+                Debug.Log($"[RoomPlayer] ✓ Rôle final assigné: {roleToSet}");
             }
         }
     }

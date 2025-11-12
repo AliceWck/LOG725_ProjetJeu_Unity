@@ -27,7 +27,7 @@ public class GamePlayer : NetworkBehaviour
     {
         base.OnStartClient();
         allPlayers.Add(this);
-        Debug.Log($"[GamePlayer] Client démarré - IsLocal: {isLocalPlayer}, Nom: {playerName}, Rôle: {role}");
+        Debug.Log($"[GamePlayer] Client démarré - IsLocal: {isLocalPlayer}, IsOwned: {isOwned}, Nom: {playerName}, Rôle: {role}");
         UpdateNameTag();
 
         GameUIManager ui = FindObjectOfType<GameUIManager>();
@@ -53,13 +53,14 @@ public class GamePlayer : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        Debug.Log($"[GamePlayer] Joueur local démarré: {playerName}, Rôle: {role}");
+        Debug.Log($"[GamePlayer] ✓ Joueur local démarré: {playerName}, Rôle: {role}, IsOwned: {isOwned}");
 
         uiManager = FindObjectOfType<GameUIManager>();
         if (uiManager != null)
         {
             uiManager.SetPlayerRole(role == Role.Ombre);
             uiManager.SetPlayerHealth(100f);
+            uiManager.RefreshPlayersList(); // Rafraîchir la liste pour afficher "(Vous)"
         }
 
         SetupLocalPlayer();
@@ -72,6 +73,40 @@ public class GamePlayer : NetworkBehaviour
         if (minimap != null)
         {
             minimap.SetPlayerToFollow(transform);
+        }
+    }
+
+    /// <summary>
+    /// Appelé quand ce client reçoit l'autorité
+    /// Alternative à OnStartLocalPlayer en cas de problème
+    /// </summary>
+    public override void OnStartAuthority()
+    {
+        base.OnStartAuthority();
+        Debug.Log($"[GamePlayer] ✓ AUTORITÉ REÇUE - {playerName}, IsLocal: {isLocalPlayer}, IsOwned: {isOwned}");
+
+        // Si isLocalPlayer est false mais on a l'autorité, c'est qu'on est le Host
+        // Forcer le setup du joueur local
+        if (!isLocalPlayer)
+        {
+            Debug.LogWarning($"[GamePlayer] ⚠️ Autorité sans isLocalPlayer - Mode Host détecté, forçage setup");
+
+            uiManager = FindObjectOfType<GameUIManager>();
+            if (uiManager != null)
+            {
+                uiManager.SetPlayerRole(role == Role.Ombre);
+                uiManager.SetPlayerHealth(100f);
+                uiManager.RefreshPlayersList(); // Rafraîchir la liste pour afficher "(Vous)"
+            }
+
+            SetupLocalPlayer();
+            ConfigureRoleComponents();
+
+            MinimapSystem minimap = FindObjectOfType<MinimapSystem>();
+            if (minimap != null)
+            {
+                minimap.SetPlayerToFollow(transform);
+            }
         }
     }
 

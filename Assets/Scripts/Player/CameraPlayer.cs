@@ -29,18 +29,35 @@ public class ThirdPersonCamera : MonoBehaviour
 
     void Start()
     {
-        // Si la target n'est pas assign�e, chercher le Player
+        // Si la target n'est pas assignée, chercher le joueur local via GamePlayer
         if (target == null)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
+            // Méthode 1: Chercher via GamePlayer.isLocalPlayer
+            GamePlayer[] allPlayers = FindObjectsOfType<GamePlayer>();
+            foreach (var player in allPlayers)
             {
-                target = player.transform;
-                Debug.Log("Target automatiquement trouv�e : " + player.name);
+                if (player.isLocalPlayer || player.isOwned)
+                {
+                    target = player.transform;
+                    Debug.Log($"[ThirdPersonCamera] Target trouvée via GamePlayer: {player.name}");
+                    break;
+                }
             }
-            else
+            
+            // Méthode 2: Si toujours rien, chercher par tag
+            if (target == null)
             {
-                Debug.LogError("Aucune target assign�e et aucun objet avec tag 'Player' trouv� !");
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                {
+                    target = player.transform;
+                    Debug.Log("[ThirdPersonCamera] Target trouvée via tag Player: " + player.name);
+                }
+            }
+            
+            if (target == null)
+            {
+                Debug.LogWarning("[ThirdPersonCamera] ⚠️ Aucune target trouvée! Caméra inactive.");
             }
         }
 

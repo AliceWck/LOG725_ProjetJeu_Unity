@@ -9,6 +9,10 @@ public class CustomNetworkRoomManager : NetworkRoomManager
     [SerializeField] private string mainMenuSceneName = "MainMenu";
     [SerializeField] private bool autoLoadMainMenu = false;
 
+    // Propriétés publiques pour diagnostic
+    public string MainMenuSceneName => mainMenuSceneName;
+    public bool AutoLoadMainMenu => autoLoadMainMenu;
+
     [Header("Prefabs de Rôles")]
     [SerializeField] private GameObject gardienPrefab;
     [SerializeField] private GameObject ombrePrefab;
@@ -18,7 +22,6 @@ public class CustomNetworkRoomManager : NetworkRoomManager
     public override void Awake()
     {
         ConfigureDefaultSettings();
-
         base.Awake();
 
         if (Instance != null && Instance != this)
@@ -43,19 +46,14 @@ public class CustomNetworkRoomManager : NetworkRoomManager
         if (string.IsNullOrEmpty(GameplayScene))
             GameplayScene = "OutdoorsScene";
 
-        // Corrige si le chemin complet a été mis par erreur
         if (RoomScene.Contains("/") || RoomScene.Contains(".unity"))
         {
-            Debug.LogWarning($"[NetworkRoomManager] RoomScene contient un chemin! Correction: {RoomScene}");
             RoomScene = System.IO.Path.GetFileNameWithoutExtension(RoomScene);
-            Debug.LogWarning($"[NetworkRoomManager] RoomScene corrigé: {RoomScene}");
         }
 
         if (GameplayScene.Contains("/") || GameplayScene.Contains(".unity"))
         {
-            Debug.LogWarning($"[NetworkRoomManager] GameplayScene contient un chemin! Correction: {GameplayScene}");
             GameplayScene = System.IO.Path.GetFileNameWithoutExtension(GameplayScene);
-            Debug.LogWarning($"[NetworkRoomManager] GameplayScene corrigé: {GameplayScene}");
         }
 
         autoCreatePlayer = true;
@@ -64,53 +62,38 @@ public class CustomNetworkRoomManager : NetworkRoomManager
         if (string.IsNullOrWhiteSpace(onlineScene))
         {
             onlineScene = RoomScene;
-            Debug.Log($"[NetworkRoomManager] onlineScene non défini, réglage automatique vers: {onlineScene}");
         }
 
-        // Ajoute le prefab RoomPlayer dans les spawnables si besoin
         if (roomPlayerPrefab != null && !spawnPrefabs.Contains(roomPlayerPrefab.gameObject))
         {
             spawnPrefabs.Add(roomPlayerPrefab.gameObject);
-            Debug.Log("[NetworkRoomManager] RoomPlayerPrefab ajouté à spawnPrefabs");
         }
 
-        // Ajoute les prefabs de rôles
         if (gardienPrefab != null && !spawnPrefabs.Contains(gardienPrefab))
         {
             spawnPrefabs.Add(gardienPrefab);
-            Debug.Log("[NetworkRoomManager] GardienPrefab ajouté à spawnPrefabs");
         }
 
         if (ombrePrefab != null && !spawnPrefabs.Contains(ombrePrefab))
         {
             spawnPrefabs.Add(ombrePrefab);
-            Debug.Log("[NetworkRoomManager] OmbrePrefab ajouté à spawnPrefabs");
         }
 
-        // Définir playerPrefab par défaut
         if (playerPrefab == null && gardienPrefab != null)
         {
             playerPrefab = gardienPrefab;
         }
-
-        Debug.Log($"[NetworkRoomManager] Configuration par défaut appliquée");
     }
 
     public override void Start()
     {
         base.Start();
 
-        Debug.Log($"[NetworkRoomManager] Initialisé - Lobby: {RoomScene}, Jeu: {GameplayScene}");
-        Debug.Log($"[NetworkRoomManager] Min Players: {minPlayers}, Max: {maxConnections}");
-
-        // Charge automatiquement le menu principal si on est dans NetworkSetup
         string currentScene = SceneManager.GetActiveScene().name;
-        Debug.Log($"[NetworkRoomManager] Scène actuelle: {currentScene}");
 
         if (autoLoadMainMenu && currentScene == "NetworkSetup")
         {
-            Debug.Log($"[NetworkRoomManager] Chargement automatique de {mainMenuSceneName}...");
-            Invoke(nameof(LoadMainMenu), 0.2f);
+            LoadMainMenu();
         }
     }
 
@@ -122,10 +105,26 @@ public class CustomNetworkRoomManager : NetworkRoomManager
             return;
         }
 
-        Debug.Log($"[NetworkRoomManager] >> Chargement de {mainMenuSceneName}");
-
         try
         {
+            bool sceneExists = false;
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            {
+                string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+                string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
+                if (sceneName == mainMenuSceneName)
+                {
+                    sceneExists = true;
+                    break;
+                }
+            }
+
+            if (!sceneExists)
+            {
+                Debug.LogError($"[NetworkRoomManager] Scène '{mainMenuSceneName}' NON trouvée dans Build Settings!");
+                return;
+            }
+
             SceneManager.LoadScene(mainMenuSceneName);
         }
         catch (System.Exception e)
@@ -185,6 +184,7 @@ public class CustomNetworkRoomManager : NetworkRoomManager
 
         GameObject gamePlayer;
 
+        // Choisir le prefab selon le rôle
         if (lobbyPlayer != null && lobbyPlayer.PlayerRole == Role.Gardien)
         {
             if (gardienPrefab == null)
@@ -192,9 +192,7 @@ public class CustomNetworkRoomManager : NetworkRoomManager
                 Debug.LogError("[NetworkRoomManager] GardienPrefab manquant !");
                 return null;
             }
-            gamePlayer = Instantiate(gardienPrefab);
-            NetworkServer.Spawn(gamePlayer, conn);
-            Debug.Log($"[NetworkRoomManager] Spawned Gardien prefab '{gamePlayer.name}' for {lobbyPlayer.PlayerName}");
+            gamePlayer = gardienPrefab;
         }
         else
         {
@@ -203,19 +201,46 @@ public class CustomNetworkRoomManager : NetworkRoomManager
                 Debug.LogError("[NetworkRoomManager] OmbrePrefab manquant !");
                 return null;
             }
-            gamePlayer = Instantiate(ombrePrefab);
-            NetworkServer.Spawn(gamePlayer, conn);
-            Debug.Log($"[NetworkRoomManager] Spawned Ombre prefab '{gamePlayer.name}' for {lobbyPlayer?.PlayerName ?? "Unknown"}");
+            gamePlayer = ombrePrefab;
         }
 
-        if (lobbyPlayer != null && gamePlayer != null)
+        // Obtenir une position de spawn
+        Transform spawnPoint = GetStartPosition();
+
+        GameObject playerInstance;
+        if (spawnPoint != null)
         {
-            GamePlayer gamePlayerComponent = gamePlayer.GetComponent<GamePlayer>();
+            // Spawn avec position et rotation du spawn point
+            playerInstance = Instantiate(gamePlayer, spawnPoint.position, spawnPoint.rotation);
+        }
+        else
+        {
+            // Fallback: spawn avec un offset basé sur le nombre de joueurs
+            // Disposer les joueurs en cercle pour éviter les collisions
+            int playerIndex = roomSlots.Count - 1; // Index commence à 0
+            float angle = playerIndex * 60f; // 60 degrés entre chaque joueur (max 6 joueurs)
+            float radius = 5f; // Rayon du cercle en mètres
+            float spawnHeight = 1f; // Hauteur au-dessus du sol
+
+            Vector3 offset = new Vector3(
+                Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
+                spawnHeight,
+                Mathf.Sin(angle * Mathf.Deg2Rad) * radius
+            );
+
+            playerInstance = Instantiate(gamePlayer, offset, Quaternion.identity);
+        }
+
+        // Spawner sur le réseau
+        NetworkServer.Spawn(playerInstance, conn);
+
+        if (lobbyPlayer != null && playerInstance != null)
+        {
+            GamePlayer gamePlayerComponent = playerInstance.GetComponent<GamePlayer>();
             if (gamePlayerComponent != null)
             {
                 gamePlayerComponent.SetPlayerName(lobbyPlayer.PlayerName);
                 gamePlayerComponent.SetPlayerRole(lobbyPlayer.PlayerRole);
-                Debug.Log($"[NetworkRoomManager] ✓ Joueur de jeu créé: {lobbyPlayer.PlayerName} ({lobbyPlayer.PlayerRole})");
             }
         }
         else
@@ -224,7 +249,7 @@ public class CustomNetworkRoomManager : NetworkRoomManager
         }
 
         // Retourne l'objet joueur de jeu
-        return gamePlayer;
+        return playerInstance;
     }
 
     /// <summary>

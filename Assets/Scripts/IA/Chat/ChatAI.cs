@@ -85,7 +85,7 @@ public class ChatAI : MonoBehaviour
         else
         {
             // Debug message
-            Debug.Log("[ChatAI] Chat est immobile, aucune cible.");
+            //Debug.Log("[ChatAI] Chat est immobile, aucune cible.");
         }
     }
 }

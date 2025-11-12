@@ -4595,17 +4595,21 @@ GameObject:
   m_Component:
   - component: {fileID: 61857757131955886}
   - component: {fileID: 4180581752262114565}
+  - component: {fileID: -2693389551597244708}
+  - component: {fileID: 8636839557678999318}
+  - component: {fileID: 830038695690913713}
+  - component: {fileID: -1296769855152661331}
+  - component: {fileID: 2269596022676610493}
   - component: {fileID: 7210070181173748768}
   - component: {fileID: 839337847132918071}
   - component: {fileID: 3382983777038232136}
   - component: {fileID: 7146746995045139069}
   - component: {fileID: 6603710347458818308}
   - component: {fileID: 2390159669950249307}
-  - component: {fileID: 830038695690913713}
-  - component: {fileID: -2693389551597244708}
   - component: {fileID: 6318271127831668738}
-  - component: {fileID: 8636839557678999318}
-  - component: {fileID: 2269596022676610493}
+  - component: {fileID: 4888223962028350344}
+  - component: {fileID: 121401427868173845}
+  - component: {fileID: 8681980043536109446}
   m_Layer: 8
   m_Name: Gardien
   m_TagString: Player
@@ -4652,6 +4656,109 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-2693389551597244708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1935874484
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &8636839557678999318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 61857757131955886}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  useFixedUpdate: 0
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
+--- !u!114 &830038695690913713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fb8710ec8724a5286a6130514d485b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  nameTag: {fileID: 0}
+--- !u!114 &-1296769855152661331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71cd341a00ec64df0929760f1ea0267b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  movementController: {fileID: 839337847132918071}
+  characterController: {fileID: 7210070181173748768}
+  autoFindComponents: 1
+  showDebugLogs: 1
+--- !u!114 &2269596022676610493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fbc4ceca5dca465598e5a3eda8fb0d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  autoFindControllers: 1
+  showDebugLogs: 1
 --- !u!143 &7210070181173748768
 CharacterController:
   m_ObjectHideFlags: 0
@@ -4669,7 +4776,7 @@ CharacterController:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Height: 1.8
   m_Radius: 0.28
@@ -4875,39 +4982,6 @@ MonoBehaviour:
   thirdPersonCamera: {fileID: 0}
   manageAudioListener: 1
   showDebugLogs: 1
---- !u!114 &830038695690913713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7554592982891490919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29fb8710ec8724a5286a6130514d485b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  nameTag: {fileID: 0}
---- !u!114 &-2693389551597244708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7554592982891490919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 1935874484
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!114 &6318271127831668738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4928,7 +5002,7 @@ MonoBehaviour:
   iconSize: 10
   rotateWithObject: 0
   iconHeight: 85
---- !u!114 &8636839557678999318
+--- !u!114 &4888223962028350344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4937,32 +5011,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 7554592982891490919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e70b131726be4076866ed3c359522bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 61857757131955886}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  timelineOffset: 1
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
-  useFixedUpdate: 0
-  rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
---- !u!114 &2269596022676610493
+  MoveSpeed: 13
+  verticalRotationSpeed: 50
+  minVerticalAngle: -80
+  maxVerticalAngle: 80
+  FlashLight: {fileID: 0}
+  Source: {fileID: 0}
+  FlashLightOnSound: {fileID: 0}
+  FlashLightOffSound: {fileID: 0}
+--- !u!114 &121401427868173845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4971,14 +5031,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 7554592982891490919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fbc4ceca5dca465598e5a3eda8fb0d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 77ce6f840b7cd3f488fb0f198f2d81e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBatteryLife: 240
+  BatteryEnabled: 1
+  flashLight: {fileID: 0}
+--- !u!114 &8681980043536109446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554592982891490919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe42c6a3b81e40639d460959781d5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  autoFindControllers: 1
-  showDebugLogs: 1
+  prefabName: GARDIEN
 --- !u!1 &7817352308337221933
 GameObject:
   m_ObjectHideFlags: 0

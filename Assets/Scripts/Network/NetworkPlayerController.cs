@@ -51,8 +51,9 @@ public class NetworkPlayerController : NetworkBehaviour
     {
         base.OnStartLocalPlayer();
 
-        // Activer les composants pour le joueur local
-        EnableLocalPlayerComponents();
+        // NOTE: On n'active PLUS les composants ici
+        // L'activation se fait maintenant dans OnStartAuthority()
+        // qui est appelé automatiquement après OnStartLocalPlayer
 
         if (showDebugLogs)
         {
@@ -71,6 +72,35 @@ public class NetworkPlayerController : NetworkBehaviour
     }
 
     /// <summary>
+    /// Appelé quand ce client reçoit l'autorité sur cet objet
+    /// C'EST ICI qu'on doit activer les contrôles, pas dans OnStartLocalPlayer
+    /// </summary>
+    public override void OnStartAuthority()
+    {
+        base.OnStartAuthority();
+
+        if (showDebugLogs)
+            Debug.Log($"[NetworkPlayerController] ✓ AUTORITÉ REÇUE - Activation des contrôles pour NetID: {netId}");
+
+        // Activer les composants maintenant qu'on a l'autorité
+        EnableLocalPlayerComponents();
+    }
+
+    /// <summary>
+    /// Appelé quand ce client perd l'autorité sur cet objet
+    /// </summary>
+    public override void OnStopAuthority()
+    {
+        base.OnStopAuthority();
+
+        if (showDebugLogs)
+            Debug.Log($"[NetworkPlayerController] ✗ AUTORITÉ PERDUE - Désactivation des contrôles pour NetID: {netId}");
+
+        // Désactiver les composants
+        DisableRemotePlayerComponents();
+    }
+
+    /// <summary>
     /// Trouve automatiquement les contrôleurs sur le GameObject
     /// </summary>
     private void FindControllers()
@@ -79,8 +109,24 @@ public class NetworkPlayerController : NetworkBehaviour
         MonoBehaviour[] allComponents = GetComponents<MonoBehaviour>();
         foreach (var component in allComponents)
         {
+            // Ne pas se sélectionner soi-même !
+            if (component == this) continue;
+            
             string typeName = component.GetType().Name;
+            
+            // Exclure les scripts réseau
+            if (typeName.Contains("Network") || 
+                typeName == "CharacterController" ||
+                typeName == "GamePlayer")
+            {
+                continue;
+            }
+            
+            // Chercher le vrai contrôleur de mouvement
             if (typeName.Contains("ThirdPerson") ||
+                typeName.Contains("FirstPerson") ||
+                typeName.Contains("PlayerController") ||
+                typeName.Contains("PlayerMovement") ||
                 (typeName.Contains("Controller") && !typeName.Contains("Character")))
             {
                 thirdPersonController = component;
@@ -188,22 +234,20 @@ public class NetworkPlayerController : NetworkBehaviour
 
     private void Start()
     {
-        if (isLocalPlayer)
+        // NOTE: On ne fait PLUS l'activation/désactivation dans Start()
+        // Tout est géré par OnStartAuthority() / OnStopAuthority()
+        
+        if (showDebugLogs)
         {
-            // Si c'est le joueur local, activer les composants
-            EnableLocalPlayerComponents();
-            Debug.Log("[NetworkPlayerController] Composants activés pour le joueur local dans Start()");
-        }
-        else
-        {
-            // Si ce n'est pas le joueur local, désactiver les composants
-            DisableRemotePlayerComponents();
+            Debug.Log($"[NetworkPlayerController] Start() - IsLocalPlayer: {isLocalPlayer}, HasAuthority: {isOwned}");
         }
     }
 
 #if UNITY_EDITOR
-    protected virtual void OnValidate()
+    protected override void OnValidate()
     {
+        base.OnValidate();
+        
         // Vérifier que NetworkTransform est présent en cherchant par nom de type
         Component networkTransform = GetComponent("NetworkTransform") as Component;
         Component networkTransformReliable = GetComponent("NetworkTransformReliable") as Component;

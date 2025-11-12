@@ -385,11 +385,14 @@ public class GameUIManager : MonoBehaviour
         // Récupération des joueurs depuis GamePlayer en réseau
         foreach (var gp in GamePlayer.allPlayers)
         {
+            // Utiliser isOwned au lieu de isLocalPlayer pour détecter le joueur local
+            bool isLocal = gp.isOwned || gp.isLocalPlayer;
+            
             var playerItem = CreatePlayerItem(new PlayerData
             {
                 playerName = gp.PlayerName,
                 isOmbre = (gp.PlayerRole == Role.Ombre),
-                isLocalPlayer = gp.isLocalPlayer
+                isLocalPlayer = isLocal
             });
 
             playersList.Add(playerItem);
