@@ -331,7 +331,8 @@ GameObject:
   - component: {fileID: 5850260353429865574}
   - component: {fileID: 4843365832016850601}
   - component: {fileID: 5559042427608767572}
-  - component: {fileID: 9187924664159988786}
+  - component: {fileID: -7555711713793420166}
+  - component: {fileID: 3431447780193487748}
   m_Layer: 9
   m_Name: torch
   m_TagString: Untagged
@@ -430,7 +431,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 80b08148bd1b80d47aeb3043fe86d434, type: 3}
---- !u!114 &9187924664159988786
+--- !u!114 &-7555711713793420166
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -439,13 +440,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 1342847732791943092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cde3fdb560192340a1dce0296926827, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 2968181805
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &3431447780193487748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342847732791943092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 176c81305d5f5c14c8f62ddadb4dd0c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   lampLight: {fileID: 6510228155804382755}
   interactionUI: {fileID: 6576394105674372597}
-  interactionDistance: 3
+  interactionDistance: 2
   interactionKey: 101
+  lightOnSound: {fileID: 8300000, guid: 499448322d46c9042bb29088c18884f2, type: 3}
+  lightOffSound: {fileID: 8300000, guid: 11db5d7e0663525458b7ee6963ef9cf7, type: 3}
+  soundVolume: 0.7
+  minHearDistance: 1
+  maxHearDistance: 12
 --- !u!1 &6576394105674372597
 GameObject:
   m_ObjectHideFlags: 0
