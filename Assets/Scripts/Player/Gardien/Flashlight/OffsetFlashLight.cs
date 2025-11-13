@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OffsetFlashLight : MonoBehaviour
+public class OffsetFlashLight : NetworkBehaviour, ILightSource
 {
     [Header("Réglages de la lampe")]
     //public GameObject FollowCam; // Camera qui suit le joueur
@@ -28,37 +29,43 @@ public class OffsetFlashLight : MonoBehaviour
     // Start appelé avant la première frame update
     void Start()
     {
-        //OffsetVect3 = transform.position - FollowCam.transform.position;
-
         batterySystem = GetComponent<FlashlightBattery>(); // Récupération infos batterie
     }
 
     // Update est appelé une fois par frame
     void Update()
     {
-        //transform.position = FollowCam.transform.position + OffsetVect3; // Light regarde la caméra avec un offset
+        // Multi : seul le joueur local peut contrôler sa lampe
+        if (!isLocalPlayer) return;
 
-        //transform.rotation = Quaternion.Slerp(transform.rotation, FollowCam.transform.rotation, Time.deltaTime * MoveSpeed); // Smooth rotation vers la caméra
+        HandleFlashlightToggle();
+        HandleVerticalRotation();
+    }
 
+    private void HandleFlashlightToggle()
+    {
         if (Input.GetKeyDown(KeyCode.F)) // Si appuie sur F
         {
-            if(!FlashLight.enabled)
+            if (!FlashLight.enabled)
             {
                 // Vérifie si la lampe peut être allumée (batterie > 0)
                 if (batterySystem == null || batterySystem.CanTurnOnFlashlight())
                 {
                     FlashLight.enabled = true; // Allume la lampe
                     Source.PlayOneShot(FlashLightOnSound); // Son clic allumage lampe
-                } 
+                }
             }
 
             else
             {
                 FlashLight.enabled = false;
                 Source.PlayOneShot(FlashLightOffSound); // Son clic extinction lampe
-            }                
+            }
         }
+    }
 
+    private void HandleVerticalRotation()
+    {
         // Contrôle de la molette pour inclinaison verticale du faisceau
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         if (Mathf.Abs(scrollInput) > 0.01f)
@@ -70,5 +77,33 @@ public class OffsetFlashLight : MonoBehaviour
         // Application de la rotation sur la lampe
         Quaternion targetRotation = Quaternion.Euler(currentVerticalAngle - 90f, 0f, 0f);
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, Time.deltaTime * MoveSpeed);
+    }
+
+    public bool IsPlayerInLight(Vector3 playerPosition)
+    {
+        if (FlashLight == null || !FlashLight.enabled)
+            return false;
+
+        float distance = Vector3.Distance(transform.position, playerPosition);
+
+        if (distance > FlashLight.range)
+            return false;
+
+        Vector3 directionToPlayer = (playerPosition - transform.position).normalized;
+        Vector3 lightDirection = transform.forward;
+
+        float angle = Vector3.Angle(lightDirection, directionToPlayer);
+
+        return angle < (FlashLight.spotAngle / 2f);
+    }
+
+    public Vector3 GetLightPosition()
+    {
+        return transform.position;
+    }
+
+    public bool IsGuardianLight()
+    {
+        return true; // Cette lampe blesse les Ombres
     }
 }

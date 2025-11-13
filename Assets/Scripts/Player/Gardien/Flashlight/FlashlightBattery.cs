@@ -12,7 +12,7 @@ public class FlashlightBattery : MonoBehaviour
     [Header("Référence au light component")]
     [SerializeField] private Light flashLight; // Lier au composant
 
-    private bool isFlashlightOn = true;
+
 
     void Start()
     {
