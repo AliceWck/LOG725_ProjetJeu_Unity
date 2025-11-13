@@ -599,9 +599,27 @@ public class GameUIManager : MonoBehaviour
         }
 
         // "Echap" pour popup quitter
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ShowQuitPopup();
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            if (quitPopup == null) return;
+
+            bool isVisible = !quitPopup.ClassListContains("hidden");
+
+            if (isVisible)
+            {
+                // Si le popup est déjà ouvert, la fermer (comme btn "non")
+                HideQuitPopup();
+                // On relock le curseur si tu veux reprendre le jeu direct :
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                UnityEngine.Cursor.visible = false;
+            }
+            else
+            {
+                // Si popup est fermé, l’ouvrir
+                ShowQuitPopup();
+                // Déverrouiller le curseur pour cliquer sur les boutons
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+                UnityEngine.Cursor.visible = true;
+            }
         }
     }
 
