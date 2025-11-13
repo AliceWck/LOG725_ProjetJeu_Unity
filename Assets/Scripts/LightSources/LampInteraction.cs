@@ -170,6 +170,11 @@ public class NetworkedLampInteraction : NetworkBehaviour
         }
     }
 
+    public bool GetLampState()
+    {
+        return isLampOn;
+    }
+
     [Command(requiresAuthority = false)]
     void CmdToggleLamp()
     {
