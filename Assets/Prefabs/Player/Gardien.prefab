@@ -4608,8 +4608,6 @@ GameObject:
   - component: {fileID: 6603710347458818308}
   - component: {fileID: 2390159669950249307}
   - component: {fileID: 6318271127831668738}
-  - component: {fileID: 4888223962028350344}
-  - component: {fileID: 121401427868173845}
   - component: {fileID: 8681980043536109446}
   - component: {fileID: 2739730960601048209}
   - component: {fileID: -1506887944230341991}
@@ -4813,7 +4811,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7554592982891490919}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
@@ -5023,41 +5021,6 @@ MonoBehaviour:
   iconSize: 10
   rotateWithObject: 0
   iconHeight: 85
---- !u!114 &4888223962028350344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7554592982891490919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e70b131726be4076866ed3c359522bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 13
-  verticalRotationSpeed: 50
-  minVerticalAngle: -80
-  maxVerticalAngle: 80
-  FlashLight: {fileID: 0}
-  Source: {fileID: 0}
-  FlashLightOnSound: {fileID: 0}
-  FlashLightOffSound: {fileID: 0}
---- !u!114 &121401427868173845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7554592982891490919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ce6f840b7cd3f488fb0f198f2d81e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxBatteryLife: 240
-  BatteryEnabled: 1
-  flashLight: {fileID: 0}
 --- !u!114 &8681980043536109446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5799,6 +5762,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e70b131726be4076866ed3c359522bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   MoveSpeed: 13
   verticalRotationSpeed: 50
   minVerticalAngle: -80
