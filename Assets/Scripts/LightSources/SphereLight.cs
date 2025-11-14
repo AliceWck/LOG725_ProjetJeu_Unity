@@ -53,7 +53,7 @@ public class SphereLight : MonoBehaviour, ILightSource
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, currentRadius);
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 #endif
 }

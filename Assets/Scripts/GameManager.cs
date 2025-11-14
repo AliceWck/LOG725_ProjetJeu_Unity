@@ -3,47 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Mirror;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private float maxGameTime = 300f; // durée totale fixe
-    private float gameTime;
+    [SyncVar] private float gameTime;
 
     public enum GameState { Loading, Playing, GameOver }
     public GameOverUI gameOverUI; // Assign in Inspector
+    [SyncVar] public int keyCount = 0; 
 
     public GameState CurrentState { get; private set; } = GameState.Playing;
-    private List<ShadowPlayer> players = new();
-    private List<KeySpawnLocation> keySpawnLocations = new();
+    public List<ShadowPlayer> players = new();
+    public List<KeySpawnLocation> keySpawnLocations = new();
 
     public GameObject keyPrefab;
 
     public float GameProgress => (1f - (gameTime / maxGameTime)) * 100f;
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+        players = FindObjectsOfType<ShadowPlayer>().ToList();
+        keySpawnLocations = FindObjectsOfType<KeySpawnLocation>().ToList();
+
+        SpawnKeys();
+    }
+
     private void Start()
     {
         gameTime = maxGameTime; // initialisation au début de la partie
-
-        // Récupérer tous les ShadowPlayers actifs
-        players.AddRange(FindObjectsOfType<ShadowPlayer>());
-
-        foreach (var player in players)
-        {
-            player.enabled = false; // ou désactiver le script de mouvement
-
-            if (player.TryGetComponent(out Rigidbody rb))
-                rb.velocity = Vector3.zero;
-
-            // Uniquement si c'est le joueur local, enregistre
-            if (player.TryGetComponent(out GamePlayer gp) && gp.isLocalPlayer)
-            {
-                GameUIManager.Instance.RegisterLocalShadowPlayer(player);
-            }
-        }
     }
 
     private void Awake()
@@ -55,7 +50,6 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
 
         // CHECK ICI VIEILLE VERSION
@@ -78,6 +72,14 @@ public class GameManager : MonoBehaviour
         //}
         // Debug : afficher combien de joueurs et de spawn locations
 
+    }
+
+    [Server]
+    void SpawnKeys()
+    {
+
+        keySpawnLocations.AddRange(FindObjectsOfType<KeySpawnLocation>());
+
         Debug.Log($"Players: {players.Count}, Key spawn locations: {keySpawnLocations.Count}");
 
         // Vérifier si on a au moins 1 spawn location
@@ -95,9 +97,10 @@ public class GameManager : MonoBehaviour
             int choice = Random.Range(0, keySpawnLocations.Count);
             Instantiate(keyPrefab, keySpawnLocations[choice].transform.position, keySpawnLocations[choice].transform.rotation);
             keySpawnLocations.RemoveAt(choice); // retirer la location pour ne pas spawn dessus
+            keyCount++;
         }
-
     }
+
 
     // Update is called once per frame
     void Update()

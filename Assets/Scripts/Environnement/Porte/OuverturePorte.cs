@@ -36,11 +36,6 @@ public class OuverturePorte : MonoBehaviour
             }
         }
 
-        if (doorPivot == null)
-        {
-            doorPivot = doorWing;
-        }
-
         // Sauvegarde la rotation fermée
         closedRotation = doorWing.localRotation;
         targetAngle = 0f;
@@ -96,6 +91,10 @@ public class OuverturePorte : MonoBehaviour
             // Si le joueur bouge assez
             if (movement.magnitude > pushForceRequired * Time.deltaTime)
             {
+                if (doorPivot == null)
+                {
+                    doorPivot = doorWing;
+                }
                 // Déterminer la direction d'ouverture selon la position du joueur
                 Vector3 toDoor = doorPivot.position - currentPosition;
                 Vector3 doorRight = doorPivot.right;
