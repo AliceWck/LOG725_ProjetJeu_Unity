@@ -279,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 0}
   sfxSource: {fileID: 0}
-  menuMusic: {fileID: 0}
+  menuMusic: {fileID: 8300000, guid: 1159310ded1baf1488af60911f0c29e5, type: 3}
   gameMusic: {fileID: 0}
 --- !u!4 &789648430
 Transform:
